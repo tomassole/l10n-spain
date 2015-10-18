@@ -24,8 +24,15 @@ class L10nEsAeatMod303Report(models.Model):
     _description = "AEAT 303 Report"
 
     def _get_export_conf(self):
-        return self.env.ref(
-            'l10n_es_aeat_mod303.aeat_mod303_main_export_config').id
+        try:
+            return self.env.ref(
+                'l10n_es_aeat_mod303.aeat_mod303_main_export_config').id
+        except ValueError:
+            return self.env['aeat.model.export.config']
+
+    def _default_counterpart_303(self):
+        return self.env['account.account'].search(
+            [('code', 'like', '4750%'), ('type', '!=', 'view')])[:1]
 
     currency_id = fields.Many2one(
         comodel_name='res.currency', string='Currency',
@@ -79,7 +86,7 @@ class L10nEsAeatMod303Report(models.Model):
              "concepto, ejercicio y periodo",
         states={'done': [('readonly', True)]})
     resultado_liquidacion = fields.Float(
-        string="[71] Resultado de la liquidación", readonly=True)
+        string="[71] Result. liquidación", readonly=True)
     result_type = fields.Selection(
         selection=[('I', 'A ingresar'),
                    ('D', 'A devolver'),
@@ -92,10 +99,16 @@ class L10nEsAeatMod303Report(models.Model):
     bank_account = fields.Many2one(
         comodel_name="res.partner.bank", string="Bank account",
         states={'done': [('readonly', True)]})
+    counterpart_account = fields.Many2one(default=_default_counterpart_303)
+    allow_posting = fields.Boolean(default=True)
 
     def __init__(self, pool, cr):
         self._aeat_number = '303'
         super(L10nEsAeatMod303Report, self).__init__(pool, cr)
+
+    @api.one
+    def _compute_allow_posting(self):
+        self.allow_posting = True
 
     @api.one
     @api.depends('resultado_liquidacion')
@@ -136,7 +149,7 @@ class L10nEsAeatMod303Report(models.Model):
                 casilla_46 * mod303.porcentaje_atribuible_estado / 100)
             casilla_69 = (atribuible_estado - mod303.cuota_compensar +
                           mod303.regularizacion_anual)
-            resultado_liquidacion = casilla_46 - mod303.previous_result
+            resultado_liquidacion = casilla_69 - mod303.previous_result
             vals = {
                 'total_devengado': total_devengado,
                 'total_deducir': total_deducir,
@@ -153,9 +166,9 @@ class L10nEsAeatMod303Report(models.Model):
         """Check records"""
         msg = ""
         for mod303 in self:
-            if mod303.result_type == ('I') and not mod303.bank_account:
+            if mod303.result_type == 'I' and not mod303.bank_account:
                 msg = _('Select an account for making the charge')
-            if mod303.result_type == ('B') and not not mod303.bank_account:
+            if mod303.result_type == 'B' and not not mod303.bank_account:
                 msg = _('Select an account for receiving the money')
         if msg:
             raise exceptions.Warning(msg)

@@ -476,7 +476,7 @@ class AccountBalanceReportingLine(orm.Model):
                             ctx.update({
                                 'fiscalyear': report.previous_fiscalyear_id.id,
                             })
-                        if line.report_id.check_filter == 'date':
+                        if line.report_id.check_filter == 'dates':
                             if fyear == 'current':
                                 ctx.update({
                                     'date_from': report.current_date_from,

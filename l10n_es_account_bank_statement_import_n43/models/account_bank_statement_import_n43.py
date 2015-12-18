@@ -185,6 +185,7 @@ class AccountBankStatementImport(models.TransientModel):
             st_data['_num_records'] += 1
         return st_data['groups']
 
+
     def _check_n43(self, data_file):
         data_file = data_file.decode('iso-8859-1').encode('utf-8')
         try:
@@ -242,6 +243,7 @@ class AccountBankStatementImport(models.TransientModel):
                     partners = partner_obj.search([('name', 'ilike', name)])
         return partners and partners[0].id or False
 
+
     def _get_partner(self, line):
         if not line.get('conceptos'):
             return False
@@ -273,6 +275,8 @@ class AccountBankStatementImport(models.TransientModel):
                     conceptos.extend(x.strip()
                                      for x in line['conceptos'][concept_line]
                                      if x.strip())
+                if not conceptos:
+                    conceptos = "/"
                 vals_line = {
                     'date': fields.Date.to_string(line['fecha_valor']),
                     'name': ' '.join(conceptos),

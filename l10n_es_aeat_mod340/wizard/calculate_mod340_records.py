@@ -104,27 +104,51 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                 check_tax = 0
                 check_base = 0
                 # Add the invoices detail to the partner record
+                surcharge_taxes_lines = []
                 for tax_line in invoice.tax_line:
                     if tax_line.base_code_id and tax_line.base:
                         if tax_line.base_code_id.mod340:
-                            tax_percentage = tax_line.amount/tax_line.base
-                            values = {
-                                'name': tax_line.name,
-                                'tax_percentage': tax_percentage,
-                                'tax_amount': tax_line.tax_amount,
-                                'base_amount': tax_line.base_amount,
-                                'invoice_record_id': invoice_created,
-                            }
-                            if invoice.type in ("out_invoice",
-                                                "out_refund"):
-                                issued_obj.create(cr, uid, values)
-                            if invoice.type in ("in_invoice",
-                                                "in_refund"):
-                                received_obj.create(cr, uid, values)
-                            tot_tax_invoice += tax_line.tax_amount
-                            check_tax += tax_line.tax_amount
-                            if tax_percentage >= 0:
-                                check_base += tax_line.base_amount
+                            if tax_line.base_code_id.surcharge_tax_id:
+                                surcharge_taxes_lines.append(tax_line)
+                            else:
+                                tax_percentage = tax_line.amount/tax_line.base
+                                values = {
+                                    'name': tax_line.name,
+                                    'tax_percentage': tax_percentage,
+                                    'tax_amount': tax_line.amount,
+                                    'base_amount': tax_line.base_amount,
+                                    'invoice_record_id': invoice_created,
+                                    'tax_code_id': tax_line.base_code_id.id
+                                }
+                                if invoice.type in ("out_invoice",
+                                                    "out_refund"):
+                                    issued_obj.create(cr, uid, values)
+                                if invoice.type in ("in_invoice",
+                                                    "in_refund"):
+                                    received_obj.create(cr, uid, values)
+                                tot_tax_invoice += tax_line.amount
+                                check_tax += tax_line.amount
+                                if tax_percentage >= 0:
+                                    check_base += tax_line.base_amount
+                for surcharge in surcharge_taxes_lines:
+                    rec_tax_percentage = surcharge.amount \
+                                         / surcharge.base
+                    tot_tax_invoice += surcharge.amount
+                    check_tax += surcharge.amount
+                    values = {
+                        'rec_tax_percentage': rec_tax_percentage,
+                        'rec_tax_amount': surcharge.amount
+                    }
+                    # GET correct tax_line
+                    domain = [
+                        ('invoice_record_id', '=', invoice_created),
+                        ('tax_code_id', '=',
+                        surcharge.base_code_id.surcharge_tax_id.id)
+                    ]
+                    line_id = issued_obj.search(cr, uid, domain,
+                                                  context=context)
+                    issued_obj.write(cr, uid, line_id, values)
+
                 if invoice.type in ['out_invoice', 'out_refund']:
                     invoices340.write(cr, uid, invoice_created,
                                       {'amount_tax': tot_tax_invoice})

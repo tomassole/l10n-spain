@@ -194,6 +194,12 @@ class L10nEsAeatMod340TaxLineIssued(orm.Model):
         'invoice_record_id': fields.many2one('l10n.es.aeat.mod340.issued',
                                              'Invoice issued', required=True,
                                              ondelete="cascade", select=1),
+        'tax_code_id': fields.many2one('account.tax.code',
+                                             'Account Tax Code', required=True,
+                                             ondelete="cascade", select=1),
+        'rec_tax_percentage': fields.float('Tax surcharge percentage',
+                                           digits=(0, 4)),
+        'rec_tax_amount': fields.float('Tax surcharge amount', digits=(13, 2)),
     }
 
 

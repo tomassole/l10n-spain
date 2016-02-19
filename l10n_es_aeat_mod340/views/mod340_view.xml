@@ -150,6 +150,8 @@
                     <field name="tax_percentage"/>
                     <field name="tax_amount"/>
                     <field name="base_amount"/>
+                    <field name="rec_tax_percentage"/>
+                    <field name="rec_tax_amount"/>
                 </form>
             </field>
         </record>

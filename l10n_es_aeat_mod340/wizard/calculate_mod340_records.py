@@ -131,8 +131,8 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                                 if tax_percentage >= 0:
                                     check_base += tax_line.base_amount
                 for surcharge in surcharge_taxes_lines:
-                    rec_tax_percentage = surcharge.amount \
-                                         / surcharge.base
+                    rec_tax_percentage = round(surcharge.amount \
+                                         / surcharge.base, 2)
                     tot_tax_invoice += surcharge.amount
                     check_tax += surcharge.amount
                     values = {

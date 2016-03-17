@@ -487,7 +487,7 @@ class AccountBalanceReportingLine(orm.Model):
                                     'date_from': report.previous_date_from,
                                     'date_to': report.previous_date_to
                                 })
-                        if line.report_id.check_filter == 'period':
+                        if line.report_id.check_filter == 'periods':
                             if fyear == 'current':
                                 ctx.update({
                                     'periods':
@@ -502,8 +502,12 @@ class AccountBalanceReportingLine(orm.Model):
                             cr, uid, [line.id], tmpl_value,
                             balance_mode=balance_mode, context=ctx)
                         if line.report_id.level:
-                            line._create_child_lines(tmpl_value, balance_mode,
+                            self._create_child_lines(cr, uid, [line.id],
+                                                     tmpl_value,
+                                                     balance_mode,
                                                      fyear, context=ctx)
+                            #line._create_child_lines(tmpl_value, balance_mode,
+                            #                         fyear, context=ctx)
                     elif re.match(r'^[\+\-0-9a-zA-Z_\*\ ]*$', tmpl_value):
                         # Account concept codes separated by "+" => sum of the
                         # concepts (template lines) values.

@@ -25,6 +25,7 @@ import re
 from openerp.tools.translate import _
 from openerp.osv import orm
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from openerp.tools.float_utils import float_is_zero
 
 
 class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
@@ -158,7 +159,9 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                 sign = 1
                 if invoice.type in ('out_refund', 'in_refund'):
                     sign = -1
-                if str(invoice.cc_amount_untaxed * sign) != str(check_base):
+                if not float_is_zero(invoice.cc_amount_untaxed * sign -
+                                 check_base, precision_digits=1):
+                #if str(invoice.cc_amount_untaxed * sign) != str(check_base):
                     raise orm.except_orm(
                         "REVIEW INVOICE",
                         _('Invoice  %s, Amount untaxed Lines %.2f do not '

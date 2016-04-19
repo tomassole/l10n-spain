@@ -24,6 +24,7 @@
 ##############################################################################
 
 from openerp.osv import orm, fields
+from openerp import api, exceptions, SUPERUSER_ID, _
 
 
 class L10nEsAeatMod340Report(orm.Model):
@@ -44,12 +45,12 @@ class L10nEsAeatMod340Report(orm.Model):
         calculate_obj._calculate_records(cr, uid, ids, context)
         return True
 
-    def _name_get(self, cr, uid, ids, field_name, arg, context=None):
-        """Returns the report name"""
-        result = {}
-        for report in self.browse(cr, uid, ids, context=context):
-            result[report.id] = report.number
-        return result
+    # def _name_get(self, cr, uid, ids, field_name, arg, context=None):
+    #     """Returns the report name"""
+    #     result = {}
+    #     for report in self.browse(cr, uid, ids, context=context):
+    #         result[report.id] = report.number
+    #     return result
 
     def _get_number_records(self, cr, uid, ids, field_name, args, context):
         result = {}
@@ -74,8 +75,8 @@ class L10nEsAeatMod340Report(orm.Model):
         return result
 
     _columns = {
-        'name': fields.function(_name_get, method=True, type="char",
-                                size=64, string="Name"),
+        # 'name': fields.function(_name_get, method=True, type="char",
+        #                         size=64, string="Name"),
         'issued': fields.one2many('l10n.es.aeat.mod340.issued', 'mod340_id',
                                   'Invoices Issued',
                                   states={'done': [('readonly', True)]}),
@@ -130,6 +131,18 @@ class L10nEsAeatMod340Report(orm.Model):
         'number': '340',
     }
 
+    @api.model
+    def create(self, vals):
+        if not vals.get('name'):
+            fy = self.env['account.fiscalyear'].browse(vals[
+                                                           'fiscalyear_id'])[0]
+            vals['name'] =  '340' + fy.name +\
+                                 vals['period_type'] +\
+                            self._report_identifier_get(vals)
+        return super(L10nEsAeatMod340Report, self).create(vals)
+
+
+
     def __init__(self, pool, cr):
         self._aeat_number = '340'
         super(L10nEsAeatMod340Report, self).__init__(pool, cr)
@@ -151,6 +164,7 @@ class L10nEsAeatMod340Issued(orm.Model):
                                       ondelete="cascade"),
         'base_tax': fields.float('Base tax bill', digits=(13, 2)),
         'amount_tax': fields.float('Total tax', digits=(13, 2)),
+        'rec_amount_tax': fields.float('Tax surcharge amount', digits=(13, 2)),
         'total': fields.float('Total', digits=(13, 2)),
         'tax_line_ids': fields.one2many('l10n.es.aeat.mod340.tax_line_issued',
                                         'invoice_record_id', 'Tax lines'),

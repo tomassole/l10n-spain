@@ -33,6 +33,7 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
     _description = u"AEAT Model 340 Wizard - Calculate Records"
 
     def _calculate_records(self, cr, uid, ids, context=None, recalculate=True):
+        print "CALCULAR!!!"
         report_obj = self.pool['l10n.es.aeat.mod340.report']
         mod340 = report_obj.browse(cr, uid, ids)[0]
         invoices340 = self.pool['l10n.es.aeat.mod340.issued']
@@ -62,7 +63,15 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
         invoice_obj = self.pool['account.invoice']
         invoice_ids = invoice_obj.search(cr, uid, domain, context=context)
         for invoice in invoice_obj.browse(cr, uid, invoice_ids, context):
+            sign = 1
+            if invoice.type in ('out_refund', 'in_refund'):
+                sign = -1
             include = False
+            if invoice.currency_id.id != invoice.company_id.currency_id.id:
+                cur_rate = invoice.cc_amount_untaxed / invoice.amount_untaxed
+            else:
+                cur_rate = 1
+            print  cur_rate
             for tax_line in invoice.tax_line:
                 if tax_line.base_code_id and tax_line.base:
                     if tax_line.base_code_id.mod340:
@@ -88,20 +97,17 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                     'representative_vat': '',
                     'partner_country_code': country_code,
                     'invoice_id': invoice.id,
-                    'base_tax': invoice.cc_amount_untaxed,
-                    'amount_tax': invoice.cc_amount_tax,
-                    'total': invoice.cc_amount_total,
+                    'base_tax': invoice.cc_amount_untaxed * sign,
+                    'amount_tax': invoice.cc_amount_tax * sign,
+                    'total': invoice.cc_amount_total * sign,
                     'date_invoice': invoice.date_invoice,
                 }
-                if invoice.type in ['out_refund', 'in_refund']:
-                    values['base_tax'] *= -1
-                    values['amount_tax'] *= -1
-                    values['total'] *= -1
                 if invoice.type in ['out_invoice', 'out_refund']:
                     invoice_created = invoices340.create(cr, uid, values)
                 if invoice.type in ['in_invoice', 'in_refund']:
                     invoice_created = invoices340_rec.create(cr, uid, values)
                 tot_tax_invoice = 0
+                tot_invoice = invoice.cc_amount_untaxed * sign
                 check_tax = 0
                 check_base = 0
                 # Add the invoices detail to the partner record
@@ -116,7 +122,8 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                                 values = {
                                     'name': tax_line.name,
                                     'tax_percentage': tax_percentage,
-                                    'tax_amount': tax_line.amount,
+                                    'tax_amount': tax_line.amount * sign *
+                                                  cur_rate,
                                     'base_amount': tax_line.base_amount,
                                     'invoice_record_id': invoice_created,
                                     'tax_code_id': tax_line.base_code_id.id
@@ -127,18 +134,34 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                                 if invoice.type in ("in_invoice",
                                                     "in_refund"):
                                     received_obj.create(cr, uid, values)
-                                tot_tax_invoice += tax_line.amount
-                                check_tax += tax_line.amount
+                                tot_tax_invoice += tax_line.amount * sign * \
+                                                   cur_rate
+                                check_tax += tax_line.amount * cur_rate
                                 if tax_percentage >= 0:
                                     check_base += tax_line.base_amount
+                                # Control problem with extracomunitary
+                                # purchase  invoices
+                                tot_invoice += tax_line.amount * sign * \
+                                               cur_rate
+                if tot_invoice != invoice.cc_amount_total:
+                    values = {'total': tot_invoice }
+                    print "TOTAL"
+                    print values
+                    print invoice.cc_amount_total * sign
+                    if invoice.type in ['out_invoice', 'out_refund']:
+                        invoices340.write(cr, uid, invoice_created, values)
+                    if invoice.type in ['in_invoice', 'in_refund']:
+                        invoices340_rec.write(cr, uid, invoice_created, values)
+                rec_tax_invoice = 0
                 for surcharge in surcharge_taxes_lines:
                     rec_tax_percentage = round(surcharge.amount \
                                          / surcharge.base, 4)
-                    tot_tax_invoice += surcharge.amount
-                    check_tax += surcharge.amount
+                    rec_tax_invoice += surcharge.amount * sign * cur_rate
+                    tot_tax_invoice += surcharge.amount * sign * cur_rate
+                    check_tax += surcharge.amount * cur_rate
                     values = {
                         'rec_tax_percentage': rec_tax_percentage,
-                        'rec_tax_amount': surcharge.amount
+                        'rec_tax_amount': surcharge.amount * sign * cur_rate
                     }
                     # GET correct tax_line
                     domain = [
@@ -152,7 +175,8 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
 
                 if invoice.type in ['out_invoice', 'out_refund']:
                     invoices340.write(cr, uid, invoice_created,
-                                      {'amount_tax': tot_tax_invoice})
+                                      {'amount_tax': tot_tax_invoice,
+                                       'rec_amount_tax': rec_tax_invoice})
                 if invoice.type in ['in_invoice', 'in_refund']:
                     invoices340_rec.write(cr, uid, invoice_created,
                                           {'amount_tax': tot_tax_invoice})

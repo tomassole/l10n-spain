@@ -203,7 +203,8 @@ class L10nEsAeatMod340ExportToBoe(models.TransientModel):
             text += self._formatNumber(tax_line.tax_amount, 11, 2, True)
             # Importe total de la factura
             text += self._formatNumber(
-                tax_line.tax_amount + tax_line.base_amount, 11, 2, True)
+                tax_line.tax_amount + tax_line.base_amount
+                + tax_line.rec_tax_amount, 11, 2, True)
             # Base imponible a coste.
             text += ' ' + self._formatNumber(0, 11, 2)
             # Identificación de la factura

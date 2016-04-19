@@ -72,6 +72,7 @@
                     <field name="invoice_id"/>
                     <field name="base_tax" sum="Total Base" />
                     <field name="amount_tax" sum="Total Tax" />
+                    <field name="rec_amount_tax" sum="Total Rec Tax" />
                     <field name="total" sum="Total"/>
                 </tree>
             </field>
@@ -91,6 +92,7 @@
                     <newline/>
                     <field name="base_tax" />
                     <field name="amount_tax" />
+                    <field name="rec_amount_tax" />
                     <newline/>
                     <field name="total"/>
                     <newline />

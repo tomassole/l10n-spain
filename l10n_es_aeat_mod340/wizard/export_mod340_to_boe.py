@@ -196,7 +196,8 @@ class L10nEsAeatMod340ExportToBoe(models.TransientModel):
             text += self._formatNumber(
                 invoice_issued.invoice_id.date_invoice.split('-')[2], 2)
             # Tipo impositivo
-            text += self._formatNumber(tax_line.tax_percentage * 100, 3, 2)
+            text += self._formatNumber(round(tax_line.tax_percentage * 100,
+                                             1), 3, 2)
             # Base imponible
             text += self._formatNumber(tax_line.base_amount, 11, 2, True)
             # Cuota del impuesto
@@ -234,8 +235,8 @@ class L10nEsAeatMod340ExportToBoe(models.TransientModel):
                           invoice_issued.invoice_id.origin_invoices_ids]), 40)
             # Tipo Recargo de equivalencia
             #text += self._formatNumber(0, 5)
-            text += self._formatNumber(tax_line.rec_tax_percentage * 100,
-                                        3, 2)
+            text += self._formatNumber(round(tax_line.rec_tax_percentage *
+                                             100, 2),3, 2)
             # Couta del recargo de equivalencia
             #text += ' ' + self._formatNumber(0, 11, 2)
             text += self._formatNumber(tax_line.rec_tax_amount, 11, 2, True)

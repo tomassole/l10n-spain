@@ -27,13 +27,28 @@ from openerp.osv import orm
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools.float_utils import float_is_zero
 
+VALID_TYPES = [0, 0.04, 0.07, 0.08, 0.10, 0.16, 0.18, 0.21]
 
 class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
     _name = "l10n.es.aeat.mod340.calculate_records"
     _description = u"AEAT Model 340 Wizard - Calculate Records"
 
+    def proximo(self, final, numeros):
+        def el_menor(numeros):
+            menor = numeros[0]
+            retorno = 0
+            for x in range(len(numeros)):
+                if numeros[x] < menor:
+                    menor = numeros[x]
+                    retorno = x
+            return retorno
+
+        diferencia = []
+        for x in range(len(numeros)):
+            diferencia.append(abs(final - numeros[x]))
+        return numeros[el_menor(diferencia)]
+
     def _calculate_records(self, cr, uid, ids, context=None, recalculate=True):
-        print "CALCULAR!!!"
         report_obj = self.pool['l10n.es.aeat.mod340.report']
         mod340 = report_obj.browse(cr, uid, ids)[0]
         invoices340 = self.pool['l10n.es.aeat.mod340.issued']
@@ -71,7 +86,6 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                 cur_rate = invoice.cc_amount_untaxed / invoice.amount_untaxed
             else:
                 cur_rate = 1
-            print  cur_rate
             for tax_line in invoice.tax_line:
                 if tax_line.base_code_id and tax_line.base:
                     if tax_line.base_code_id.mod340:
@@ -112,13 +126,21 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                 check_base = 0
                 # Add the invoices detail to the partner record
                 surcharge_taxes_lines = []
+
+                adqu_intra = False
+                if invoice.fiscal_position.name == u'Régimen Intracomunitario'\
+                    and invoice.type in ("in_invoice", "in_refund"):
+                    adqu_intra = True
                 for tax_line in invoice.tax_line:
                     if tax_line.base_code_id and tax_line.base:
                         if tax_line.base_code_id.mod340:
                             if tax_line.base_code_id.surcharge_tax_id:
                                 surcharge_taxes_lines.append(tax_line)
                             else:
-                                tax_percentage = tax_line.amount/tax_line.base
+                                tax_percentage = self.proximo(round (
+                                        tax_line.amount/tax_line.base, 3),\
+                                    VALID_TYPES)
+
                                 values = {
                                     'name': tax_line.name,
                                     'tax_percentage': tax_percentage,
@@ -128,34 +150,36 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                                     'invoice_record_id': invoice_created,
                                     'tax_code_id': tax_line.base_code_id.id
                                 }
+                                # if adqu_intra:
+                                #     values['tax_amount_deduc'] = \
+                                #         tax_line.base_amount
                                 if invoice.type in ("out_invoice",
                                                     "out_refund"):
                                     issued_obj.create(cr, uid, values)
                                 if invoice.type in ("in_invoice",
                                                     "in_refund"):
                                     received_obj.create(cr, uid, values)
-                                tot_tax_invoice += tax_line.amount * sign * \
+                                if not adqu_intra:
+                                    tot_tax_invoice += tax_line.amount * sign * \
                                                    cur_rate
-                                check_tax += tax_line.amount * cur_rate
-                                if tax_percentage >= 0:
+                                    check_tax += tax_line.amount * cur_rate
+                                if tax_line.amount >= 0:
                                     check_base += tax_line.base_amount
                                 # Control problem with extracomunitary
                                 # purchase  invoices
-                                tot_invoice += tax_line.amount * sign * \
+                                    if not adqu_intra:
+                                        tot_invoice += tax_line.amount * sign * \
                                                cur_rate
                 if tot_invoice != invoice.cc_amount_total:
                     values = {'total': tot_invoice }
-                    print "TOTAL"
-                    print values
-                    print invoice.cc_amount_total * sign
                     if invoice.type in ['out_invoice', 'out_refund']:
                         invoices340.write(cr, uid, invoice_created, values)
                     if invoice.type in ['in_invoice', 'in_refund']:
                         invoices340_rec.write(cr, uid, invoice_created, values)
                 rec_tax_invoice = 0
                 for surcharge in surcharge_taxes_lines:
-                    rec_tax_percentage = round(surcharge.amount \
-                                         / surcharge.base, 4)
+                    rec_tax_percentage = round(surcharge.amount /
+                                               surcharge.base, 3)
                     rec_tax_invoice += surcharge.amount * sign * cur_rate
                     tot_tax_invoice += surcharge.amount * sign * cur_rate
                     check_tax += surcharge.amount * cur_rate

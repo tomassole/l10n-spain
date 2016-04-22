@@ -107,14 +107,11 @@ msgid "Company"
 msgstr "Compañía"
 
 #. module: account_balance_reporting
-<<<<<<< HEAD
 #: field:account.balance.reporting,check_filter:0
 msgid "Compute by"
 msgstr ""
 
 #. module: account_balance_reporting
-=======
->>>>>>> [FIX]. account_balance_reporting  Corregido problema con el Merge
 #: help:account.balance.reporting.template.line,code:0
 msgid "Concept code, may be used on formulas to reference this line"
 msgstr "Código de concepto, podrá usarse en fórmulas para referenciar esta línea"
@@ -161,7 +158,6 @@ msgstr "Haber-Debe"
 #: selection:account.balance.reporting.template,balance_mode:0
 msgid "Credit-Debit, reversed with brackets"
 msgstr "Haber-Debe, invertido con paréntesis"
-<<<<<<< HEAD
 
 #. module: account_balance_reporting
 #: field:account.balance.reporting,current_date_from:0
@@ -317,14 +313,11 @@ msgstr "Última actualización por"
 #: field:account.balance.reporting.template.line,write_date:0
 msgid "Last Updated on"
 msgstr "Última actualización en"
-<<<<<<< HEAD
 
 #. module: account_balance_reporting
 #: field:account.balance.reporting,level:0
 msgid "Level"
 msgstr ""
-=======
->>>>>>> [FIX]. account_balance_reporting  Corregido problema con el Merge
 
 #. module: account_balance_reporting
 #: selection:account.balance.reporting.line,css_class:0
@@ -409,14 +402,11 @@ msgid "Parent"
 msgstr "Padre"
 
 #. module: account_balance_reporting
-<<<<<<< HEAD
 #: selection:account.balance.reporting,check_filter:0
 msgid "Periods"
 msgstr "Periods"
 
 #. module: account_balance_reporting
-=======
->>>>>>> [FIX]. account_balance_reporting  Corregido problema con el Merge
 #: view:account.balance.reporting.print.wizard:account_balance_reporting.wizard_account_balance_reporting_print
 msgid "Print"
 msgstr "Imprimir"
@@ -493,11 +483,8 @@ msgstr "Líneas de plantilla"
 #. module: account_balance_reporting
 #: sql_constraint:account.balance.reporting.line:0
 #: sql_constraint:account.balance.reporting.template.line:0
-<<<<<<< HEAD
 #: code:addons/account_balance_reporting/models/account_balance_reporting_report.py:257
-=======
 #: code:addons/account_balance_reporting/models/account_balance_reporting_report.py:236
->>>>>>> [FIX]. account_balance_reporting  Corregido problema con el Merge
 #: code:addons/account_balance_reporting/models/account_balance_reporting_template.py:191
 #, python-format
 msgid "The code must be unique for this report!"

@@ -24,10 +24,6 @@
                 <button name="%(l10n_es_aeat.action_wizard_aeat_export)d" position="attributes">
                     <attribute name="name">%(action_wizard_aeat_mod340_export)d</attribute>
                 </button>
-                <field name="fiscalyear_id" position="after">
-                    <field name="period_from" select="1" required="1" domain="[('fiscalyear_id','=',fiscalyear_id)]"/>
-                    <field name="period_to" select="1" required="1" domain="[('fiscalyear_id','=',fiscalyear_id)]"/>
-                </field>
                 <group string="Declaración" position="after">
                     <notebook colspan="4">
                         <page string="General">
@@ -129,7 +125,7 @@
                 </tree>
             </field>
         </record>
-        
+
         <record id="view_l10n_es_aeat_mod340_invoice_received_form" model="ir.ui.view">
             <field name="name">l10n.es.aeat.mod340.received.form</field>
             <field name="model">l10n.es.aeat.mod340.received</field>
@@ -216,8 +212,6 @@
                         <filter string="Company" icon="terp-personal" domain="[]" context="{'group_by':'company_id'}"/>
                     </group>
                     <newline/>
-                    <field name="period_from"/>
-                    <field name="period_to" />
                     <field name="fiscalyear_id"/>
                     <field name="number"/>
                     <field name="type"/>

@@ -53,6 +53,7 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
         mod340 = report_obj.browse(cr, uid, ids)[0]
         invoices340 = self.pool['l10n.es.aeat.mod340.issued']
         invoices340_rec = self.pool['l10n.es.aeat.mod340.received']
+        period_obj = self.pool['account.period']
         issued_obj = self.pool['l10n.es.aeat.mod340.tax_line_issued']
         received_obj = self.pool['l10n.es.aeat.mod340.tax_line_received']
         mod340.write({
@@ -61,7 +62,7 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
         })
         if not mod340.company_id.partner_id.vat:
             raise orm.except_orm(mod340.company_id.partner_id.name,
-                                 _('This company dont have NIF'))
+                                 _("This company doesn't have NIF"))
         account_period_ids = [x.id for x in mod340.periods]
         # Limpieza de las facturas calculadas anteriormente
         del_ids = invoices340.search(cr, uid, [('mod340_id', '=', mod340.id)])
@@ -77,6 +78,8 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
         ]
         invoice_obj = self.pool['account.invoice']
         invoice_ids = invoice_obj.search(cr, uid, domain, context=context)
+        tax_code_rec_totals = {}
+        tax_code_isu_totals = {}
         for invoice in invoice_obj.browse(cr, uid, invoice_ids, context):
             sign = 1
             if invoice.type in ('out_refund', 'in_refund'):
@@ -92,11 +95,15 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                         include = True
                         break
             if include:
-                if invoice.partner_id.vat_type == '1':
+                exception_text = ""
+                if invoice.partner_id.vat_type in ['1', '2']:
                     if not invoice.partner_id.vat:
-                        raise orm.except_orm(
-                            _('La siguiente empresa no tiene asignado nif:'),
-                            invoice.partner_id.name)
+                        # raise orm.except_orm(
+                        #     _('La siguiente empresa no tiene asignado nif:'),
+                        #     invoice.partner_id.name)
+                        exception_text += _('La siguiente empresa no'
+                                        ' tiene asignado nif: %s')\
+                                          % invoice.partner_id.name
                 if invoice.partner_id.vat:
                     country_code, nif = (
                         re.match(r"([A-Z]{0,2})(.*)",
@@ -116,6 +123,10 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                     'total': invoice.cc_amount_total * sign,
                     'date_invoice': invoice.date_invoice,
                 }
+                if invoice.type in ['out_refund', 'in_refund']:
+                    values['base_tax'] *= -1
+                    values['amount_tax'] *= -1
+                    values['total'] *= -1
                 if invoice.type in ['out_invoice', 'out_refund']:
                     invoice_created = invoices340.create(cr, uid, values)
                 if invoice.type in ['in_invoice', 'in_refund']:
@@ -128,12 +139,14 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                 surcharge_taxes_lines = []
 
                 adqu_intra = False
-                if invoice.fiscal_position.name == u'Régimen Intracomunitario'\
+                if invoice.fiscal_position.intracommunity_operations \
                     and invoice.type in ("in_invoice", "in_refund"):
                     adqu_intra = True
                 for tax_line in invoice.tax_line:
                     if tax_line.base_code_id and tax_line.base:
                         if tax_line.base_code_id.mod340:
+                            # Si es una linea de recargo la gurada para
+                            # gestionarla al acabar con las lienas normales"
                             if tax_line.base_code_id.surcharge_tax_id:
                                 surcharge_taxes_lines.append(tax_line)
                             else:
@@ -150,15 +163,43 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                                     'invoice_record_id': invoice_created,
                                     'tax_code_id': tax_line.base_code_id.id
                                 }
-                                # if adqu_intra:
-                                #     values['tax_amount_deduc'] = \
-                                #         tax_line.base_amount
                                 if invoice.type in ("out_invoice",
                                                     "out_refund"):
                                     issued_obj.create(cr, uid, values)
+                                    if not tax_code_isu_totals.get(
+                                            tax_line.base_code_id.id):
+                                        tax_code_isu_totals.update({
+                                            tax_line.base_code_id.id:[
+                                                tax_line.base_amount,
+                                                tax_line.amount * sign *
+                                                cur_rate, tax_percentage],})
+                                    else:
+                                        tax_code_isu_totals[
+                                            tax_line.base_code_id.id][
+                                            0] +=\
+                                            tax_line.base_amount
+                                        tax_code_isu_totals[
+                                            tax_line.base_code_id.id][
+                                            1] += tax_line.amount * sign * \
+                                                  cur_rate
+
                                 if invoice.type in ("in_invoice",
                                                     "in_refund"):
                                     received_obj.create(cr, uid, values)
+                                    if not tax_code_rec_totals.get(
+                                            tax_line.base_code_id.id):
+                                        tax_code_rec_totals.update({
+                                            tax_line.base_code_id.id: [
+                                                tax_line.base_amount,
+                                                tax_line.amount * sign *
+                                                cur_rate, tax_percentage]})
+                                    else:
+                                        tax_code_rec_totals[
+                                            tax_line.base_code_id.id][
+                                            0] += tax_line.base_amount
+                                        tax_code_rec_totals[
+                                            tax_line.base_code_id.id][
+                                            1] += tax_line.amount * sign * cur_rate
                                 if not adqu_intra:
                                     tot_tax_invoice += tax_line.amount * sign * \
                                                    cur_rate
@@ -177,6 +218,7 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                     if invoice.type in ['in_invoice', 'in_refund']:
                         invoices340_rec.write(cr, uid, invoice_created, values)
                 rec_tax_invoice = 0
+
                 for surcharge in surcharge_taxes_lines:
                     rec_tax_percentage = round(surcharge.amount /
                                                surcharge.base, 3)
@@ -187,7 +229,7 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                         'rec_tax_percentage': rec_tax_percentage,
                         'rec_tax_amount': surcharge.amount * sign * cur_rate
                     }
-                    # GET correct tax_line
+                    # GET correct tax_line from created in previous step
                     domain = [
                         ('invoice_record_id', '=', invoice_created),
                         ('tax_code_id', '=',
@@ -210,12 +252,50 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                 if not float_is_zero(invoice.cc_amount_untaxed * sign -
                                  check_base, precision_digits=1):
                 #if str(invoice.cc_amount_untaxed * sign) != str(check_base):
-                    raise orm.except_orm(
-                        "REVIEW INVOICE",
-                        _('Invoice  %s, Amount untaxed Lines %.2f do not '
-                          'correspond to AmountUntaxed on Invoice %.2f') %
-                        (invoice.number, check_base,
-                         invoice.cc_amount_untaxed * sign))
+                    exception_text += _('Invoice  %s, Amount untaxed Lines '
+                                        '%.2f do not  correspond to '
+                                        'AmountUntaxed on Invoice %.2f')\
+                                      %(invoice.number, check_base,
+                                        invoice.cc_amount_untaxed * sign)
+                if exception_text:
+                    if invoice.type in ['out_invoice', 'out_refund']:
+                        invoices340.write(cr, uid, invoice_created,
+                                            {'txt_exception': exception_text,
+                                             'exception': True})
+                    if invoice.type in ['in_invoice', 'in_refund']:
+                        invoices340_rec.write(cr, uid, invoice_created,
+                                            {'txt_exception': exception_text,
+                                             'exception': True})
+                    # raise orm.except_orm(
+                    #     "REVIEW INVOICE",
+                    #     _('Invoice  %s, Amount untaxed Lines %.2f do not '
+                    #       'correspond to AmountUntaxed on Invoice %.2f') %
+                    #     (invoice.number, check_base,
+                    #      invoice.cc_amount_untaxed * sign))
+        print tax_code_isu_totals
+        summary_obj = self.pool['l10n.es.aeat.mod340.tax_summary']
+        sum_ids = summary_obj.search(cr, uid, [('mod340_id', '=', mod340.id)])
+        summary_obj.unlink (cr, uid, sum_ids)
+        for tax_code_id, values in tax_code_isu_totals.items():
+            vals = {
+                'tax_code_id': tax_code_id,
+                'sum_base_amount': values[0],
+                'sum_tax_amount': values[1],
+                'tax_percent': values[2],
+                'mod340_id':mod340.id,
+                'type': 'issued'
+            }
+            summary_obj.create(cr, uid, vals )
+        for tax_code_id, values in tax_code_rec_totals.items():
+            vals = {
+                'tax_code_id': tax_code_id,
+                'sum_base_amount': values[0],
+                'sum_tax_amount': values[1],
+                'tax_percent': values[2],
+                'mod340_id': mod340.id,
+                'type': 'received'
+            }
+            summary_obj.create(cr, uid, vals)
         if recalculate:
             mod340.write({
                 'state': 'calculated',

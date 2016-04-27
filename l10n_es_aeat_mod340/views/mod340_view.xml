@@ -24,6 +24,10 @@
                 <button name="%(l10n_es_aeat.action_wizard_aeat_export)d" position="attributes">
                     <attribute name="name">%(action_wizard_aeat_mod340_export)d</attribute>
                 </button>
+                <field name="fiscalyear_id" position="after">
+                    <field name="period_from" select="1" required="1" domain="[('fiscalyear_id','=',fiscalyear_id)]"/>
+                    <field name="period_to" select="1" required="1" domain="[('fiscalyear_id','=',fiscalyear_id)]"/>
+                </field>
                 <group string="Declaración" position="after">
                     <notebook colspan="4">
                         <page string="General">
@@ -37,11 +41,13 @@
                                         <field name="total_taxable" select ="2" readonly="1"/>
                                         <field name="total_sharetax" select ="2" readonly="1"/>
                                         <field name="total" select="2" readonly="1"/>
+                                        <field name="summary_issued" select ="2" readonly="1"/>
                                     </group>
                                     <group string="Received invoices" colspan="2">
                                         <field name="total_taxable_rec" select ="2" readonly="1"/>
                                         <field name="total_sharetax_rec" select ="2" readonly="1"/>
                                         <field name="total_rec" select="2" readonly="1"/>
+                                        <field name="summary_received" select ="2" readonly="1"/>
                                     </group>
                             </group>
                         </page>
@@ -64,7 +70,7 @@
             <field name="name">l10n.es.aeat.mod340.issued.tree</field>
             <field name="model">l10n.es.aeat.mod340.issued</field>
             <field name="arch" type="xml">
-                <tree string="Issued invoices">
+                <tree string="Issued invoices" colors="red:exception==True;">
                     <field name="date_invoice"/>
                     <field name="partner_id"/>
                     <field name="partner_country_code"/>
@@ -74,6 +80,8 @@
                     <field name="amount_tax" sum="Total Tax" />
                     <field name="rec_amount_tax" sum="Total Rec Tax" />
                     <field name="total" sum="Total"/>
+                    <field name="txt_exception" />
+                    <field name="exception" />
                 </tree>
             </field>
         </record>
@@ -95,6 +103,7 @@
                     <field name="rec_amount_tax" />
                     <newline/>
                     <field name="total"/>
+                    <field name="txt_exception" />
                     <newline />
                     <field name="tax_line_ids" />
                 </form>
@@ -107,7 +116,7 @@
             <field name="name">l10n.es.aeat.mod340.received.tree</field>
             <field name="model">l10n.es.aeat.mod340.received</field>
             <field name="arch" type="xml">
-                <tree string="Received invoices">
+                <tree string="Received invoices" colors="red:exception==True;">
                     <field name="partner_id"/>
                     <field name="partner_country_code"/>
                     <field name="partner_vat"/>
@@ -115,10 +124,12 @@
                     <field name="base_tax" sum="Total Base"/>
                     <field name="amount_tax" sum="Total Tax"/>
                     <field name="total" sum="Total"/>
+                     <field name="txt_exception" />
+                     <field name="exception" />
                 </tree>
             </field>
         </record>
-
+        
         <record id="view_l10n_es_aeat_mod340_invoice_received_form" model="ir.ui.view">
             <field name="name">l10n.es.aeat.mod340.received.form</field>
             <field name="model">l10n.es.aeat.mod340.received</field>
@@ -135,6 +146,7 @@
                     <field name="amount_tax"/>
                     <newline/>
                     <field name="total"/>
+                    <field name="exception" />
                     <newline />
                     <field name="tax_line_ids" />
                 </form>
@@ -171,6 +183,23 @@
             </field>
         </record>
 
+
+        <!-- Tax Summary-->
+
+        <record id="view_l10n_es_aeat_mod340_tax_summary_tree" model="ir.ui.view">
+            <field name="name">l10n.es.aeat.mod340.tax_summary.tree</field>
+            <field name="model">l10n.es.aeat.mod340.tax_summary</field>
+            <field name="arch" type="xml">
+                <tree string="Summary taxes" >
+                    <field name="tax_code_id"/>
+                    <field name="sum_base_amount"/>
+                    <field name="sum_tax_amount"/>
+                    <field name="tax_percent"/>
+                </tree>
+            </field>
+        </record>
+
+
         <record id="view_l10n_es_aeat_mod340_report_search" model="ir.ui.view">
             <field name="name">AEAT Model 340 (search)</field>
             <field name="model">l10n.es.aeat.mod340.report</field>
@@ -187,6 +216,8 @@
                         <filter string="Company" icon="terp-personal" domain="[]" context="{'group_by':'company_id'}"/>
                     </group>
                     <newline/>
+                    <field name="period_from"/>
+                    <field name="period_to" />
                     <field name="fiscalyear_id"/>
                     <field name="number"/>
                     <field name="type"/>

@@ -80,9 +80,18 @@ class L10nEsAeatMod340Report(orm.Model):
         'issued': fields.one2many('l10n.es.aeat.mod340.issued', 'mod340_id',
                                   'Invoices Issued',
                                   states={'done': [('readonly', True)]}),
+        'summary_issued': fields.one2many('l10n.es.aeat.mod340.tax_summary',
+                                      'mod340_id', 'Summary Invoices Issued',
+                                    domain=[('type', '=', 'issued')],
+                                    states={'done': [('readonly', True)]}),
         'received': fields.one2many('l10n.es.aeat.mod340.received',
                                     'mod340_id', 'Invoices Received',
                                     states={'done': [('readonly', True)]}),
+        'summary_received': fields.one2many('l10n.es.aeat.mod340.tax_summary',
+                                          'mod340_id',
+                                          'Summary Invoices Received',
+                                            domain=[('type', '=', 'received')],
+                                            states={'done': [('readonly', True)]}),
         'investment': fields.one2many('l10n.es.aeat.mod340.investment',
                                       'mod340_id', 'Property Investment'),
         'intracomunitarias': fields.one2many(
@@ -169,6 +178,8 @@ class L10nEsAeatMod340Issued(orm.Model):
         'tax_line_ids': fields.one2many('l10n.es.aeat.mod340.tax_line_issued',
                                         'invoice_record_id', 'Tax lines'),
         'date_invoice': fields.date('Date Invoice', readonly=True),
+        'txt_exception': fields.char('Exception', size=256),
+        'exception': fields.boolean('Exception')
     }
 
     _order = 'date_invoice asc, invoice_id asc'
@@ -225,4 +236,21 @@ class L10nEsAeatMod340TaxLineReceived(orm.Model):
         'invoice_record_id': fields.many2one('l10n.es.aeat.mod340.received',
                                              'Invoice received', required=True,
                                              ondelete="cascade", select=1),
+    }
+
+class L10nEsAeatMod340TaxSummary(orm.Model):
+    _name = 'l10n.es.aeat.mod340.tax_summary'
+    _description = 'Mod340 vat tax summary'
+
+    _columns = {
+        'tax_code_id': fields.many2one('account.tax.code',
+                                             'Account Tax Code', required=True,
+                                             ondelete="cascade", select=1),
+        'sum_tax_amount': fields.float('Summary tax amount', digits=(13,2)),
+        'sum_base_amount': fields.float('Summary base amount', digits=(13, 2)),
+        'tax_percent': fields.float('Tax percent', digits=(13, 2)),
+        'mod340_id': fields.many2one('l10n.es.aeat.mod340.report', 'Model 340',
+                                     ondelete="cascade"),
+        'type': fields.selection([('issued', 'issued'), ('received',
+                                                         'Received')])
     }

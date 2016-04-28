@@ -123,10 +123,6 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                     'total': invoice.cc_amount_total * sign,
                     'date_invoice': invoice.date_invoice,
                 }
-                if invoice.type in ['out_refund', 'in_refund']:
-                    values['base_tax'] *= -1
-                    values['amount_tax'] *= -1
-                    values['total'] *= -1
                 if invoice.type in ['out_invoice', 'out_refund']:
                     invoice_created = invoices340.create(cr, uid, values)
                 if invoice.type in ['in_invoice', 'in_refund']:

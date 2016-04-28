@@ -145,7 +145,7 @@ class L10nEsAeatMod340Report(orm.Model):
         if not vals.get('name'):
             fy = self.env['account.fiscalyear'].browse(vals[
                                                            'fiscalyear_id'])[0]
-            vals['name'] =  '340' + fy.name +\
+            vals['name'] = '340' + fy.name +\
                                  vals['period_type'] +\
                             self._report_identifier_get(vals)
         return super(L10nEsAeatMod340Report, self).create(vals)

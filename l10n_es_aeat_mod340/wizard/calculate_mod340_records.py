@@ -113,7 +113,7 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                     nif = False
                 values = {
                     'mod340_id': mod340.id,
-                    'partner_id': invoice.partner_id.id,
+                    'partner_id': invoice.partner_id.commercial_partner_id.id,
                     'partner_vat': nif,
                     'representative_vat': '',
                     'partner_country_code': country_code,

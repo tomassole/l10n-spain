@@ -389,7 +389,7 @@
       <font color="white"> </font>
     </para>
 
-    <condPageBreak height="24cm"/>
+    <condPageBreak height="28cm"/>
 
     <para style="P8">LIBRO REGISTRO FACTURAS RECIBIDAS</para>
     <para style="P7">
@@ -478,7 +478,7 @@
       <font color="white"> </font>
     </para>
 
-    <condPageBreak height="18cm"/>
+    <condPageBreak height="28cm"/>
     <para style="P8">RESUMEN FACTURAS RECIBIDAS</para>
 
 

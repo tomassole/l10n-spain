@@ -347,8 +347,8 @@ class L10nEsAeatMod340ExportToBoe(models.TransientModel):
             # Clave tipo de libro. Constante 'R'.
             text += 'R'
             # Clave de operación
-            if invoice_received.invoice_id.fiscal_position.name == \
-                    u'Régimen Intracomunitario':
+            if invoice_received.invoice_id.fiscal_position\
+                    .intracommunity_operations:
                 text += 'P'
             elif len(invoice_received.tax_line_ids) > 1:
                 text += 'C'

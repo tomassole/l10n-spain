@@ -175,8 +175,6 @@ msgstr ""
 #: selection:account.balance.reporting,check_filter:0
 msgid "Dates"
 msgstr ""
-=======
->>>>>>> [FIX]. account_balance_reporting  Corregido problema con el Merge
 
 #. module: account_balance_reporting
 #: selection:account.balance.reporting.template,balance_mode:0
@@ -484,7 +482,6 @@ msgstr "Líneas de plantilla"
 #: sql_constraint:account.balance.reporting.line:0
 #: sql_constraint:account.balance.reporting.template.line:0
 #: code:addons/account_balance_reporting/models/account_balance_reporting_report.py:257
-#: code:addons/account_balance_reporting/models/account_balance_reporting_report.py:236
 #: code:addons/account_balance_reporting/models/account_balance_reporting_template.py:191
 #, python-format
 msgid "The code must be unique for this report!"
@@ -514,4 +511,3 @@ msgid ""
 "      values.\n"
 "    "
 msgstr "Fórmula de cálculo: Basándose en esta fórmula el valor final se calculará:\nValor de plantilla vacía: sumatorio de los valores hijos (de este concepto).\nNúmero con coma decinal (\"10.2\"): ese valor (constante).\nNúmeros de cuenta separados por comas (\"430,431,(437)\"): Sumatorio de los saldos de las cuentas (el signo del saldo depende del modo de saldo).\nCódigos de concepto separados por \"+\" (\"11000+12000\"): Sumatorio de los valores de los conceptos."
-

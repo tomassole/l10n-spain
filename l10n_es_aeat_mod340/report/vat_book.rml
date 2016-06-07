@@ -351,7 +351,7 @@
     </blockTable>
     </section>
 
-    <blockTable colWidths="73.0,103.0,60.0,62.0,61.0,59.0,64.0" repeatRows="1" style="Tabla1">
+    <!--blockTable colWidths="73.0,103.0,60.0,62.0,61.0,59.0,64.0" repeatRows="1" style="Tabla1">
       <tr>
         <td>
           <para style="Table Heading">
@@ -381,7 +381,7 @@
           <para style="P2">[[ formatLang(o.total) ]]</para>
         </td>
       </tr>
-    </blockTable>
+    </blockTable-->
 
 
 
@@ -389,7 +389,7 @@
       <font color="white"> </font>
     </para>
 
-    <condPageBreak height="24cm"/>
+    <condPageBreak height="28cm"/>
 
     <para style="P8">LIBRO REGISTRO FACTURAS RECIBIDAS</para>
     <para style="P7">
@@ -478,7 +478,7 @@
       <font color="white"> </font>
     </para>
 
-    <condPageBreak height="18cm"/>
+    <condPageBreak height="28cm"/>
     <para style="P8">RESUMEN FACTURAS RECIBIDAS</para>
 
 
@@ -526,7 +526,7 @@
     </blockTable>
     </section>
 
-    <blockTable colWidths="73.0,103.0,60.0,62.0,61.0,59.0,64.0" repeatRows="1" style="Tabla2">
+    <!--blockTable colWidths="73.0,103.0,60.0,62.0,61.0,59.0,64.0" repeatRows="1" style="Tabla2">
       <tr>
         <td>
           <para style="P12">
@@ -556,7 +556,7 @@
           <para style="P2">[[ formatLang(o.total_rec) ]]</para>
         </td>
       </tr>
-    </blockTable>
+    </blockTable-->
     <para style="Standard">
       <font color="white"> </font>
     </para>

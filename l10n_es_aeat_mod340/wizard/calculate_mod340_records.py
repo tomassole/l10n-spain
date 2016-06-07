@@ -53,6 +53,7 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
         mod340 = report_obj.browse(cr, uid, ids)[0]
         invoices340 = self.pool['l10n.es.aeat.mod340.issued']
         invoices340_rec = self.pool['l10n.es.aeat.mod340.received']
+        period_obj = self.pool['account.period']
         issued_obj = self.pool['l10n.es.aeat.mod340.tax_line_issued']
         received_obj = self.pool['l10n.es.aeat.mod340.tax_line_received']
         mod340.write({
@@ -112,7 +113,7 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                     nif = False
                 values = {
                     'mod340_id': mod340.id,
-                    'partner_id': invoice.partner_id.id,
+                    'partner_id': invoice.partner_id.commercial_partner_id.id,
                     'partner_vat': nif,
                     'representative_vat': '',
                     'partner_country_code': country_code,

@@ -34,10 +34,19 @@ class AccountAssetAsset(models.Model):
         last_depreciation_date = super(
             AccountAssetAsset, self)._get_last_depreciation_date()
         for asset in self:
-            date = asset.start_depreciation_date
-            if (date and (date > last_depreciation_date[asset.id] or
-                          not asset.depreciation_line_ids)):
-                last_depreciation_date[asset.id] = date
+            if last_depreciation_date[asset.id] > asset.purchase_date \
+                and last_depreciation_date[asset.id] > asset.start_depreciation_date:
+                    depreciation_date = fields.Date.from_string(last_depreciation_date[asset.id])
+                    depr_date = depreciation_date + relativedelta(
+                                    months=+ (asset.method_period))
+                    last_depreciation_date[asset.id] =fields.Date.to_string(
+                        depr_date)
+            else:
+                date = asset.start_depreciation_date
+                if (date and (date > last_depreciation_date[asset.id] or
+                              not asset.depreciation_line_ids)):
+                    last_depreciation_date[asset.id] = date
+
         return last_depreciation_date
 
     move_end_period = fields.Boolean(
@@ -159,7 +168,7 @@ class AccountAssetAsset(models.Model):
                         days = total_days - float(depreciation_date.day) + 1
                 else:
                     days = (total_days -
-                            float(depreciation_date.strftime('%j'))) + 1
+                            float(depreciation_date.strftime('%j')))
                 amount *= days / total_days
             return amount
         else:

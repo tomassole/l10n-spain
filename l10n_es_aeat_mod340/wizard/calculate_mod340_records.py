@@ -210,7 +210,7 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                 for tax_line in invoice.tax_line:
                     if tax_line.base_code_id and tax_line.base:
                         if tax_line.base_code_id.mod340:
-                            # Si es una linea de recargo la gurada para
+                            # Si es una linea de recargo la guarda para
                             # gestionarla al acabar con las lienas normales"
                             if tax_line.base_code_id.surcharge_tax_id:
                                 surcharge_taxes_lines.append(tax_line)
@@ -369,6 +369,22 @@ class L10nEsAeatMod340CalculateRecords(orm.TransientModel):
                         cr, uid, domain,
                         context=context)
                     issued_obj.write(cr, uid, line_id, values)
+                    
+                    if not tax_code_isu_totals.get(
+                            surcharge.base_code_id.id):
+                        tax_code_isu_totals.update({
+                            surcharge.base_code_id.id: 
+                                [surcharge.base_amount,
+                                surcharge.amount * sign * cur_rate,
+                                 rec_tax_percentage], })
+                    else:
+                        tax_code_isu_totals[
+                            surcharge.base_code_id.id][
+                            0] +=  surcharge.base_amount
+                        tax_code_isu_totals[
+                            surcharge.base_code_id.id][
+                            1] +=\
+                            surcharge.amount * sign * cur_rate
 
                 if invoice.type in ['out_invoice', 'out_refund']:
                     vals2 = {

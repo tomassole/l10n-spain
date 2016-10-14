@@ -89,23 +89,31 @@
             <field name="model">l10n.es.aeat.mod340.issued</field>
             <field name="arch" type="xml">
                 <form string="Issued invoices">
-                    <field name="invoice_id"/>
-                    <newline/>
-                    <field name="partner_id"/>
-                    <field name="partner_vat"/>
-                    <field name="vat_type"/>                    
-                    <field name="representative_vat"/>
-                    <field name="partner_country_code"/>
-                    <newline/>
-                    <field name="key_operation"/>
-                    <field name="base_tax" />
-                    <field name="amount_tax" />
-                    <field name="rec_amount_tax" />
-                    <newline/>
-                    <field name="total"/>
-                    <field name="txt_exception" />
-                    <newline />
-                    <field name="tax_line_ids" />
+                    <group  >
+                        <field name="invoice_id"/>
+                        <newline/>
+                        <group col="4" colspan="4" string="Identificación">
+                            <field name="partner_id"/>
+                            <field name="partner_vat"/>
+                            <field name="vat_type"/>                    
+                            <field name="representative_vat"/>
+                            <field name="partner_country_code"/>
+                        <newline/>
+                        </group>
+                        <group  col="4" colspan="4" string = "Taxes">
+                            <field name="key_operation"/>
+                            <field name="base_tax" />
+                            <field name="amount_tax" />
+                            <field name="rec_amount_tax" />
+                            <newline/>
+                        </group>
+                        <group  col="8" colspan="4" string="Resumen">
+                            <field name="total"/>
+                            <field name="txt_exception" />
+                            <newline />
+                        </group>
+                        <field name="tax_line_ids" />
+                    </group>
                 </form>
             </field>
         </record>
@@ -142,26 +150,36 @@
             <field name="model">l10n.es.aeat.mod340.received</field>
             <field name="arch" type="xml">
                 <form string="Received invoices">
-                    <field name="invoice_id"/>
-                    <newline/>
-                    <field name="partner_id"/>
-                    <field name="partner_vat"/>
-                    <field name="vat_type"/>                                        
-                    <field name="representative_vat"/>
-                    <field name="partner_country_code"/>
-                    <newline/>
-                    <field name="key_operation"/>                    
-                    <field name="base_tax"/>
-                    <field name="amount_tax"/>
-                    <newline/>
-                    <field name="date_payment"/>
-                    <field name="payment_amount"/>
-                    <field name="name_payment_method"/>
-                    <newline/>
-                    <field name="total"/>
-                    <field name="exception" />
-                    <newline />
-                    <field name="tax_line_ids" />
+                    <group>
+                        <field name="invoice_id"/>
+                        <newline/>
+                        <group col="4" colspan="4" string="Identificación">
+                            <field name="partner_id"/>
+                            <field name="partner_vat"/>
+                            <field name="vat_type"/>                                        
+                            <field name="representative_vat"/>
+                            <field name="partner_country_code"/>
+                            <newline/>
+                        </group>
+                         <group  col="4" colspan="4" string = "Taxes">
+                            <field name="key_operation"/>                    
+                            <field name="base_tax"/>
+                            <field name="amount_tax"/>
+                            <newline/>
+                        </group>
+                        <group  col="8" colspan="4" string="Pago">
+                            <field name="date_payment"/>
+                            <field name="payment_amount"/>
+                            <field name="name_payment_method"/>
+                            <newline/>
+                        </group>
+                        <group  col="8" colspan="4" string="Resumen">
+                            <field name="total"/>
+                            <field name="exception" />
+                            <newline />
+                        </group>
+                        <field name="tax_line_ids" />
+                    </group>
                 </form>
             </field>
         </record>
@@ -173,12 +191,16 @@
             <field name="model">l10n.es.aeat.mod340.tax_line_issued</field>
             <field name="arch" type="xml">
                 <form string="Tax line issued">
-                    <field name="name"/>
-                    <field name="tax_percentage"/>
-                    <field name="tax_amount"/>
-                    <field name="base_amount"/>
-                    <field name="rec_tax_percentage"/>
-                    <field name="rec_tax_amount"/>
+                    <group string="Taxes">
+                        <field name="name"/>
+                        <field name="tax_percentage"/>
+                        <field name="tax_amount"/>
+                        <field name="base_amount"/>
+                    </group>
+                    <group string="Recargo">
+                        <field name="rec_tax_percentage"/>
+                        <field name="rec_tax_amount"/>
+                    </group>
                 </form>
             </field>
         </record>
@@ -188,10 +210,12 @@
             <field name="model">l10n.es.aeat.mod340.tax_line_received</field>
             <field name="arch" type="xml">
                 <form string="Tax line received">
-                    <field name="name"/>
-                    <field name="tax_percentage"/>
-                    <field name="tax_amount"/>
-                    <field name="base_amount"/>
+                    <group string="Taxes">
+                        <field name="name"/>
+                        <field name="tax_percentage"/>
+                        <field name="tax_amount"/>
+                        <field name="base_amount"/>
+                    </group>
                 </form>
             </field>
         </record>

@@ -9,7 +9,6 @@ import re
 from openerp import models, fields, api, exceptions, _
 from openerp.addons.l10n_es_aeat_mod349.models.account_invoice \
     import OPERATION_KEYS
-from datetime import datetime
 from calendar import monthrange
 
 
@@ -91,7 +90,7 @@ class Mod349(models.Model):
             if origin_inv.state in ('open', 'paid'):
                 # searches for details of another 349s to restore
                 refund_details = partner_detail_obj.search(
-                    [('invoice_id', '=', origin_inv.id)])
+                    [('invoice_id', '=', origin_inv.id)], limit=1)
                 if refund_details:
                     # creates a dictionary key with partner_record id to
                     # after recover it
@@ -140,10 +139,9 @@ class Mod349(models.Model):
                                       '07', '08', '09', '10', '11', '12'):
                 date_start = "%s-%s-01" % (year, self.period_type)
                 date_end = "%s-%s-%s" % (year, self.period_type,
-                                        monthrange(year,
-                                                   int(self.period_type)
-                                                   )[1])
-            domain += [('date_invoice', '>=', date_start), \
+                                         monthrange(year,
+                                                    int(self.period_type))[1])
+            domain += [('date_invoice', '>=', date_start),
                        ('date_invoice', '<=', date_end)]
         return domain
 

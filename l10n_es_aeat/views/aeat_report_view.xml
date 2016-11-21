@@ -45,7 +45,7 @@
                         <field name="state"
                                widget="statusbar"
                                statusbar_visible="draft,calculated,done,cancelled"
-                               statusbar_colors="{'cancelled': 'red', 'done': 'blue', 'posted': 'blue'}"
+                               statusbar_colors='{"cancelled": "red", "done": "blue", "posted": "blue"}'
                                />
                     </header>
                     <sheet>
@@ -78,6 +78,7 @@
                                 <field name="representative_vat"/>
                                 <field name="support_type"/>
                                 <field name="calculation_date" readonly="1"/>
+                                <field name="partner_bank_id"/>
                                 <field name="company_id"
                                        required="1"
                                        groups="base.group_multi_company"

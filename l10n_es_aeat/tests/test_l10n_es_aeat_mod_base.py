@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0
 
 import logging
-from openerp.tests import common
+from odoo.tests import common
 
 _logger = logging.getLogger('aeat')
 

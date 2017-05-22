@@ -7,8 +7,8 @@
 
 import re
 from calendar import monthrange
-from openerp import _, api, fields, exceptions, models, SUPERUSER_ID
-from openerp.tools import config
+from odoo import _, api, fields, exceptions, models, SUPERUSER_ID
+from odoo.tools import config
 
 
 class L10nEsAeatReport(models.AbstractModel):

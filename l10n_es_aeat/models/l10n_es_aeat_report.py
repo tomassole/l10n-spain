@@ -380,13 +380,13 @@ class L10nEsAeatReport(models.AbstractModel):
         return (phone or '').replace(" ", "")[-9:]
 
     @api.cr
-    def _register_hook(self, cr):
-        res = super(L10nEsAeatReport, self)._register_hook(cr)
+    def _register_hook(self):
+        res = super(L10nEsAeatReport, self)._register_hook()
         if self._name in ('l10n.es.aeat.report',
                           'l10n.es.aeat.report.tax.mapping'):
             return res
         with api.Environment.manage():
-            env = api.Environment(cr, SUPERUSER_ID, {})
+            env = api.Environment(self.env.cr, SUPERUSER_ID, {})
             aeat_num = getattr(self, '_aeat_number', False)
             if not aeat_num:
                 raise exceptions.UserError(_(

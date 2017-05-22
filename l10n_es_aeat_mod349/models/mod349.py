@@ -302,7 +302,7 @@ class Mod349PartnerRecord(models.Model):
     partner_id = fields.Many2one(
         comodel_name='res.partner', string='Partner', required=True,
     )
-    partner_vat = fields.Char(string='VAT', size=15, select=1)
+    partner_vat = fields.Char(string='VAT', size=15, index=True)
     country_id = fields.Many2one(comodel_name='res.country', string='Country')
     operation_key = fields.Selection(
         selection=OPERATION_KEYS, string='Operation key', required=True,
@@ -337,7 +337,7 @@ class Mod349PartnerRecordDetail(models.Model):
     partner_record_id = fields.Many2one(
         comodel_name='l10n.es.aeat.mod349.partner_record',
         default=lambda self: self.env.context.get('partner_record_id'),
-        string='Partner record', required=True, ondelete='cascade', select=1)
+        string='Partner record', required=True, ondelete='cascade', index=True)
     invoice_id = fields.Many2one(
         comodel_name='account.invoice', string='Invoice', required=True)
     amount_untaxed = fields.Float(string='Amount untaxed')

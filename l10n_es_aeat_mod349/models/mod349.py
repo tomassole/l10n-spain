@@ -8,7 +8,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import re
-from openerp import models, fields, api, exceptions, _
+from odoo import models, fields, api, exceptions, _
 from .account_invoice import OPERATION_KEYS
 
 

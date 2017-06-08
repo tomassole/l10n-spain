@@ -116,7 +116,7 @@ class Mod349(models.Model):
                                                 country=partner_country),
              'operation_key': operation_key,
              'country_id': partner_country.id or False,
-             'total_operation_amount': sum_credit - sum_debit
+             'total_operation_amount': sum_credit + sum_debit
              })
         # Creation of partner detail lines
         for invoice in invoices:
@@ -184,11 +184,19 @@ class Mod349(models.Model):
             # Remove previous partner records and partner refunds in report
             mod349.partner_record_ids.unlink()
             mod349.partner_refund_ids.unlink()
+
             # Returns all commercial partners
-            partners = partner_obj.with_context(active_test=False).search(
-                [('parent_id', '=', False)])
-            for partner in partners:
-                for op_key in [x[0] for x in OPERATION_KEYS]:
+            #partners = partner_obj.with_context(active_test=False).search(
+            #    [('parent_id', '=', False)])
+            invoice_type = (
+            'in_invoice', 'out_invoice', 'in_refund', 'out_refund')
+            for op_key in [x[0] for x in OPERATION_KEYS]:
+                partners = invoice_obj.search(
+                    [('state', 'in', ['open', 'paid']),
+                     ('operation_key', '=', op_key),
+                     ('date', '>=', mod349.date_start),
+                     ('date', '<=', mod349.date_end)]).mapped('partner_id')
+                for partner in partners:
                     # Invoices
                     invoices_total = invoice_obj._get_invoices_by_type(
                         partner, operation_key=op_key,
@@ -358,7 +366,7 @@ class Mod349PartnerRefund(models.Model):
         comodel_name='l10n.es.aeat.mod349.report', string='AEAT 349 Report ID',
         ondelete="cascade")
     partner_id = fields.Many2one(
-        comodel_name='res.partner', string='Partner', required=1, select=1)
+        comodel_name='res.partner', string='Partner', required=1, index=1)
     partner_vat = fields.Char(string='VAT', size=15)
     operation_key = fields.Selection(
         selection=OPERATION_KEYS, string='Operation key', required=True)

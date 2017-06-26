@@ -472,7 +472,8 @@ class CreateFacturae(models.TransientModel):
                 texto += str('%.6f' % line.price_unit)
                 texto += '</UnitPriceWithoutTax>'
                 texto += '<TotalCost>' +\
-                         str('%.6f' % (line.quantity * line.price_unit)) +\
+                         str('%.6f' %
+                             (round((line.quantity * line.price_unit), 2))) +\
                          '</TotalCost>'
                 texto += '<DiscountsAndRebates>'
                 texto += '<Discount>'

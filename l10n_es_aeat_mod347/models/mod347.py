@@ -8,12 +8,12 @@
 # Copyright 2014-2017 - Tecnativa - Pedro M. Baeza <pedro.baeza@tecnativa.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import fields, models, api, exceptions, _
+from odoo import fields, models, api, exceptions, _
 
 import re
 from datetime import datetime
 from calendar import monthrange
-from openerp.addons.decimal_precision import decimal_precision as dp
+import odoo.addons.decimal_precision as dp
 
 
 class L10nEsAeatMod347Report(models.Model):
@@ -786,7 +786,7 @@ class L10nEsAeatMod347InvoiceRecord(models.Model):
 
     partner_record_id = fields.Many2one(
         comodel_name='l10n.es.aeat.mod347.partner_record',
-        string='Partner record', required=True, ondelete="cascade", select=1,
+        string='Partner record', required=True, ondelete="cascade", index=True,
         default=_default_partner_record)
     invoice_id = fields.Many2one(
         comodel_name='account.invoice', string='Invoice', required=True,
@@ -815,7 +815,7 @@ class L10nEsAeatMod347CashRecord(models.Model):
 
     partner_record_id = fields.Many2one(
         comodel_name='l10n.es.aeat.mod347.partner_record',
-        string='Partner record', required=True, ondelete="cascade", select=1,
+        string='Partner record', required=True, ondelete="cascade", index=True,
         default=_default_partner_record)
     move_line_id = fields.Many2one(
         comodel_name='account.move.line', string='Account move line',

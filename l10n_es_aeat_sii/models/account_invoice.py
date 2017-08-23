@@ -444,7 +444,7 @@ class AccountInvoice(models.Model):
         # - Ciertos condicionantes obligan DesgloseTipoOperacion
         country_code = (
             self.commercial_partner_id.country_id.code or
-            (self.partner_id.vat or '')[:2]
+            (self.commercial_partner_id.vat or '')[:2]
         ).upper()
         if (('DesgloseTipoOperacion' in taxes_dict and
                 'DesgloseFactura' in taxes_dict) or
@@ -508,7 +508,7 @@ class AccountInvoice(models.Model):
         gen_type = self._get_sii_gen_type()
         partner = self.commercial_partner_id
         country_code = (
-            partner.country_id.code or (self.partner_id.vat or '')[:2]
+            partner.country_id.code or (partner.vat or '')[:2]
         ).upper()
         if partner.sii_simplified_invoice and self.type[:2] == 'in':
             raise exceptions.Warning(
@@ -1019,15 +1019,15 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         gen_type = self._get_sii_gen_type()
         # Limpiar alfanum
-        if self.partner_id.vat:
+        if self.commercial_partner_id.vat:
             vat = ''.join(
-                e for e in self.partner_id.vat if e.isalnum()
+                e for e in self.commercial_partner_id.vat if e.isalnum()
             ).upper()
         else:
             vat = 'NO_DISPONIBLE'
         country_code = (
             self.commercial_partner_id.country_id.code or
-            (self.partner_id.vat or '')[:2]
+            (self.commercial_partner_id.vat or '')[:2]
         ).upper()
         if gen_type == 1:
             if '1117' in (self.sii_send_error or ''):

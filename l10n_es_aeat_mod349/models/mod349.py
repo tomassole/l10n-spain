@@ -195,7 +195,8 @@ class Mod349(models.Model):
                     [('state', 'in', ['open', 'paid']),
                      ('operation_key', '=', op_key),
                      ('date', '>=', mod349.date_start),
-                     ('date', '<=', mod349.date_end)]).mapped('partner_id')
+                     ('date', '<=', mod349.date_end)]).mapped(
+                    'commercial_partner_id')
                 for partner in partners:
                     # Invoices
                     invoices_total = invoice_obj._get_invoices_by_type(

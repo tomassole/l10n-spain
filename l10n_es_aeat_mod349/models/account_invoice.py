@@ -42,7 +42,7 @@ class AccountInvoice(models.Model):
         """
         # Set type of invoice
         invoice_type = ('in_invoice', 'out_invoice', 'in_refund', 'out_refund')
-        domain = [('partner_id', 'child_of', partner.id),
+        domain = [('commercial_partner_id', 'child_of', partner.id),
                   ('state', 'in', ['open', 'paid']),
                   ('type', 'in', invoice_type),
                   ('operation_key', '=', operation_key),

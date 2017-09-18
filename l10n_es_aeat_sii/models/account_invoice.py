@@ -469,6 +469,7 @@ class AccountInvoice(models.Model):
         taxes_sfrs = self._get_sii_taxes_map(['SFRS'])
         taxes_sfrisp = self._get_sii_taxes_map(['SFRISP'])
         taxes_sfrns = self._get_sii_taxes_map(['SFRNS'])
+        taxes_sfrnd = self._get_sii_taxes_map(['SFRND'])
         tax_amount = 0.0
         # Check if refund type is 'By differences'. Negative amounts!
         sign = self._get_sii_sign()
@@ -498,6 +499,15 @@ class AccountInvoice(models.Model):
                 )
                 sfrns_dict['DetalleIVA'].append({'BaseImponible': sign *
                                                 tax_line.base})
+            elif tax in taxes_sfrnd:
+                sfrnd_dict = taxes_dict.setdefault(
+                    'DesgloseIVA',
+                    {'DetalleIVA': []},
+                )
+                sfrnd_dict['DetalleIVA'].append(
+                    self._get_sii_tax_dict(tax_line, sign),
+                )
+
         return taxes_dict, tax_amount
 
     @api.multi

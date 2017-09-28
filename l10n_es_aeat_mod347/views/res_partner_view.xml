@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <field name="vat" position="after">
                     <field name="not_in_mod347"/>
+                    <label for="not_in_mod347"/>
                 </field>
             </field>
         </record>

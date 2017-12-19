@@ -1,0 +1,5 @@
+.o_aeat_reports_page {
+    background-color: @odoo-view-background-color;
+    color: @odoo-main-text-color;
+    padding-top: 10px;
+}

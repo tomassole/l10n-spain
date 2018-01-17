@@ -136,11 +136,12 @@ class L10nEsAeatMod303Report(models.Model):
              "concepto, ejercicio y periodo",
         states={'done': [('readonly', True)]})
     resultado_liquidacion = fields.Float(
-        string="[71] Result. liquidación", readonly=True,
+        string="[71] Liquidación", readonly=True,
         compute="_compute_resultado_liquidacion", store=True)
     result_type = fields.Selection(
         selection=[('I', 'A ingresar'),
                    ('D', 'A devolver'),
+                   ('C', 'A compensar'),
                    ('N', 'Sin actividad/Resultado cero')],
         compute="_compute_result_type")
     compensate = fields.Boolean(
@@ -169,7 +170,10 @@ class L10nEsAeatMod303Report(models.Model):
         elif self.resultado_liquidacion > 0:
             self.result_type = 'I'
         else:
-            self.result_type = 'D'
+            if self.devolucion_mensual:
+                self.result_type = 'D'
+            else:
+                self.result_type = 'C'
 
     @api.onchange('period_type', 'fiscalyear_id')
     def onchange_period_type(self):

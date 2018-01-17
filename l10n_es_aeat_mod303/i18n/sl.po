@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-spain (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-19 10:40+0000\n"
-"PO-Revision-Date: 2017-01-19 20:17+0000\n"
+"POT-Creation-Date: 2017-08-29 01:00+0000\n"
+"PO-Revision-Date: 2017-08-30 05:41+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-l10n-spain-8-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,11 @@ msgstr ""
 #. module: l10n_es_aeat_mod303
 #: help:l10n.es.aeat.mod303.report,casilla_46:0
 msgid "(IVA devengado - IVA deducible)"
+msgstr ""
+
+#. module: l10n_es_aeat_mod303
+#: selection:l10n.es.aeat.mod303.report,result_type:0
+msgid "A compensar"
 msgstr ""
 
 #. module: l10n_es_aeat_mod303
@@ -83,7 +88,7 @@ msgstr "Datum izračuna"
 #. module: l10n_es_aeat_mod303
 #: selection:l10n.es.aeat.mod303.report,state:0
 msgid "Cancelled"
-msgstr ""
+msgstr "Preklicano"
 
 #. module: l10n_es_aeat_mod303
 #: field:l10n.es.aeat.mod303.report,company_id:0
@@ -135,7 +140,7 @@ msgstr ""
 #. module: l10n_es_aeat_mod303
 #: field:l10n.es.aeat.mod303.report,currency_id:0
 msgid "Currency"
-msgstr ""
+msgstr "Valuta"
 
 #. module: l10n_es_aeat_mod303
 #: selection:l10n.es.aeat.mod303.report,support_type:0
@@ -285,7 +290,7 @@ msgstr "Telefon"
 #. module: l10n_es_aeat_mod303
 #: selection:l10n.es.aeat.mod303.report,state:0
 msgid "Posted"
-msgstr ""
+msgstr "Knjiženo"
 
 #. module: l10n_es_aeat_mod303
 #: field:l10n.es.aeat.mod303.report,previous_number:0
@@ -330,13 +335,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_es_aeat_mod303
-#: code:addons/l10n_es_aeat_mod303/models/mod303.py:196
+#: code:addons/l10n_es_aeat_mod303/models/mod303.py:209
 #, python-format
 msgid "Select an account for making the charge"
 msgstr ""
 
 #. module: l10n_es_aeat_mod303
-#: code:addons/l10n_es_aeat_mod303/models/mod303.py:198
+#: code:addons/l10n_es_aeat_mod303/models/mod303.py:211
 #, python-format
 msgid "Select an account for receiving the money"
 msgstr ""
@@ -443,7 +448,7 @@ msgstr ""
 
 #. module: l10n_es_aeat_mod303
 #: field:l10n.es.aeat.mod303.report,resultado_liquidacion:0
-msgid "[71] Result. liquidación"
+msgid "[71] Liquidación"
 msgstr ""
 
 #. module: l10n_es_aeat_mod303

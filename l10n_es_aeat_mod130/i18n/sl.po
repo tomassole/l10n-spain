@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n-spain (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-19 10:40+0000\n"
-"PO-Revision-Date: 2017-01-19 20:17+0000\n"
+"POT-Creation-Date: 2017-10-27 00:55+0000\n"
+"PO-Revision-Date: 2017-10-23 10:55+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/oca/OCA-l10n-spain-8-0/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgstr "Datum izračuna"
 #. module: l10n_es_aeat_mod130
 #: selection:l10n.es.aeat.mod130.report,state:0
 msgid "Cancelled"
-msgstr ""
+msgstr "Preklicano"
 
 #. module: l10n_es_aeat_mod130
 #: field:l10n.es.aeat.mod130.report,casilla_01:0
@@ -212,7 +212,7 @@ msgstr "Ustvarjeno"
 #. module: l10n_es_aeat_mod130
 #: field:l10n.es.aeat.mod130.report,currency_id:0
 msgid "Currency"
-msgstr ""
+msgstr "Valuta"
 
 #. module: l10n_es_aeat_mod130
 #: field:l10n.es.aeat.mod130.report,previous_electronic_code:0
@@ -281,7 +281,7 @@ msgstr ""
 #. module: l10n_es_aeat_mod130
 #: field:l10n.es.aeat.mod130.export_to_boe,data:0
 msgid "File"
-msgstr ""
+msgstr "Datoteka"
 
 #. module: l10n_es_aeat_mod130
 #: field:l10n.es.aeat.mod130.export_to_boe,name:0
@@ -425,7 +425,7 @@ msgstr "Telefon"
 #. module: l10n_es_aeat_mod130
 #: selection:l10n.es.aeat.mod130.report,state:0
 msgid "Posted"
-msgstr ""
+msgstr "Knjiženo"
 
 #. module: l10n_es_aeat_mod130
 #: field:l10n.es.aeat.mod130.report,complementary:0

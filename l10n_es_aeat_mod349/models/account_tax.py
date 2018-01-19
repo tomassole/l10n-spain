@@ -2,7 +2,7 @@
 # Copyright 2017 Luis M. Ontalba <luis.martinez@tecnativa.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from openerp import api, models, fields
+from odoo import api, models, fields
 
 
 class AccountTaxTemplate(models.Model):

@@ -4,7 +4,7 @@
 # License AGPL-3 - See https://www.gnu.org/licenses/agpl-3.0
 
 import logging
-from openerp.addons.l10n_es_aeat.tests.test_l10n_es_aeat_mod_base import \
+from odoo.addons.l10n_es_aeat.tests.test_l10n_es_aeat_mod_base import \
     TestL10nEsAeatModBase
 
 _logger = logging.getLogger('aeat.349')

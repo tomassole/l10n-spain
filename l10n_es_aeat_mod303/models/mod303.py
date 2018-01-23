@@ -107,7 +107,8 @@ class L10nEsAeatMod303Report(models.Model):
             # there is an amount to compensate.
             prev_reports = mod303._get_previous_fiscalyear_reports(
                 mod303.date_start)
-            prev_reports.filtered(lambda x: x.state not in ['draft',
+            if prev_reports:
+                prev_reports.filtered(lambda x: x.state not in ['draft',
                                                             'cancelled'])
             for prev_report in prev_reports:
                 if prev_report.result_type == 'C' and not \

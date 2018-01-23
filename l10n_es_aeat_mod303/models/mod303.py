@@ -110,14 +110,14 @@ class L10nEsAeatMod303Report(models.Model):
             if prev_reports:
                 prev_reports.filtered(lambda x: x.state not in ['draft',
                                                             'cancelled'])
-            for prev_report in prev_reports:
-                if prev_report.result_type == 'C' and not \
-                        mod303.cuota_compensar:
-                    mod303.exception_msg = \
-                        _("In previous declarations this year you "
-                          "reported a Result Type 'To Compensate'. "
-                          "You might need to fill field '[67] "
-                          "Fees to compensate' in this declaration.")
+                for prev_report in prev_reports:
+                    if prev_report.result_type == 'C' and not \
+                            mod303.cuota_compensar:
+                        mod303.exception_msg = \
+                            _("In previous declarations this year you "
+                              "reported a Result Type 'To Compensate'. "
+                              "You might need to fill field '[67] "
+                              "Fees to compensate' in this declaration.")
 
     @api.multi
     @api.depends('tax_line_ids', 'tax_line_ids.amount')

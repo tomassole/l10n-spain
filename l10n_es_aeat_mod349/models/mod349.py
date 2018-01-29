@@ -155,10 +155,11 @@ class Mod349(models.Model):
                     'total_amount': 0.0,
                     'record_details': detail_obj
                 }
-            partner_country = partner.country_id
+
             data[partner][op_key]['total_amount'] += move_line.balance
             data[partner][op_key]['record_details'] += record_detail
         for partner in data.keys():
+            partner_country = partner.country_id
             for op_key in data[partner].keys():
                 record_created = rec_obj.create(
                     {'report_id': self.id,
@@ -234,6 +235,7 @@ class Mod349(models.Model):
                 'refund_details'] += refund_detail
 
         for partner in data.keys():
+            partner_country = partner.country_id
             for op_key in data[partner].keys():
                 original_amount = 0.0
                 rectified_amount = 0.0

@@ -230,9 +230,9 @@ class L10nEsAeatMod303Report(models.Model):
         """Check records"""
         msg = ""
         for mod303 in self:
-            if mod303.result_type == 'I' and not mod303.bank_account_id:
+            if mod303.result_type == 'I' and not mod303.partner_bank_id:
                 msg = _('Select an account for making the charge')
-            if mod303.result_type == 'D' and not mod303.bank_account_id:
+            if mod303.result_type == 'D' and not mod303.partner_bank_id:
                 msg = _('Select an account for receiving the money')
         if msg:
             # Don't raise error, because data is not used

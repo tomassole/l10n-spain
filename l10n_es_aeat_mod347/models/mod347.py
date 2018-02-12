@@ -398,13 +398,6 @@ class L10nEsAeatMod347Report(models.Model):
                     partners[key_value]['cash_moves'] = moves
         return partners
 
-
-class L10nEsAeatMod347PartnerRecord(models.Model):
-    _name = 'l10n.es.aeat.mod347.partner_record'
-    _description = 'Partner Record'
-    _inherit = ['mail.thread']
-    _rec_name = "partner_vat"
-
     @api.multi
     def button_mass_mailing(self):
         partner_records = self.partner_record_ids.filtered(
@@ -431,7 +424,7 @@ class L10nEsAeatMod347PartnerRecord(models.Model):
     @api.multi
     def _send_email_from_button(self, partners_347):
         template = self.env.ref(
-            'l10n_es_aeat_mod347.email_template_mod347_partner_record', False)
+            'l10n_es_aeat_mod347.mail_template_mod347_partner_record', False)
         for partner_347 in partners_347:
             if partner_347.partner_id.notify_email != 'always':
                 partner_347.partner_id.notify_email = 'always'
@@ -446,6 +439,13 @@ class L10nEsAeatMod347PartnerRecord(models.Model):
                 default_res_id=partner_347.id,
             ).create({})
             wizard.send_mail()
+
+
+class L10nEsAeatMod347PartnerRecord(models.Model):
+    _name = 'l10n.es.aeat.mod347.partner_record'
+    _description = 'Partner Record'
+    _inherit = ['mail.thread']
+    _rec_name = "partner_vat"
 
     @api.model
     def _default_record_id(self):
@@ -613,6 +613,18 @@ class L10nEsAeatMod347PartnerRecord(models.Model):
         compute='_compute_estate')
 
     @api.multi
+    def _compute_estate(self):
+        for partner_record in self:
+            state = 'pending'
+            found = partner_record.mapped('message_ids').filtered(
+                lambda x: x.subject and '347' in x.subject)
+            if found:
+                found = partner_record.mapped('message_ids').filtered(
+                    lambda x: partner_record.partner_id.email in x.email_from)
+                state = 'contested' if found else 'sent'
+            partner_record.estate = state
+
+    @api.multi
     def _compute_real_estate_record_ids(self):
         """Get the real estate records from this record parent report for this
         partner.
@@ -753,18 +765,6 @@ class L10nEsAeatMod347RealStateRecord(models.Model):
     @api.model
     def _default_record_id(self):
         return self.env.context.get('report_id', False)
-
-    @api.multi
-    def _compute_estate(self):
-        for partner_record in self:
-            state = 'pending'
-            found = partner_record.mapped('message_ids').filtered(
-                lambda x: x.subject and '347' in x.subject)
-            if found:
-                found = partner_record.mapped('message_ids').filtered(
-                    lambda x: partner_record.partner_id.email in x.email_from)
-                state = 'contested' if found else 'sent'
-            partner_record.estate = state
 
     @api.model
     def _default_partner_id(self):

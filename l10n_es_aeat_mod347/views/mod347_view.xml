@@ -142,30 +142,29 @@
                 <search string="Partner Record">
                     <field name="company_id" string="Company" groups="base.group_multi_company" />
                     <field name="partner_id" string="Partner" filter_domain="[('partner_id','ilike',self)]"/>
-                    <field name="report_identifier" string="Report identifier"/> -->
+                    <field name="report_identifier" string="Report identifier"/>
                     <field name="company_vat" string="Report VAT number"/>
-                    <!-- <field name="fiscalyear_id" string="Fiscal year"/> -->
-                    <field name="period_type" string="Period type"/> -->
+                    <field name="period_type" string="Period type"/>
                     <field name="operation_key" string="Operation key" filter_domain="[('operation_key','ilike',self)]"/>
                     <field name="partner_vat" string="Record" filter_domain="['|',('partner_vat','ilike',self),('partner_id','ilike',self)]"/>
                     <separator/>
                     <filter name="invalid" string="Invalid records" domain="[('check_ok', '=', False)]"/>
                     <separator/>
                     <group  expand='0' string='Group by...'>
-                        <filter string="Company" domain="[]" context="{'group_by' : 'company_id'}" groups="base.group_multi_company"/>
-                        <filter string="Report identifier" domain="[]" context="{'group_by' : 'report_identifier'}"/>
-                        <filter string="Report VAT number" domain="[]" context="{'group_by' : 'company_vat'}"/>
-                        <!-- <filter string="Fiscal year" domain="[]" context="{'group_by' : 'fiscalyear_id'}"/> -->
-                        <filter string="Period type" domain="[]" context="{'group_by' : 'period_type'}"/>
-                        <filter string="Partner" domain="[]" context="{'group_by' : 'partner_id'}"/>
-                        <filter string='Operation key' domain="[]" context="{'group_by' : 'operation_key'}"/>
-                        <filter string="Partner VAT" domain="[]" context="{'group_by' : 'partner_vat'}"/>
+                        <filter string="Company" context="{'group_by' : 'company_id'}" groups="base.group_multi_company"/>
+                        <filter string="Report identifier" context="{'group_by' : 'report_identifier'}"/>
+                        <filter string="Report VAT number"  context="{'group_by' : 'company_vat'}"/>
+                        <filter string="Fiscal year" context="{'group_by' : 'fiscalyear_id'}"/>
+                        <filter string="Period type" context="{'group_by' : 'period_type'}"/>
+                        <filter string="Partner" context="{'group_by' : 'partner_id'}"/>
+                        <filter string='Operation key' context="{'group_by' : 'operation_key'}"/>
+                        <filter string="Partner VAT" context="{'group_by' : 'partner_vat'}"/>
                     </group>
                 </search>
             </field>
         </record>
 
-          <record id="l10n_es_aeat_mod347_partner_record_tree_view" model="ir.ui.view">
+        <record id="l10n_es_aeat_mod347_partner_record_tree_view" model="ir.ui.view">
             <field name="name">l10n.es.aeat.mod347.partner_record.tree.view</field>
             <field name="model">l10n.es.aeat.mod347.partner_record</field>
             <field name="arch" type="xml">
@@ -195,6 +194,7 @@
             <field name="view_id" ref="l10n_es_aeat_mod347.l10n_es_aeat_mod347_partner_record_tree_view"/>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
         </record>
         <menuitem id="l10n_es_aeat_mod347_partner_record_option_view" name="AEAT 347 model partner record"
                   action="l10n_es_aeat_mod347.action_l10n_es_aeat_mod347_partner_record" 

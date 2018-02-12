@@ -51,7 +51,7 @@
                                     <group>
                                         <field name="cash_amount"/>
                                         <field name="real_estate_transmissions_amount"/>
-                                        <field name="state"/>
+                                        <!-- <field name="state"/> -->
                                     </group>
                                 </group>
                                 <group >
@@ -142,10 +142,10 @@
                 <search string="Partner Record">
                     <field name="company_id" string="Company" groups="base.group_multi_company" />
                     <field name="partner_id" string="Partner" filter_domain="[('partner_id','ilike',self)]"/>
-                    <field name="report_identifier" string="Report identifier"/>
+                    <field name="report_identifier" string="Report identifier"/> -->
                     <field name="company_vat" string="Report VAT number"/>
-                    <field name="fiscalyear_id" string="Fiscal year"/>
-                    <field name="period_type" string="Period type"/>
+                    <!-- <field name="fiscalyear_id" string="Fiscal year"/> -->
+                    <field name="period_type" string="Period type"/> -->
                     <field name="operation_key" string="Operation key" filter_domain="[('operation_key','ilike',self)]"/>
                     <field name="partner_vat" string="Record" filter_domain="['|',('partner_vat','ilike',self),('partner_id','ilike',self)]"/>
                     <separator/>
@@ -155,7 +155,7 @@
                         <filter string="Company" domain="[]" context="{'group_by' : 'company_id'}" groups="base.group_multi_company"/>
                         <filter string="Report identifier" domain="[]" context="{'group_by' : 'report_identifier'}"/>
                         <filter string="Report VAT number" domain="[]" context="{'group_by' : 'company_vat'}"/>
-                        <filter string="Fiscal year" domain="[]" context="{'group_by' : 'fiscalyear_id'}"/>
+                        <!-- <filter string="Fiscal year" domain="[]" context="{'group_by' : 'fiscalyear_id'}"/> -->
                         <filter string="Period type" domain="[]" context="{'group_by' : 'period_type'}"/>
                         <filter string="Partner" domain="[]" context="{'group_by' : 'partner_id'}"/>
                         <filter string='Operation key' domain="[]" context="{'group_by' : 'operation_key'}"/>
@@ -173,7 +173,7 @@
                     <field name="company_id" groups="base.group_multi_company" />
                     <field name="report_identifier" string="Report identifier"/>
                     <field name="company_vat" string="Report VAT number"/>
-                    <field name="fiscalyear_id" string="Fiscal year"/>
+                     <!-- <field name="fiscalyear_id" string="Fiscal year"/> -->
                     <field name="period_type" string="Period type"/>
                     <field name="check_ok" invisible="1"/>
                     <field name="operation_key" />

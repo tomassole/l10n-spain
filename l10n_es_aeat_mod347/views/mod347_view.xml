@@ -27,103 +27,110 @@
             <field name="model">l10n.es.aeat.mod347.partner_record</field>
             <field name="arch" type="xml">
                 <form string="Partner Record">
-                    <notebook>
-                        <page string="Partner info">
-                            <group>
+                    <sheet>
+                        <notebook>
+                            <page string="Partner info">
                                 <group>
-                                    <field name="partner_id"/>
-                                    <field name="partner_vat" select="1"/>
-                                    <field name="representative_vat" select="2"/>
-                                    <field name="community_vat"/>
-                                </group>
-                                <group>
-                                    <field name="partner_state_code"/>
-                                    <field name="partner_country_code"/>
-                                    <field name="operation_key" select="2"/>
-                                </group>
-                            </group>
-                            <group>
-                                <group>
-                                    <field name="origin_year"/>
-                                    <field name="amount"/>
-                                </group>
-                                <group>
-                                    <field name="cash_amount"/>
-                                    <field name="real_estate_transmissions_amount"/>
-                                </group>
-                            </group>
-                            <group >
-                                <group>
-                                    <field name="first_quarter"/>
-                                    <field name="second_quarter"/>
-                                    <field name="third_quarter"/>
-                                    <field name="fourth_quarter"/>
-                                </group>
-                                <group>
-                                    <field name="first_quarter_cash_amount"/>
-                                    <field name="second_quarter_cash_amount"/>
-                                    <field name="third_quarter_cash_amount"/>
-                                    <field name="fourth_quarter_cash_amount"/>
-                                </group>
-                                <group>
-                                    <field name="first_quarter_real_estate_transmission_amount"/>
-                                    <field name="second_quarter_real_estate_transmission_amount"/>
-                                    <field name="third_quarter_real_estate_transmission_amount"/>
-                                    <field name="fourth_quarter_real_estate_transmission_amount"/>
-                                </group>
-                            </group>
-                            <group>
-                                <group>
-                                    <field name="insurance_operation"/>
-                                    <field name="cash_basis_operation"/>
-                                    <field name="tax_person_operation"/>
-                                    <field name="related_goods_operation"/>
-                                </group>
-                                <group>
-                                    <field name="bussiness_real_estate_rent"/>
-                                </group>
-                            </group>
-                        </page>
-                        <page string="Real estate info" attrs="{'invisible': [('bussiness_real_estate_rent','=',False)]}">
-                            <field name="real_estate_record_ids" nolabel="1" context="{'partner_id': partner_id, 'partner_vat': partner_vat, 'representative_vat': representative_vat}"/>
-                        </page>
-                        <page string="Details">
-                            <div><strong>Color codes: </strong> <span style="color: blue;">Refund invoices</span> - Normal invoices</div>
-                            <field name="invoice_record_ids" context="{'partner_record_id': active_id}" readonly="True">
-                                <tree string="Invoice records" colors="blue:invoice_type in ('in_refund', 'out_refund');">
-                                    <field name="invoice_type" invisible="1"/>
-                                    <field name="invoice_id"/>
-                                    <field name="date"/>
-                                    <field name="amount"/>
-                                </tree>
-                                <form string="Invoice record">
                                     <group>
-                                        <field name="invoice_id" readonly="True"/>
-                                        <field name="date" readonly="True"/>
+                                        <field name="partner_id"/>
+                                        <field name="partner_vat" select="1"/>
+                                        <field name="representative_vat" select="2"/>
+                                        <field name="community_vat"/>
                                     </group>
                                     <group>
-                                        <field name="amount" readonly="True"/>
+                                        <field name="partner_state_code"/>
+                                        <field name="partner_country_code"/>
+                                        <field name="operation_key" select="2"/>
                                     </group>
-                                </form>
-                            </field>
-                            <field name="cash_record_ids" context="{'partner_record_id': active_id}" readonly="True">
-                                <tree string="Cash records">
-                                    <field name="move_line_id" select="1"/>
-                                    <field name="date" select="1"/>
-                                    <field name="amount" select="1"/>
-                                </tree>
-                                <form string="Cash record">
+                                </group>
+                                <group>
                                     <group>
-                                        <field name="move_line_id" select="1" readonly="True"/>
-                                        <field name="date" select="1" readonly="True"/>
+                                        <field name="origin_year"/>
+                                        <field name="amount"/>
                                     </group>
                                     <group>
-                                        <field name="amount" select="1" readonly="True"/>
+                                        <field name="cash_amount"/>
+                                        <field name="real_estate_transmissions_amount"/>
+                                        <field name="state"/>
                                     </group>
-                                </form>
-                            </field>
-                        </page>
-                    </notebook>
+                                </group>
+                                <group >
+                                    <group>
+                                        <field name="first_quarter"/>
+                                        <field name="second_quarter"/>
+                                        <field name="third_quarter"/>
+                                        <field name="fourth_quarter"/>
+                                    </group>
+                                    <group>
+                                        <field name="first_quarter_cash_amount"/>
+                                        <field name="second_quarter_cash_amount"/>
+                                        <field name="third_quarter_cash_amount"/>
+                                        <field name="fourth_quarter_cash_amount"/>
+                                    </group>
+                                    <group>
+                                        <field name="first_quarter_real_estate_transmission_amount"/>
+                                        <field name="second_quarter_real_estate_transmission_amount"/>
+                                        <field name="third_quarter_real_estate_transmission_amount"/>
+                                        <field name="fourth_quarter_real_estate_transmission_amount"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="insurance_operation"/>
+                                        <field name="cash_basis_operation"/>
+                                        <field name="tax_person_operation"/>
+                                        <field name="related_goods_operation"/>
+                                    </group>
+                                    <group>
+                                        <field name="bussiness_real_estate_rent"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Real estate info" attrs="{'invisible': [('bussiness_real_estate_rent','=',False)]}">
+                                <field name="real_estate_record_ids" nolabel="1" context="{'partner_id': partner_id, 'partner_vat': partner_vat, 'representative_vat': representative_vat}"/>
+                            </page>
+                            <page string="Details">
+                                <div><strong>Color codes: </strong> <span style="color: blue;">Refund invoices</span> - Normal invoices</div>
+                                <field name="invoice_record_ids" context="{'partner_record_id': active_id}" readonly="True">
+                                    <tree string="Invoice records" colors="blue:invoice_type in ('in_refund', 'out_refund');">
+                                        <field name="invoice_type" invisible="1"/>
+                                        <field name="invoice_id"/>
+                                        <field name="date"/>
+                                        <field name="amount"/>
+                                    </tree>
+                                    <form string="Invoice record">
+                                        <group>
+                                            <field name="invoice_id" readonly="True"/>
+                                            <field name="date" readonly="True"/>
+                                        </group>
+                                        <group>
+                                            <field name="amount" readonly="True"/>
+                                        </group>
+                                    </form>
+                                </field>
+                                <field name="cash_record_ids" context="{'partner_record_id': active_id}" readonly="True">
+                                    <tree string="Cash records">
+                                        <field name="move_line_id" select="1"/>
+                                        <field name="date" select="1"/>
+                                        <field name="amount" select="1"/>
+                                    </tree>
+                                    <form string="Cash record">
+                                        <group>
+                                            <field name="move_line_id" select="1" readonly="True"/>
+                                            <field name="date" select="1" readonly="True"/>
+                                        </group>
+                                        <group>
+                                            <field name="amount" select="1" readonly="True"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                         <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                         <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -133,18 +140,65 @@
             <field name="model">l10n.es.aeat.mod347.partner_record</field>
             <field name="arch" type="xml">
                 <search string="Partner Record">
+                    <field name="company_id" string="Company" groups="base.group_multi_company" />
                     <field name="partner_id" string="Partner" filter_domain="[('partner_id','ilike',self)]"/>
+                    <field name="report_identifier" string="Report identifier"/>
+                    <field name="company_vat" string="Report VAT number"/>
+                    <field name="fiscalyear_id" string="Fiscal year"/>
+                    <field name="period_type" string="Period type"/>
                     <field name="operation_key" string="Operation key" filter_domain="[('operation_key','ilike',self)]"/>
                     <field name="partner_vat" string="Record" filter_domain="['|',('partner_vat','ilike',self),('partner_id','ilike',self)]"/>
                     <separator/>
                     <filter name="invalid" string="Invalid records" domain="[('check_ok', '=', False)]"/>
                     <separator/>
                     <group  expand='0' string='Group by...'>
-                       <filter string='Operation key' domain="[]" context="{'group_by' : 'operation_key'}"/>
+                        <filter string="Company" domain="[]" context="{'group_by' : 'company_id'}" groups="base.group_multi_company"/>
+                        <filter string="Report identifier" domain="[]" context="{'group_by' : 'report_identifier'}"/>
+                        <filter string="Report VAT number" domain="[]" context="{'group_by' : 'company_vat'}"/>
+                        <filter string="Fiscal year" domain="[]" context="{'group_by' : 'fiscalyear_id'}"/>
+                        <filter string="Period type" domain="[]" context="{'group_by' : 'period_type'}"/>
+                        <filter string="Partner" domain="[]" context="{'group_by' : 'partner_id'}"/>
+                        <filter string='Operation key' domain="[]" context="{'group_by' : 'operation_key'}"/>
+                        <filter string="Partner VAT" domain="[]" context="{'group_by' : 'partner_vat'}"/>
                     </group>
                 </search>
             </field>
         </record>
+
+          <record id="l10n_es_aeat_mod347_partner_record_tree_view" model="ir.ui.view">
+            <field name="name">l10n.es.aeat.mod347.partner_record.tree.view</field>
+            <field name="model">l10n.es.aeat.mod347.partner_record</field>
+            <field name="arch" type="xml">
+                <tree string="Partner Records" colors="red:check_ok==False;" >
+                    <field name="company_id" groups="base.group_multi_company" />
+                    <field name="report_identifier" string="Report identifier"/>
+                    <field name="company_vat" string="Report VAT number"/>
+                    <field name="fiscalyear_id" string="Fiscal year"/>
+                    <field name="period_type" string="Period type"/>
+                    <field name="check_ok" invisible="1"/>
+                    <field name="operation_key" />
+                    <field name="partner_vat" />
+                    <field name="partner_id" />
+                    <field name="estate" />
+                    <field name="amount" />
+                    <field name="insurance_operation" />
+                    <field name="bussiness_real_estate_rent" />
+                    <field name="cash_amount" />
+                    <field name="real_estate_transmissions_amount" />
+                </tree>
+            </field>
+        </record>
+        <record id="action_l10n_es_aeat_mod347_partner_record" model="ir.actions.act_window">
+            <field name="name">AEAT 347 model partner record</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">l10n.es.aeat.mod347.partner_record</field>
+            <field name="view_id" ref="l10n_es_aeat_mod347.l10n_es_aeat_mod347_partner_record_tree_view"/>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="l10n_es_aeat_mod347_partner_record_option_view" name="AEAT 347 model partner record"
+                  action="l10n_es_aeat_mod347.action_l10n_es_aeat_mod347_partner_record" 
+                  parent="l10n_es_aeat.menu_root_aeat" sequence="348"/>
 
         <!-- #############################################
         ### AEAT MODEL 347 PARTNER REAL ESTATE RECORDS ###
@@ -276,6 +330,10 @@
                         </page>
                         <page string="Partner records">
                             <button name="btn_list_records" string="Open list in new window" type="object" class="oe_link oe_inline" colspan="1"/>
+                            <button name="button_mass_mailing"
+                                    string="Mass mailing" type="object" />
+                             <button name="button_mass_mailing_unanswered"
+                                    string="Resubmit to unanswered" type="object" />
                             <field name="partner_record_ids" nolabel="1" readonly="True" />
                         </page>
                         <page string="Real Estate records">

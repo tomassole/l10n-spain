@@ -23,6 +23,7 @@
     'depends': [
         "base_vat",
         "l10n_es_aeat",
+        "mail",
     ],
     'data': [
         "data/aeat_export_mod347_partner_data.xml",
@@ -34,6 +35,8 @@
         "views/res_partner_view.xml",
         "views/mod347_view.xml",
         "report/mod347_report.xml",
+        "report/res_partner_mod347_report.xml",
+        "data/l10n_es_aeat_mod347_data.xml",
     ],
     'installable': True,
     'images': [

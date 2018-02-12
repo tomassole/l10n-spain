@@ -447,6 +447,48 @@ class L10nEsAeatMod347PartnerRecord(models.Model):
     _inherit = ['mail.thread']
     _rec_name = "partner_vat"
 
+    @api.multi
+    def button_mass_mailing(self):
+        partner_records = self.partner_record_ids.filtered(
+            lambda x: x.estate == 'pending')
+        self._validate_email(partner_records)
+        self._send_email_from_button(partner_records)
+
+    @api.multi
+    def button_mass_mailing_unanswered(self):
+        partner_records = self.partner_record_ids.filtered(
+            lambda x: x.estate == 'sent')
+        self._validate_email(partner_records)
+        self._send_email_from_button(partner_records)
+
+    @api.multi
+    def _validate_email(self, partners_347):
+        for partner_347 in partners_347:
+            if not partner_347.partner_id.email:
+                raise exceptions.Warning(
+                    _("Email send error!") + '\n' +
+                    _("Partner %s without email.") %
+                    partner_347.partner_id.name)
+
+    @api.multi
+    def _send_email_from_button(self, partners_347):
+        template = self.env.ref(
+            'l10n_es_aeat_mod347.email_template_mod347_partner_record', False)
+        for partner_347 in partners_347:
+            if partner_347.partner_id.notify_email != 'always':
+                partner_347.partner_id.notify_email = 'always'
+            wizard = self.env['mail.compose.message'].with_context(
+                default_composition_mode='comment',
+                default_template_id=template.id,
+                default_use_template=True,
+                active_id=partner_347.id,
+                active_ids=partner_347.ids,
+                active_model='l10n.es.aeat.mod347.partner_record',
+                default_model='l10n.es.aeat.mod347.partner_record',
+                default_res_id=partner_347.id,
+            ).create({})
+            wizard.send_mail()
+
     @api.model
     def _default_record_id(self):
         return self.env.context.get('report_id', False)
@@ -766,6 +808,18 @@ class L10nEsAeatMod347RealStateRecord(models.Model):
     def _default_record_id(self):
         return self.env.context.get('report_id', False)
 
+    @api.multi
+    def _compute_estate(self):
+        for partner_record in self:
+            state = 'pending'
+            found = partner_record.mapped('message_ids').filtered(
+                lambda x: x.subject and '347' in x.subject)
+            if found:
+                found = partner_record.mapped('message_ids').filtered(
+                    lambda x: partner_record.partner_id.email in x.email_from)
+                state = 'contested' if found else 'sent'
+            partner_record.estate = state
+
     @api.model
     def _default_partner_id(self):
         return self.env.context.get('partner_id', False)
@@ -833,6 +887,21 @@ class L10nEsAeatMod347RealStateRecord(models.Model):
         compute="_compute_check_ok", string='Record is OK',
         store=True, help='Checked if this record is OK',
     )
+    company_id = fields.Many2one(
+        related='report_id.company_id', store=True)
+    fiscalyear_id = fields.Many2one(
+        related='report_id.fiscalyear_id', store=True)
+    report_identifier = fields.Char(
+        related='report_id.name', store=True)
+    company_vat = fields.Char(
+        related='report_id.company_vat', store=True)
+    period_type = fields.Selection(
+        related='report_id.period_type', store=True)
+    estate = fields.Selection(
+        selection=[('pending', 'Pending shipment email'),
+                   ('sent', 'Email sent'),
+                   ('contested', 'Contested')], string="State",
+        compute='_compute_estate')
 
     @api.multi
     @api.depends('state_code')

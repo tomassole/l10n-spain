@@ -596,6 +596,21 @@ class L10nEsAeatMod347PartnerRecord(models.Model):
         compute="_compute_check_ok", string='Record is OK',
         store=True, readonly=True, help='Checked if this record is OK',
     )
+    company_id = fields.Many2one(
+        related='report_id.company_id', store=True)
+    # fiscalyear_id = fields.Many2one(
+    #     related='report_id.fiscalyear_id', store=True)
+    report_identifier = fields.Char(
+        related='report_id.name', store=True)
+    company_vat = fields.Char(
+        related='report_id.company_vat', store=True)
+    period_type = fields.Selection(
+        related='report_id.period_type', store=True)
+    estate = fields.Selection(
+        selection=[('pending', 'Pending shipment email'),
+                   ('sent', 'Email sent'),
+                   ('contested', 'Contested')], string="State",
+        compute='_compute_estate')
 
     @api.multi
     def _compute_real_estate_record_ids(self):
@@ -818,21 +833,6 @@ class L10nEsAeatMod347RealStateRecord(models.Model):
         compute="_compute_check_ok", string='Record is OK',
         store=True, help='Checked if this record is OK',
     )
-    company_id = fields.Many2one(
-        related='report_id.company_id', store=True)
-    fiscalyear_id = fields.Many2one(
-        related='report_id.fiscalyear_id', store=True)
-    report_identifier = fields.Char(
-        related='report_id.name', store=True)
-    company_vat = fields.Char(
-        related='report_id.company_vat', store=True)
-    period_type = fields.Selection(
-        related='report_id.period_type', store=True)
-    estate = fields.Selection(
-        selection=[('pending', 'Pending shipment email'),
-                   ('sent', 'Email sent'),
-                   ('contested', 'Contested')], string="State",
-        compute='_compute_estate')
 
     @api.multi
     @api.depends('state_code')

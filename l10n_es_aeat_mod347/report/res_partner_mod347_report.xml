@@ -1,5 +1,5 @@
-    <?xml version="1.0" encoding="utf-8"?>
-    <openerp>
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
     <data noupdate="1">
          <report id="report_partner347_print"
                  model="l10n.es.aeat.mod347.partner_record"
@@ -46,7 +46,7 @@
                          <tbody>
                              <tr>
                                  <td><span t-esc="o.report_id.name"/></td>
-                                 <td><span t-esc="o.report_id.fiscalyear_id.name"/></td>
+                             <!--     <td><span t-esc="o.report_id.fiscalyear_id.name"/></td> -->
                                  <td><span t-esc="dict(o.fields_get(allfields=['operation_key'])['operation_key']['selection'])[o.operation_key]"/></td>
                                  <td class="text-right"><span t-esc="o.first_quarter" t-esc-options='{"widget": "monetary", "display_currency": "o.report_id.company_id.currency_id"}'/></td>
                                  <td class="text-right"><span t-esc="o.second_quarter" t-esc-options='{"widget": "monetary", "display_currency": "o.report_id.company_id.currency_id"}'/></td>

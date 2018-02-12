@@ -61,11 +61,11 @@ msgid "\n"
 "             "
 msgstr "\n"
 "<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
-"     <p>Hello ${object.partner_id.name}</p>\n"
-"     <p>I attach you the document with information of the amount of the declaration AEAT model 347</p>\n"
+"     <p>Hola ${object.partner_id.name}</p>\n"
+"     <p>Te adjunto el documento con la informacion de los importes de la declaración AEAT del modelo 347</p>\n"
 "     <br/>\n"
-"     <p>If you have any question, do not hesitate to contact us.</p>\n"
-"     <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
+"     <p>Si tienes alguna duda, no dudes en contactarnos.</p>\n"
+"     <p>Gracias por elegir ${object.company_id.name or 'us'}!</p>\n"
 "     <br/>\n"
 "     <br/>\n"
 "     <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n"
@@ -993,7 +993,7 @@ msgstr "Identificador del informe"
 #. module: l10n_es_aeat_mod347
 #: model:ir.ui.view,arch_db:l10n_es_aeat_mod347.view_l10n_es_aeat_mod347_report_form
 msgid "Resubmit to unanswered"
-msgstr "Reenviar a no contestados"
+msgstr "Reenviar a no AEcontestados"
 
 #. module: l10n_es_aeat_mod347
 #: model:ir.model.fields,field_description:l10n_es_aeat_mod347.field_l10n_es_aeat_mod347_partner_record_second_quarter_cash_amount

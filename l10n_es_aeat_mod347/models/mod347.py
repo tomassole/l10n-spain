@@ -478,7 +478,7 @@ class L10nEsAeatMod347PartnerRecord(models.Model):
             if partner_347.partner_id.notify_email != 'always':
                 partner_347.partner_id.notify_email = 'always'
             wizard = self.env['mail.compose.message'].with_context(
-                default_composition_mode='comment',
+                default_composition_mode='mass_mail',
                 default_template_id=template.id,
                 default_use_template=True,
                 active_id=partner_347.id,

@@ -102,6 +102,9 @@ class L10nEsVatBook(models.Model):
         domain=[('book_type', '=', 'received')],
         readonly="True")
 
+    auto_renumber = fields.Boolean('Auto renumber invoices received',
+                                   states={'draft': [('readonly', False)]})
+
     @api.model
     def _prepare_vat_book_tax_summary(self, tax_lines, book_type):
         tax_summary_data_recs = {}
@@ -174,7 +177,6 @@ class L10nEsVatBook(models.Model):
         if invoice:
             ref = invoice.number
             ext_ref = invoice.reference
-
         return {
             'line_type': line_type,
             'invoice_date': move.date,
@@ -189,7 +191,7 @@ class L10nEsVatBook(models.Model):
 
     def _get_vat_book_line_tax(self, tax, move, vat_book_line):
         base_move_lines = move.line_ids.filtered(
-            lambda l: any(tax == tax for tax in l.tax_ids))
+            lambda l: any(t == tax for t in l.tax_ids))
         base_amount_untaxed = sum(x.credit - x.debit for x in base_move_lines)
 
         fee_move_lines = move.line_ids.filtered(
@@ -369,7 +371,25 @@ class L10nEsVatBook(models.Model):
             rec._create_vat_book_summary(rec.received_tax_summary_ids,
                                          book_type)
 
-            # Write state and date in the report
+            # If we require to auto-renumber invoices received
+            if rec.auto_renumber:
+                rec_invs = self.env['l10n.es.vat.book.line'].search(
+                    [('vat_book_id', '=', rec.id),
+                     ('line_type', '=', 'received')],
+                    order='invoice_date asc, ref asc')
+                i = 1
+                for rec_inv in rec_invs:
+                    rec_inv.entry_number = i
+                    i += 1
+                rec_invs = self.env['l10n.es.vat.book.line'].search(
+                    [('vat_book_id', '=', rec.id),
+                     ('line_type', '=', 'rectification_received')],
+                    order='invoice_date asc, ref asc')
+                i = 1
+                for rec_inv in rec_invs:
+                    rec_inv.entry_number = i
+                    i += 1
+                # Write state and date in the report
             rec.write({
                 'state': 'calculated',
                 'calculation_date': fields.Datetime.now(),

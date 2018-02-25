@@ -24,6 +24,9 @@
             <field name="name" position="attributes">
                 <attribute name="readonly">False</attribute>
             </field>
+            <group name="group_other_parameters" position="inside">
+                <field name="auto_renumber"/>
+            </group>
             <xpath expr="//group[@name='group_declaration']" position="after">
               <notebook>
                 <page string="Issued Invoices" name="invoices_issued">

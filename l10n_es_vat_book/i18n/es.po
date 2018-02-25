@@ -1,19 +1,22 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_es_vat_book
-#
+# * l10n_es_vat_book
+# 
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-28 15:17+0000\n"
-"PO-Revision-Date: 2017-12-28 15:17+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2018-02-10 03:55+0000\n"
+"PO-Revision-Date: 2018-02-10 03:55+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>, 2018\n"
+"Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_es_vat_book
 #: model:ir.ui.view,arch_db:l10n_es_vat_book.vat_book_summary
@@ -24,6 +27,11 @@ msgstr "<strong>Total</strong>"
 #: model:ir.model.fields,field_description:l10n_es_vat_book.field_l10n_es_vat_book_tax_summary_tax_id
 msgid "Account Tax"
 msgstr "Impuesto"
+
+#. module: l10n_es_vat_book
+#: model:ir.model.fields,field_description:l10n_es_vat_book.field_l10n_es_vat_book_auto_renumber
+msgid "Auto renumber invoices received"
+msgstr ""
 
 #. module: l10n_es_vat_book
 #: model:ir.ui.view,arch_db:l10n_es_vat_book.report_vat_book_invoices_issued_document
@@ -115,6 +123,11 @@ msgstr "Nombre a mostrar"
 #: model:ir.model.fields,field_description:l10n_es_vat_book.field_l10n_es_vat_book_line_partner_id
 msgid "Empresa"
 msgstr "Empresa"
+
+#. module: l10n_es_vat_book
+#: model:ir.model.fields,field_description:l10n_es_vat_book.field_l10n_es_vat_book_line_entry_number
+msgid "Entry number"
+msgstr ""
 
 #. module: l10n_es_vat_book
 #: model:ir.model.fields,field_description:l10n_es_vat_book.field_l10n_es_vat_book_line_exception
@@ -283,7 +296,7 @@ msgid "NIF"
 msgstr "NIF"
 
 #. module: l10n_es_vat_book
-#: code:addons/l10n_es_vat_book/models/l10n_es_vat_book.py:312
+#: code:addons/l10n_es_vat_book/models/l10n_es_vat_book.py:315
 #, python-format
 msgid "No AEAT Tax Mapping was found"
 msgstr "No se encontró Mapeo de Impuestos AEAT"
@@ -416,13 +429,15 @@ msgid "Taxes"
 msgstr "Impuestos"
 
 #. module: l10n_es_vat_book
-#: code:addons/l10n_es_vat_book/models/l10n_es_vat_book.py:296
+#: code:addons/l10n_es_vat_book/models/l10n_es_vat_book.py:299
 #, python-format
 msgid "This company doesn't have VAT"
 msgstr "Esta empresa no tiene NIF"
 
 #. module: l10n_es_vat_book
 #: model:ir.model.fields,field_description:l10n_es_vat_book.field_l10n_es_vat_book_line_tax_total_amount
+#: model:ir.ui.view,arch_db:l10n_es_vat_book.vat_book_invoices_head
+#: model:ir.ui.view,arch_db:l10n_es_vat_book.vat_book_taxes_head
 msgid "Total"
 msgstr "Total"
 
@@ -515,8 +530,7 @@ msgid "l10n.es.vat.book.tax.summary"
 msgstr "l10n.es.vat.book.tax.summary"
 
 #. module: l10n_es_vat_book
-#: code:addons/l10n_es_vat_book/models/l10n_es_vat_book.py:246
+#: code:addons/l10n_es_vat_book/models/l10n_es_vat_book.py:251
 #, python-format
 msgid "¡The partner haven't VAT!"
 msgstr "¡El interlocutor no tiene NIF!"
-

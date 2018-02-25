@@ -52,6 +52,7 @@
       <field name="arch" type="xml">
         <tree string="Issued/Received invoices" colors="red:exception==True">
           <field name="ref"/>
+          <field name="external_ref"/>
           <field name="invoice_date" />
           <field name="partner_id" />
           <field name="vat_number" />

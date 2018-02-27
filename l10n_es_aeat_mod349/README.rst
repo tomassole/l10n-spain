@@ -82,6 +82,7 @@ Ir a:
   'Detalles', las operaciones que se desee excluir de la declaración.
 
 Consideraciones importantes:
+
 * En caso de indicar el tipo de declaración 'Suplementaria' o 'Normal' se
   propondrán todas las operaciones que apliquen para el periodo.
 * En caso de indicar 'Complementaria', se propondrán únicamente aquellas
@@ -92,6 +93,13 @@ Consideraciones importantes:
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/189/10.0
 
+
+Problemas conocidos / Hoja de ruta
+==================================
+
+* Las facturas rectificativas que no se hayan realizado desde otra factura
+  quedarán descolgadas y no se presentarán en el 349.
+* Añadir aclaración de cuál es el error en los registros.
 
 Créditos
 ========

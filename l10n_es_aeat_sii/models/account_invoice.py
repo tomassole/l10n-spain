@@ -361,13 +361,13 @@ class AccountInvoice(models.Model):
             tax_type = abs(tax.amount)
         tax_dict = {
             'TipoImpositivo': str(tax_type),
-            'BaseImponible': sign * abs(round(tax_line.base, 2)),
+            'BaseImponible': sign * abs(round(tax_line.base_company, 2)),
         }
         if self.type in ['out_invoice', 'out_refund']:
             key = 'CuotaRepercutida'
         else:
             key = 'CuotaSoportada'
-        tax_dict[key] = sign * abs(round(tax_line.amount, 2))
+        tax_dict[key] = sign * abs(round(tax_line.amount_company, 2))
         # Recargo de equivalencia
         re_tax_line = self._get_sii_tax_line_req(tax)
         if re_tax_line:
@@ -375,7 +375,7 @@ class AccountInvoice(models.Model):
                 abs(re_tax_line.tax_id.amount)
             )
             tax_dict['CuotaRecargoEquivalencia'] = (
-                sign * abs(round(re_tax_line.amount, 2))
+                sign * abs(round(re_tax_line.amount_company, 2))
             )
         return tax_dict
 
@@ -513,7 +513,8 @@ class AccountInvoice(models.Model):
                     sub_dict.setdefault('Exenta', {'BaseImponible': 0})
                     if exempt_cause:
                         sub_dict['Exenta']['CausaExencion'] = exempt_cause
-                    sub_dict['Exenta']['BaseImponible'] += tax_line.base * sign
+                    sub_dict['Exenta']['BaseImponible'] += (
+                        tax_line.base_company * sign)
                 else:
                     sub_dict.setdefault('NoExenta', {
                         'TipoNoExenta': (
@@ -538,7 +539,8 @@ class AccountInvoice(models.Model):
                 nsub_dict = tax_breakdown.setdefault(
                     'NoSujeta', {default_no_taxable_cause: 0},
                 )
-                nsub_dict[default_no_taxable_cause] += tax_line.base * sign
+                nsub_dict[default_no_taxable_cause] += (
+                    tax_line.base_company * sign)
             if tax in (taxes_sfess + taxes_sfesse + taxes_sfesns):
                 type_breakdown = taxes_dict.setdefault(
                     'DesgloseTipoOperacion', {
@@ -556,7 +558,8 @@ class AccountInvoice(models.Model):
                     )
                     if exempt_cause:
                         exempt_dict['CausaExencion'] = exempt_cause
-                    exempt_dict['BaseImponible'] += tax_line.base * sign
+                    exempt_dict['BaseImponible'] += (
+                        tax_line.base_company * sign)
                 if tax in taxes_sfess:
                     # TODO l10n_es_ no tiene impuesto ISP de servicios
                     # if tax in taxes_sfesisps:
@@ -622,7 +625,7 @@ class AccountInvoice(models.Model):
                 isp_dict['DetalleIVA'].append(
                     self._get_sii_tax_dict(tax_line, sign),
                 )
-                tax_amount += abs(round(tax_line.amount, 2))
+                tax_amount += abs(round(tax_line.amount_company, 2))
             elif tax in taxes_sfrs:
                 sfrs_dict = taxes_dict.setdefault(
                     'DesgloseIVA', {'DetalleIVA': []},
@@ -630,13 +633,13 @@ class AccountInvoice(models.Model):
                 sfrs_dict['DetalleIVA'].append(
                     self._get_sii_tax_dict(tax_line, sign),
                 )
-                tax_amount += abs(round(tax_line.amount, 2))
+                tax_amount += abs(round(tax_line.amount_company, 2))
             elif tax in taxes_sfrns:
                 sfrns_dict = taxes_dict.setdefault(
                     'DesgloseIVA', {'DetalleIVA': []},
                 )
                 sfrns_dict['DetalleIVA'].append({
-                    'BaseImponible': sign * tax_line.base,
+                    'BaseImponible': sign * tax_line.base_company,
                 })
             elif tax in taxes_sfrsa:
                 sfrsa_dict = taxes_dict.setdefault(
@@ -995,47 +998,55 @@ class AccountInvoice(models.Model):
             }
             try:
                 inv_dict = invoice._get_sii_invoice_dict()
-                inv_vals['sii_content_sent'] = json.dumps(inv_dict, indent=4)
-                if invoice.type in ['out_invoice', 'out_refund']:
-                    res = serv.SuministroLRFacturasEmitidas(
-                        header, inv_dict)
-                elif invoice.type in ['in_invoice', 'in_refund']:
-                    res = serv.SuministroLRFacturasRecibidas(
-                        header, inv_dict)
-                # TODO Facturas intracomunitarias 66 RIVA
-                # elif invoice.fiscal_position_id.id == self.env.ref(
-                #     'account.fp_intra').id:
-                #     res = serv.SuministroLRDetOperacionIntracomunitaria(
-                #         header, invoices)
-                res_line = res['RespuestaLinea'][0]
-                if res['EstadoEnvio'] == 'Correcto':
+                sii_content_sent = json.dumps(inv_dict, indent=4)
+                if sii_content_sent != invoice.sii_content_sent \
+                        or invoice.sii_send_failed:
+                    inv_vals['sii_content_sent'] = sii_content_sent
+                    if invoice.type in ['out_invoice', 'out_refund']:
+                        res = serv.SuministroLRFacturasEmitidas(
+                            header, inv_dict)
+                    elif invoice.type in ['in_invoice', 'in_refund']:
+                        res = serv.SuministroLRFacturasRecibidas(
+                            header, inv_dict)
+                    # TODO Facturas intracomunitarias 66 RIVA
+                    # elif invoice.fiscal_position_id.id == self.env.ref(
+                    #     'account.fp_intra').id:
+                    #     res = serv.SuministroLRDetOperacionIntracomunitaria(
+                    #         header, invoices)
+                    res_line = res['RespuestaLinea'][0]
+                    if res['EstadoEnvio'] == 'Correcto':
+                        inv_vals.update({
+                            'sii_state': 'sent',
+                            'sii_csv': res['CSV'],
+                            'sii_send_failed': False,
+                        })
+                    elif res['EstadoEnvio'] == 'ParcialmenteCorrecto' and \
+                            res_line['EstadoRegistro'] == 'AceptadoConErrores':
+                        inv_vals.update({
+                            'sii_state': 'sent_w_errors',
+                            'sii_csv': res['CSV'],
+                            'sii_send_failed': True,
+                        })
+                    else:
+                        inv_vals['sii_send_failed'] = True
+                    if ('sii_state' in inv_vals and
+                            not invoice.sii_account_registration_date and
+                            invoice.type[:2] == 'in'):
+                        inv_vals['sii_account_registration_date'] = (
+                            self._get_account_registration_date()
+                        )
+                    inv_vals['sii_return'] = res
+                    send_error = False
+                    if res_line['CodigoErrorRegistro']:
+                        send_error = u"{} | {}".format(
+                            unicode(res_line['CodigoErrorRegistro']),
+                            unicode(res_line['DescripcionErrorRegistro'])[:60])
+                    inv_vals['sii_send_error'] = send_error
+                else:
                     inv_vals.update({
                         'sii_state': 'sent',
-                        'sii_csv': res['CSV'],
                         'sii_send_failed': False,
                     })
-                elif res['EstadoEnvio'] == 'ParcialmenteCorrecto' and \
-                        res_line['EstadoRegistro'] == 'AceptadoConErrores':
-                    inv_vals.update({
-                        'sii_state': 'sent_w_errors',
-                        'sii_csv': res['CSV'],
-                        'sii_send_failed': True,
-                    })
-                else:
-                    inv_vals['sii_send_failed'] = True
-                if ('sii_state' in inv_vals and
-                        not invoice.sii_account_registration_date and
-                        invoice.type[:2] == 'in'):
-                    inv_vals['sii_account_registration_date'] = (
-                        self._get_account_registration_date()
-                    )
-                inv_vals['sii_return'] = res
-                send_error = False
-                if res_line['CodigoErrorRegistro']:
-                    send_error = u"{} | {}".format(
-                        unicode(res_line['CodigoErrorRegistro']),
-                        unicode(res_line['DescripcionErrorRegistro'])[:60])
-                inv_vals['sii_send_error'] = send_error
                 invoice.write(inv_vals)
             except Exception as fault:
                 new_cr = RegistryManager.get(self.env.cr.dbname).cursor()

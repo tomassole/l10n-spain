@@ -10,10 +10,10 @@ from odoo import api, fields, models
 
 class L10nEsVatBookLine(models.Model):
     _name = 'l10n.es.vat.book.line'
-    _order = 'ref asc, invoice_date asc'
+    _order = 'entry_number asc, ref asc, invoice_date asc'
 
     ref = fields.Char('Reference')
-
+    entry_number = fields.Integer('Entry number')
     external_ref = fields.Char('External Reference')
 
     line_type = fields.Selection(selection=[

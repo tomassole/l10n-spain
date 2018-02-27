@@ -2,7 +2,7 @@
 <odoo>
 
     <template id="report_vat_book_invoices_received_document">
-        <t t-call="report.html_container">
+        <t t-call="web.layout">
             <div class="page">
                 <style type="text/css">
                    .detail_table {

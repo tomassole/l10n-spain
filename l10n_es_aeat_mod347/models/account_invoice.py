@@ -24,7 +24,8 @@ class AccountInvoice(models.Model):
                 # TODO: Make match by tax itself, not tax name
                 invoice.amount_untaxed + sum(
                     invoice.tax_line_ids.filtered(
-                        lambda t: 'IRPF' not in t.name
+                        lambda t: 'IRPF' not in t.name and
+                                  'Arrendamientos' not in t.name
                     ).mapped('amount')
                 )
             )

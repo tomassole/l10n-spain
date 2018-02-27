@@ -993,7 +993,7 @@ msgstr "Identificador del informe"
 #. module: l10n_es_aeat_mod347
 #: model:ir.ui.view,arch_db:l10n_es_aeat_mod347.view_l10n_es_aeat_mod347_report_form
 msgid "Resubmit to unanswered"
-msgstr "Reenviar a no AEcontestados"
+msgstr "Reenviar a no contestados"
 
 #. module: l10n_es_aeat_mod347
 #: model:ir.model.fields,field_description:l10n_es_aeat_mod347.field_l10n_es_aeat_mod347_partner_record_second_quarter_cash_amount

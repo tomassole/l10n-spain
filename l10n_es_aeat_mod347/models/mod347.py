@@ -307,6 +307,8 @@ class L10nEsAeatMod347Report(models.Model):
         }
         # Create A record
         self._partner_record_a_create(data, vals)
+        if 'message_follower_ids' in vals:
+            del vals['message_follower_ids']
         # Create B records
         self._partner_record_b_create(data, vals)
         return True

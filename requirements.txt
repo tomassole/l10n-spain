@@ -3,5 +3,8 @@ unidecode
 unicodecsv
 requests
 xlrd
+pytz
+setuptools
+xmlsig
 zeep
 pyOpenSSL

@@ -24,7 +24,7 @@
     </template>
 
     <template id="entity">
-        <t t-set="buyer_type" t-value="'J' if partner.vat and partner.is_company else 'F'"/>
+        <t t-set="buyer_type" t-value="'J' if partner.commercial_partner_id.vat and partner.commercial_partner_id.is_company else 'F'"/>
         <TaxIdentification>
             <PersonTypeCode t-esc="buyer_type"/>
             <ResidenceTypeCode t-esc="partner.get_facturae_residence()"/>

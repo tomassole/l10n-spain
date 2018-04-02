@@ -16,12 +16,7 @@
         <AdministrativeCentre>
             <CentreCode t-length="10" t-esc="centre_code"/>
             <RoleTypeCode t-esc="role_type_code"/>
-            <Name t-length="40" t-esc="partner.firstname" t-if="not partner.is_company"/>
-            <FirstSurname t-length="40" t-esc="partner.lastname" t-if="not partner.is_company"/>
-            <SecondSurname t-if="False"/>
-            <t t-call="l10n_es_facturae.address_contact">
-                <t t-set="partner" t-value="partner"/>
-            </t>
+            <Name t-length="40" t-esc="partner.name" t-if="not partner.is_company"/>
             <PhysicalGLN t-if="False"/>
             <LogicalOperationalPoint t-if="False"/>
             <CentreDescription t-length="2500" t-esc="partner.name"/>
@@ -33,7 +28,7 @@
         <TaxIdentification>
             <PersonTypeCode t-esc="buyer_type"/>
             <ResidenceTypeCode t-esc="partner.get_facturae_residence()"/>
-            <TaxIdentificationNumber t-minlength="3" t-length="30" t-esc="partner.vat"/>
+            <TaxIdentificationNumber t-minlength="3" t-length="30" t-esc="partner.commercial_partner_id.vat"/>
         </TaxIdentification>
         <PartyIdentification t-if="False"/>
         <AdministrativeCentres t-if="partner.facturae">
@@ -66,8 +61,8 @@
             </t>
         </LegalEntity>
         <Individual t-if="buyer_type == 'F'">
-            <Name t-length="40" t-esc="partner.firstname"/>
-            <FirstSurname t-length="40" t-esc="partner.lastname"/>
+            <Name t-length="40" t-esc="partner.name"/>
+            <FirstSurname t-length="40" t-esc="''"/>
             <SecondSurname t-length="40" t-esc="''"/>
             <t t-call="l10n_es_facturae.address_contact">
             </t>
@@ -136,11 +131,13 @@
                 <SellerParty>
                     <t t-call="l10n_es_facturae.entity">
                         <t t-set="partner" t-value="company_partner"/>
+                        <t t-set="invoice" t-value="False"/>
                     </t>
                 </SellerParty>
                 <BuyerParty>
                     <t t-call="l10n_es_facturae.entity">
                         <t t-set="partner" t-value="invoice_partner"/>
+                        <t t-set="invoice" t-value="invoice"/>
                     </t>
                 </BuyerParty>
             </Parties>

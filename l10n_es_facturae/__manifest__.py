@@ -26,7 +26,6 @@
         "l10n_es",
         "base_iso3166",
         "base_vat",
-        "partner_firstname",
         "report_xml",
         "report_qweb_parameter",
         "account_banking_mandate"

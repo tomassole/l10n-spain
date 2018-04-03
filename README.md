@@ -44,13 +44,13 @@ addon | version | summary
 [l10n_es_aeat_mod130](l10n_es_aeat_mod130/) | 8.0.0.9.0 | AEAT modelo 130
 [l10n_es_aeat_mod216](l10n_es_aeat_mod216/) | 8.0.1.3.1 | AEAT modelo 216
 [l10n_es_aeat_mod296](l10n_es_aeat_mod296/) | 8.0.1.3.0 | AEAT modelo 296
-[l10n_es_aeat_mod303](l10n_es_aeat_mod303/) | 8.0.1.11.0 | AEAT modelo 303
+[l10n_es_aeat_mod303](l10n_es_aeat_mod303/) | 8.0.1.13.0 | AEAT modelo 303
 [l10n_es_aeat_mod340](l10n_es_aeat_mod340/) | 8.0.2.5.1 | Generación de fichero modelo 340 y libro de IVA
 [l10n_es_aeat_mod340_cash_basis](l10n_es_aeat_mod340_cash_basis/) | 8.0.1.0.0 | Extensión del modelo 340 para criterio de caja
 [l10n_es_aeat_mod340_type0](l10n_es_aeat_mod340_type0/) | 8.0.1.0.0 | Generación de fichero modelo 340. Registro tipo 0
 [l10n_es_aeat_mod347](l10n_es_aeat_mod347/) | 8.0.1.5.0 | Modelo 347 AEAT
 [l10n_es_aeat_mod349](l10n_es_aeat_mod349/) | 8.0.2.2.0 | Modelo 349 AEAT
-[l10n_es_aeat_sii](l10n_es_aeat_sii/) | 8.0.2.17.0 | Suministro Inmediato de Información en el IVA
+[l10n_es_aeat_sii](l10n_es_aeat_sii/) | 8.0.2.17.1 | Suministro Inmediato de Información en el IVA
 [l10n_es_aeat_vat_prorrate](l10n_es_aeat_vat_prorrate/) | 8.0.2.0.2 | AEAT - Prorrata de IVA
 [l10n_es_aeat_vat_prorrate_asset](l10n_es_aeat_vat_prorrate_asset/) | 8.0.1.0.1 | AEAT - Prorrata de IVA - Extensión para los activos
 [l10n_es_cnae](l10n_es_cnae/) | 8.0.1.0.0 | Extiende los códigos NACE europeos con los CNAE españoles

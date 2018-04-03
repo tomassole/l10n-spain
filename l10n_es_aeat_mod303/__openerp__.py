@@ -6,7 +6,7 @@
 
 {
     "name": "AEAT modelo 303",
-    "version": "8.0.1.12.0",
+    "version": "8.0.1.13.0",
     'category': "Accounting & Finance",
     'author': "Guadaltech,"
               "AvanzOSC,"
@@ -25,7 +25,6 @@
         "data/tax_code_map_mod303_data.xml",
         "data/aeat_export_mod303_data.xml",
         "data/aeat_export_mod303_2017_data.xml",
-        "data/aeat_export_mod303_2017_last_period_data.xml",
         "data/aeat_export_mod303_2018_data.xml",
         "views/mod303_view.xml",
         "security/ir.model.access.csv",

@@ -16,7 +16,7 @@ class L10nEsAeatMod303Report(models.Model):
         try:
             return self.env.ref(
                 'l10n_es_aeat_mod303.'
-                'aeat_mod303_2017_last_period_main_export_config').id
+                'aeat_mod303_2017_main_export_config').id
         except ValueError:
             return self.env['aeat.model.export.config']
 
@@ -193,22 +193,11 @@ class L10nEsAeatMod303Report(models.Model):
         super(L10nEsAeatMod303Report, self).onchange_period_type()
         if self.period_type not in ('4T', '12'):
             self.regularizacion_anual = 0
-        if not self.fiscalyear_id:
+        if (not self.fiscalyear_id or
+                self.fiscalyear_id.date_start < '2018-01-01'):
             self.export_config = self.env.ref(
                 'l10n_es_aeat_mod303.'
                 'aeat_mod303_2017_main_export_config')
-        elif self.fiscalyear_id.date_start < '2017-01-01':
-            self.export_config = self.env.ref(
-                'l10n_es_aeat_mod303.aeat_mod303_main_export_config')
-        elif self.fiscalyear_id.date_start < '2018-01-01':
-            if self.period_type not in ['4T', '12']:
-                self.export_config = self.env.ref(
-                    'l10n_es_aeat_mod303.'
-                    'aeat_mod303_2017_main_export_config')
-            else:
-                self.export_config = self.env.ref(
-                    'l10n_es_aeat_mod303.'
-                    'aeat_mod303_2017_last_period_main_export_config')
         else:
             self.export_config = self.env.ref(
                 'l10n_es_aeat_mod303.'
@@ -231,7 +220,7 @@ class L10nEsAeatMod303Report(models.Model):
         for mod303 in self:
             if mod303.result_type == 'I' and not mod303.bank_account:
                 msg = _('Select an account for making the charge')
-            if mod303.result_type == 'D' and not not mod303.bank_account:
+            if mod303.result_type == 'D' and not mod303.bank_account:
                 msg = _('Select an account for receiving the money')
         if msg:
             # Don't raise error, because data is not used

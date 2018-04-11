@@ -6,7 +6,7 @@
 Envio de factura simplificada resumen TPV a SII
 ===============================================
 
-Permite diferenciar en las facturas del TPV de un farctura simple o un resumen
+Permite diferenciar en las facturas del TPV de un factura simple o un resumen
 de facturas al enviarlas al SII.
 
 
@@ -25,8 +25,8 @@ Para usar este modulo:
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/189/11.0
-   
+   :target: https://runbot.odoo-community.org/runbot/189/10.0
+
 Bug Tracker
 ===========
 
@@ -48,6 +48,7 @@ Contributors
 
 * Hugo Santos <hugo.santos@factorlibre.com> (https://factorlibre.com/)
 * Victor Rodrigo <victor.rodrigo@factorlibre.com> (https://factorlibre.com/)
+* Omar Castiñeira <omar@comunitea.com> (https://comunitea.com/)
 
 Do not contact contributors directly about support or help with technical issues.
 

@@ -231,7 +231,7 @@ class AccountInvoice(models.Model):
                 )
             if (invoice.type in ['in_invoice', 'in refund']):
                 if 'partner_id' in vals:
-                    correct_partners = invoice.partner_id.commercial_partner_id
+                    correct_partners = invoice.commercial_partner_id
                     correct_partners |= correct_partners.child_ids
                     if vals['partner_id'] not in correct_partners.ids:
                         raise exceptions.Warning(
@@ -705,7 +705,7 @@ class AccountInvoice(models.Model):
         """
         self.ensure_one()
         gen_type = self._get_sii_gen_type()
-        partner = self.partner_id.commercial_partner_id
+        partner = self.commercial_partner_id
         country_code = self._get_sii_country_code()
         if partner.sii_simplified_invoice and self.type[:2] == 'in':
             raise exceptions.Warning(
@@ -756,7 +756,7 @@ class AccountInvoice(models.Model):
         """
         self.ensure_one()
         invoice_date = self._change_date_format(self.date_invoice)
-        partner = self.partner_id.commercial_partner_id
+        partner = self.commercial_partner_id
         company = self.company_id
         ejercicio = fields.Date.from_string(self.date).year
         periodo = '%02d' % fields.Date.from_string(self.date).month
@@ -872,7 +872,7 @@ class AccountInvoice(models.Model):
         if cancel:
             inv_dict['IDFactura']['IDEmisorFactura'].update(
                 {'NombreRazon': (
-                    self.partner_id.commercial_partner_id.name[0:120]
+                    self.commercial_partner_id.name[0:120]
                     )}
             )
         else:
@@ -890,7 +890,7 @@ class AccountInvoice(models.Model):
                 "DesgloseFactura": desglose_factura,
                 "Contraparte": {
                     "NombreRazon": (
-                        self.partner_id.commercial_partner_id.name[0:120]
+                        self.commercial_partner_id.name[0:120]
                     )
                 },
                 "FechaRegContable": reg_date,
@@ -1372,7 +1372,7 @@ class AccountInvoice(models.Model):
     def _get_sii_country_code(self):
         self.ensure_one()
         country_code = (
-            self.partner_id.commercial_partner_id.country_id.code or
+            self.commercial_partner_id.country_id.code or
             (self.partner_id.vat or '')[:2]
         ).upper()
         return SII_COUNTRY_CODE_MAPPING.get(country_code, country_code)

@@ -433,7 +433,7 @@ class AccountInvoice(models.Model):
             # with 'IDOtro' in the SII identifier block
             return True
         elif (sii_gen_type == 1 and
-                (self.partner_id.vat or '').startswith('ESN')):
+                (self.commercial_partner_id.vat or '').startswith('ESN')):
             # DesgloseTipoOperacion required if customer's country is Spain and
             # has a NIF which starts with 'N'
             return True
@@ -1274,9 +1274,9 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         gen_type = self._get_sii_gen_type()
         # Limpiar alfanum
-        if self.partner_id.vat:
+        if self.commercial_partner_id.vat:
             vat = ''.join(
-                e for e in self.partner_id.vat if e.isalnum()
+                e for e in self.commercial_partner_id.vat if e.isalnum()
             ).upper()
         else:
             vat = 'NO_DISPONIBLE'
@@ -1373,7 +1373,7 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         country_code = (
             self.commercial_partner_id.country_id.code or
-            (self.partner_id.vat or '')[:2]
+            (self.commercial_partner_id.vat or '')[:2]
         ).upper()
         return SII_COUNTRY_CODE_MAPPING.get(country_code, country_code)
 

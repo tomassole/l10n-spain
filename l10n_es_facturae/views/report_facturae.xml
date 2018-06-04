@@ -12,6 +12,32 @@
         &lt;/fe:Facturae&gt;
     </template>
 
+    <template id="address_contact">
+        <AddressInSpain t-if="partner.country_id.code == 'ES'">
+            <Address t-length="80" t-esc="partner.street + (partner.street2 or '')"/>
+            <PostCode t-length="5" t-esc="partner.zip"/>
+            <Town t-length="50" t-esc="partner.city"/>
+            <Province t-length="20" t-esc="partner.state_id.name"/>
+            <CountryCode t-esc="partner.country_id.code_alpha3"/>
+        </AddressInSpain>
+        <OverseasAddress t-if="partner.country_id.code != 'ES'">
+            <Address t-length="80" t-esc="partner.street + (partner.street2 or '')"/>
+            <PostCodeAndTown t-length="50" t-esc="(partner.zip or '') + (partner.city or '')"/>
+            <Province t-length="20" t-esc="partner.state_id.name"/>
+            <CountryCode t-esc="partner.country_id.code_alpha3"/>
+        </OverseasAddress>
+        <ContactDetails>
+            <Telephone t-length="15" t-esc="partner.phone" t-if="partner.phone"/>
+            <TeleFax t-length="15" t-esc="partner.fax" t-if="partner.fax"/>
+            <WebAddress t-length="60" t-esc="partner.website" t-if="partner.website"/>
+            <ElectronicMail t-length="60" t-esc="partner.email" t-if="partner.email"/>
+            <ContactPersons t-length="40" t-esc="partner.name"/>
+            <CnoCnae t-if="False"/>
+            <INETownCode t-if="False"/>
+            <AdditionalContactDetails t-length="60" t-if="False"/>
+        </ContactDetails>
+    </template>
+
     <template id="administrative_center">
         <AdministrativeCentre>
             <CentreCode t-length="10" t-esc="centre_code"/>
@@ -19,6 +45,7 @@
             <Name t-length="40" t-esc="partner.name" t-if="not partner.is_company"/>
             <PhysicalGLN t-if="False"/>
             <LogicalOperationalPoint t-if="False"/>
+            <t t-call="l10n_es_facturae.address_contact"/>
             <CentreDescription t-length="2500" t-esc="partner.name"/>
         </AdministrativeCentre>
     </template>
@@ -67,32 +94,6 @@
             <t t-call="l10n_es_facturae.address_contact">
             </t>
         </Individual>
-    </template>
-
-    <template id="address_contact">
-        <AddressInSpain t-if="partner.country_id.code == 'ES'">
-            <Address t-length="80" t-esc="partner.street + (partner.street2 or '')"/>
-            <PostCode t-length="5" t-esc="partner.zip"/>
-            <Town t-length="50" t-esc="partner.city"/>
-            <Province t-length="20" t-esc="partner.state_id.name"/>
-            <CountryCode t-esc="partner.country_id.code_alpha3"/>
-        </AddressInSpain>
-        <OverseasAddress t-if="partner.country_id.code != 'ES'">
-            <Address t-length="80" t-esc="partner.street + (partner.street2 or '')"/>
-            <PostCodeAndTown t-length="50" t-esc="(partner.zip or '') + (partner.city or '')"/>
-            <Province t-length="20" t-esc="partner.state_id.name"/>
-            <CountryCode t-esc="partner.country_id.code_alpha3"/>
-        </OverseasAddress>
-        <ContactDetails>
-            <Telephone t-length="15" t-esc="partner.phone" t-if="partner.phone"/>
-            <TeleFax t-length="15" t-esc="partner.fax" t-if="partner.fax"/>
-            <WebAddress t-length="60" t-esc="partner.website" t-if="partner.website"/>
-            <ElectronicMail t-length="60" t-esc="partner.email" t-if="partner.email"/>
-            <ContactPersons t-length="40" t-esc="partner.name"/>
-            <CnoCnae t-if="False"/>
-            <INETownCode t-if="False"/>
-            <AdditionalContactDetails t-length="60" t-if="False"/>
-        </ContactDetails>
     </template>
 
     <template id="template_facturae">

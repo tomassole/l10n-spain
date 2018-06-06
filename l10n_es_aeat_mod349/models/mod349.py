@@ -268,8 +268,7 @@ class Mod349PartnerRecord(models.Model):
     @api.depends('partner_vat', 'country_id', 'total_operation_amount')
     def _check_partner_record_line(self):
         """Checks if all line fields are filled."""
-        self.partner_record_ok = bool(self.partner_vat and self.country_id and
-                                      self.total_operation_amount)
+        self.partner_record_ok = bool(self.partner_vat and self.country_id)
 
     @api.multi
     def onchange_format_partner_vat(self, partner_vat, country_id):

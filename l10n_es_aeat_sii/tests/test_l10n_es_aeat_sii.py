@@ -145,7 +145,7 @@ class TestL10nEsAeatSii(common.TransactionCase):
                 'ClaveRegimenEspecialOTrascendencia': special_regime,
                 'ImporteTotal': self.invoice.cc_amount_total,
             },
-            'PeriodoImpositivo': {
+            'PeriodoLiquidacion': {
                 'Periodo': str(self.invoice.period_id.code[:2]),
                 'Ejercicio': int(self.invoice.period_id.code[-4:])
             }

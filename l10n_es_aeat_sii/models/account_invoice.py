@@ -76,15 +76,15 @@ class AccountInvoice(models.Model):
                 [('code', '=', '01'), ('type', '=', 'sale')], limit=1)
         return key
 
-    @api.one
     @api.depends('invoice_line.price_subtotal', 'tax_line.amount')
     def _compute_amount(self):
-        super(AccountInvoice, self)._compute_amount()
-        self.sii_macrodata = True if float_compare(
-            self.amount_total,
-            SII_MACRODATA_LIMIT,
-            precision_digits=2
-        ) >= 0 else False
+        for inv in self:
+            super(AccountInvoice, inv)._compute_amount()
+            inv.sii_macrodata = True if float_compare(
+                inv.amount_total,
+                SII_MACRODATA_LIMIT,
+                precision_digits=2
+            ) >= 0 else False
 
     sii_manual_description = fields.Text(
         string='SII manual description', size=500, copy=False,

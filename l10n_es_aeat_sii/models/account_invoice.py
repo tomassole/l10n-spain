@@ -478,10 +478,13 @@ class AccountInvoice(models.Model):
                     # corrientes nacionales
                     ex_taxes = taxes_sfesbe
                     if tax_line in ex_taxes:
-                        sub_dict.setdefault('Exenta', {'BaseImponible': 0})
+                        det_dict = sub_dict.setdefault('Exenta', {})
+                        det_dict.setdefault('DetalleExenta',
+                                            {'BaseImponible': 0})
                         if exempt_cause:
-                            sub_dict['Exenta']['CausaExencion'] = exempt_cause
-                        sub_dict['Exenta']['BaseImponible'] += (
+                            det_dict['DetalleExenta'][
+                                'CausaExencion'] = exempt_cause
+                        det_dict['DetalleExenta']['BaseImponible'] += (
                             inv_line._get_sii_line_price_subtotal()
                         )
                     else:
@@ -564,7 +567,7 @@ class AccountInvoice(models.Model):
             sub = type_breakdown['PrestacionServicios']['Sujeta']
             sub['NoExenta']['DesgloseIVA']['DetalleIVA'] = taxes_to.values()
         if 'Sujeta' in tax_breakdown and 'Exenta' in tax_breakdown['Sujeta']:
-            exempt_dict = tax_breakdown['Sujeta']['Exenta']
+            exempt_dict = tax_breakdown['Sujeta']['Exenta']['DetalleExenta']
             exempt_dict['BaseImponible'] = \
                 round(
                     float_round(exempt_dict['BaseImponible'] * sign, 2), 2)
@@ -578,7 +581,7 @@ class AccountInvoice(models.Model):
             services_dict = type_breakdown['PrestacionServicios']
             if 'Sujeta' in services_dict \
                     and 'Exenta' in services_dict['Sujeta']:
-                exempt_dict = services_dict['Sujeta']['Exenta']
+                exempt_dict = services_dict['Sujeta']['Exenta']['DetalleExenta']
                 exempt_dict['BaseImponible'] = \
                     round(
                         float_round(exempt_dict['BaseImponible'] * sign, 2), 2)

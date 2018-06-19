@@ -524,13 +524,16 @@ class AccountInvoice(models.Model):
                         )
                     service_dict = type_breakdown['PrestacionServicios']
                     if tax_line in taxes_sfesse:
-                        exempt_dict = service_dict['Sujeta'].setdefault(
-                            'Exenta', {'BaseImponible': 0},
+                        exempt_dict = service_dict.setdefault('Exenta', {})
+                        exempt_dict.setdefault(
+                            'DetalleExenta',
+                            {'BaseImponible': 0}
                         )
                         if exempt_cause:
-                            exempt_dict['CausaExencion'] = exempt_cause
-                        exempt_dict['BaseImponible'] += inv_line.\
-                            _get_sii_line_price_subtotal()
+                            exempt_dict['DetalleExenta'][
+                                'CausaExencion'] = exempt_cause
+                        exempt_dict['DetalleExenta']['BaseImponible'] += (
+                            inv_line._get_sii_line_price_subtotal())
                     if tax_line in taxes_sfess:
                         # TODO l10n_es_ no tiene impuesto ISP de servicios
                         # if tax_line in taxes_sfesisps:

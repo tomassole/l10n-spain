@@ -49,7 +49,9 @@ SII_STATES = [
     ('cancelled', 'Cancelled'),
     ('cancelled_modified', 'Cancelled in SII but last modifications not sent'),
 ]
-SII_VERSION = '1.1'
+SII_VERSION_10 = '1.0'
+SII_VERSION_11 = '1.1'
+SII_VERSION_11_START_DATE = '2018-06-20'
 SII_START_DATE = '2017-07-01'
 SII_COUNTRY_CODE_MAPPING = {
     'RE': 'FR',
@@ -335,7 +337,9 @@ class AccountInvoice(models.Model):
             raise exceptions.Warning(_(
                 "No VAT configured for the company '{}'").format(company.name))
         header = {
-            "IDVersionSii": SII_VERSION,
+            "IDVersionSii": (SII_VERSION_10
+                             if fields.Date.today() < SII_VERSION_11_START_DATE
+                             else SII_VERSION_11),
             "Titular": {
                 "NombreRazon": self.company_id.name[0:120],
                 "NIF": self.company_id.vat[2:]}
@@ -483,7 +487,7 @@ class AccountInvoice(models.Model):
                         sub_dict = sub_dict.setdefault('Exenta',
                                                        {'DetalleExenta': []})
                         det_dict = {'BaseImponible':
-                                    inv_line._get_sii_line_price_subtotal()
+                                        inv_line._get_sii_line_price_subtotal()
                                     }
                         if exempt_cause:
                             det_dict['CausaExencion'] = exempt_cause
@@ -530,7 +534,7 @@ class AccountInvoice(models.Model):
                             'Exenta',
                             {'DetalleExenta': []})
                         det_dict = {'BaseImponible':
-                                    inv_line._get_sii_line_price_subtotal()
+                                        inv_line._get_sii_line_price_subtotal()
                                     }
                         if exempt_cause:
                             det_dict['CausaExencion'] = exempt_cause
@@ -793,7 +797,7 @@ class AccountInvoice(models.Model):
                 "ImporteTotal": self.cc_amount_total * sign,
             }
             if self.sii_macrodata:
-                inv_dict["Macrodato"] = "S"
+                inv_dict["FacturaExpedida"].update(Macrodato="S")
             if self.sii_registration_key_additional1:
                 inv_dict["FacturaExpedida"]. \
                     update({'ClaveRegimenEspecialOTrascendenciaAdicional1': (
@@ -892,12 +896,13 @@ class AccountInvoice(models.Model):
                 },
                 "FechaRegContable": reg_date,
                 "ImporteTotal": self.cc_amount_total * sign,
-                "CuotaDeducible": self.period_id.date_start >=
-                                  SII_START_DATE and round(
-                    float_round(tax_amount * sign, 2), 2) or 0.0,
+                "CuotaDeducible": (self.period_id.date_start >=
+                                   SII_START_DATE and round(
+                                    float_round(tax_amount * sign, 2), 2)
+                                   or 0.0),
             }
             if self.sii_macrodata:
-                inv_dict["Macrodato"] = "S"
+                inv_dict["FacturaExpedida"].update(Macrodato="S")
             if self.sii_registration_key_additional1:
                 inv_dict["FacturaRecibida"]. \
                     update({'ClaveRegimenEspecialOTrascendenciaAdicional1': (

@@ -144,7 +144,7 @@ class TestL10nEsAeatSii(common.TransactionCase):
                     'NIF': contraparte.vat[2:],
                 },
                 'DescripcionOperacion': u'/',
-                'ClaveRegimenEspecialOTrascendencia': unicode(special_regime),
+                'ClaveRegimenEspecialOTrascendencia': special_regime,
                 'ImporteTotal': self.invoice.cc_amount_total,
             },
             'PeriodoLiquidacion': {

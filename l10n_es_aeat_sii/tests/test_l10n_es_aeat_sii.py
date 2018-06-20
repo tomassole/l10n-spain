@@ -173,8 +173,7 @@ class TestL10nEsAeatSii(common.TransactionCase):
                         ],
                     },
                 },
-                # "CuotaDeducible": self.invoice.cc_amount_tax,
-                "CuotaDeducible": 0.0,
+                "CuotaDeducible": self.invoice.cc_amount_tax,
             })
         if invoice_type == 'R4':
             invoices = self.invoice.origin_invoices_ids
@@ -218,7 +217,6 @@ class TestL10nEsAeatSii(common.TransactionCase):
         self.invoice.supplier_invoice_number = 'sup0001'
         invoices = self.invoice._get_sii_invoice_dict()
         test_in_invoice = self._get_invoices_test('F1', '01')
-        print invoices, test_in_invoice
         for key in invoices.keys():
             self.assertDictEqual(
                 _deep_sort(invoices.get(key)),
@@ -270,6 +268,6 @@ class TestL10nEsAeatSii(common.TransactionCase):
             invoice_temp.sii_description, 'Test customer header | Test line',
         )
 
-    # def test_permissions(self):
-    #     """This should work without errors"""
-    #     self.invoice.sudo(self.user).signal_workflow('invoice_open')
+    def test_permissions(self):
+        """Test permissions"""
+        self.invoice.sudo(self.user).signal_workflow('invoice_open')

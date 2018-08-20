@@ -12,7 +12,7 @@
          <field name="description">1) RATIOS DE VENTAS</field>
          <field name="style_id" ref="mis_report_style_l10n_es_group_l2"/>
       </record>
-      <record id="mis_report_kpi_es_balance_pymes_ratio_ventas" model="mis.report.kpi">
+      <record id="mis_report_es_pyg_pymes_ratios_ventas" model="mis.report.kpi">
          <field name="report_id" ref="mis_report_es_pyg_pymes"/>
          <field name="type">num</field>
          <field name="compare_method">pct</field>
@@ -23,7 +23,7 @@
          <field name="expression"> -balp[70%]</field>
          <field name="budgetable" eval="0"/>
       </record>
-      <record id="mis_report_kpi_es_balance_pymes_ratio_evolucion_beneficio_neto" model="mis.report.kpi">
+      <record id="mis_report_es_pyg_pymes_ratios_evolucion_beneficio_neto" model="mis.report.kpi">
          <field name="report_id" ref="mis_report_es_pyg_pymes"/>
          <field name="type">num</field>
          <field name="compare_method">pct</field>
@@ -32,6 +32,28 @@
          <field name="description">Evolución del beneficio neto</field>
          <field name="style_id" ref="mis_report_style_l10n_es_ratio"/>
          <field name="expression">es49500</field>
+         <field name="budgetable" eval="0"/>
+      </record>
+      <record id="mis_report_es_pyg_pymes_ratios_rentabilidad_economica" model="mis.report.kpi">
+         <field name="report_id" ref="mis_report_es_pyg_pymes"/>
+         <field name="type">num</field>
+         <field name="compare_method">pct</field>
+         <field name="sequence">5040</field>
+         <field name="name">rentabilidad_economica</field>
+         <field name="description">Rentabilidad económica</field>
+         <field name="style_id" ref="mis_report_style_l10n_es_ratio"/>
+         <field name="expression">es49100 /(+bale[580%,581%,582%,583%,584%,599%,30%,31%,32%,33%,34%,35%,36%,39%,407%,430%,431%,432%,433%,434%,435%,436%,437%,490%,493%,12381%,12382%,5580%,44%,460%,470%,471%,472%,5531%,5533%,544%,5303%,5304%,5313%,5314%,5323%,5324%,5333%,5334%,5343%,5344%,5353%,5354%,5393%,5394%,593%,5943%,5944%,5953%,5954%] +pbale[5523%] +pbale[5524%] +bale[5305%,5315%,5325%,5335%,5345%,5355%,5395%,540%,541%,542%,543%,545%,546%,547%,548%,549%,5590%,5593%,565%,566%,5945%,5955%,597%,598%] +pbale[551%] +pbale[5525%] +bale[480%,567%,57%] +bale[20%,280%,290%,21%,281%,291%,23%,22%,282%,292%,2403%,2404%,2413%,2414%,2423%,2424%,2493%,2494%,293%,2943%,2944%,2953%,2954%,2405%,2415%,2425%,2495%,250%,251%,252%,253%,254%,255%,257%,258%,259%,26%,2945%,2955%,297%,298%,474%,11700%])</field>
+         <field name="budgetable" eval="0"/>
+      </record>
+      <record id="mis_report_es_pyg_pymes_ratios_rentabilidad_financiera" model="mis.report.kpi">
+         <field name="report_id" ref="mis_report_es_pyg_pymes"/>
+         <field name="type">num</field>
+         <field name="compare_method">pct</field>
+         <field name="sequence">5050</field>
+         <field name="name">rentabilidad_financiera</field>
+         <field name="description">Rentabilidad financiera</field>
+         <field name="style_id" ref="mis_report_style_l10n_es_ratio"/>
+         <field name="expression">(es49500) /( -bale[100%,101%,102%] -bale[1030%,1040%] -bale[110%] -bale[112%,113%,114%,115%,119%] -bale[108%,109%] -bale[120%,121%] -bale[118%] -bale[129%,6%,7%]-balu[6%,7%] -bale[557%] -bale[111%])</field>
          <field name="budgetable" eval="0"/>
       </record>
 </odoo>

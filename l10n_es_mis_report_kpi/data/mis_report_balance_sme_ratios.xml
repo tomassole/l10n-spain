@@ -175,6 +175,39 @@
          <field name="expression">(es20000+es31000) / (es32000+es31000)</field>
          <field name="budgetable" eval="1"/>
       </record>
+      <record id="mis_report_kpi_es_balance_pymes_ratio_solvencia" model="mis.report.kpi">
+         <field name="report_id" ref="mis_report_es_balance_pymes"/>
+         <field name="type">num</field>
+         <field name="compare_method">pct</field>
+         <field name="sequence">6050</field>
+         <field name="name">solvencia</field>
+         <field name="description">Solvencia</field>
+         <field name="style_id" ref="mis_report_style_l10n_es_ratio"/>
+         <field name="expression">(es12000+es11000) / (es31000+es32000)</field>
+         <field name="budgetable" eval="1"/>
+      </record>
+      <record id="mis_report_kpi_es_balance_pymes_ratio_acid_test" model="mis.report.kpi">
+         <field name="report_id" ref="mis_report_es_balance_pymes"/>
+         <field name="type">num</field>
+         <field name="compare_method">pct</field>
+         <field name="sequence">6060</field>
+         <field name="name">acid_test</field>
+         <field name="description">Prueba ácida</field>
+         <field name="style_id" ref="mis_report_style_l10n_es_ratio"/>
+         <field name="expression">(es12000-es12200) / (es32000)</field>
+         <field name="budgetable" eval="1"/>
+      </record>
+      <record id="mis_report_kpi_es_balance_pymes_ratio_apalancamiento_financiero" model="mis.report.kpi">
+         <field name="report_id" ref="mis_report_es_balance_pymes"/>
+         <field name="type">num</field>
+         <field name="compare_method">pct</field>
+         <field name="sequence">6070</field>
+         <field name="name">apalancamiento_financiero</field>
+         <field name="description">Apalancamiento financiero</field>
+         <field name="style_id" ref="mis_report_style_l10n_es_ratio"/>
+         <field name="expression">(es10000 / es21000) * (((-balp[700%,701%,702%,703%,704%,705%,706%,708%,709%] -balp[6930%,71%,7930%] -balp[73%] -balp[600%,601%,602%,606%,607%,608%,609%,61%,6931%,6932%,6933%,7931%,7932%,7933%] -balp[740%,747%,75%] -balp[64%,7950%,7957%] -balp[62%,631%,634%,636%,639%,65%,694%,695%,794%,7954%] -balp[68%] -balp[40900%] -balp[7951%,7952%,7955%,7956%] -balp[670%,671%,672%,690%,691%,692%,770%,771%,772%,790%,791%,792%] -balp[774%] -balp[678%,778%]) + (-balp[746%] -balp[760%,761%,762%,767%,769%] -balp[660%,661%,662%,664%,665%,669%] -balp[663%,763%] -balp[668%,768%] -balp[666%,667%,673%,675%,696%,697%,698%,699%,766%,773%,775%,796%,797%,798%,799%])) / (-balp[700%,701%,702%,703%,704%,705%,706%,708%,709%] -balp[6930%,71%,7930%] -balp[73%] -balp[600%,601%,602%,606%,607%,608%,609%,61%,6931%,6932%,6933%,7931%,7932%,7933%] -balp[740%,747%,75%] -balp[64%,7950%,7957%] -balp[62%,631%,634%,636%,639%,65%,694%,695%,794%,7954%] -balp[68%] -balp[40900%] -balp[7951%,7952%,7955%,7956%] -balp[670%,671%,672%,690%,691%,692%,770%,771%,772%,790%,791%,792%] -balp[774%] -balp[678%,778%]))</field>
+         <field name="budgetable" eval="1"/>
+      </record>
       <record id="mis_report_kpi_es_balance_pymes_ratios_group_rotacion_activos" model="mis.report.kpi">
          <field name="report_id" ref="mis_report_es_balance_pymes"/>
          <field name="type">str</field>

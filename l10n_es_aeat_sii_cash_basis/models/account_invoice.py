@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 # Copyright 2018 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
 from odoo import _, api, exceptions, fields, models
-from odoo.modules.registry import RegistryManager
+from odoo.modules.registry import Registry
 try:
     from odoo.addons.queue_job.job import job
 except ImportError:
@@ -143,13 +142,13 @@ class AccountInvoice(models.Model):
                 })
             res_line = res['RespuestaLinea'][0]
             if res_line['CodigoErrorRegistro']:
-                inv_vals['sii_cash_basis_send_error'] = u"{} | {}".format(
-                    unicode(res_line['CodigoErrorRegistro']),
-                    unicode(res_line['DescripcionErrorRegistro'])[:60],
+                inv_vals['sii_cash_basis_send_error'] = "{} | {}".format(
+                    str(res_line['CodigoErrorRegistro']),
+                    str(res_line['DescripcionErrorRegistro'])[:60],
                 )
             self.write(inv_vals)
         except Exception as fault:
-            new_cr = RegistryManager.get(self.env.cr.dbname).cursor()
+            new_cr = Registry.get(self.env.cr.dbname).cursor()
             env = api.Environment(new_cr, self.env.uid, self.env.context)
             invoice = env['account.invoice'].browse(self.id)
             inv_vals.update({

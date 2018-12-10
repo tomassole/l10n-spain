@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2018 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -19,22 +18,25 @@ class AccountPartialReconcile(models.Model):
                 self.debit_move_id + self.credit_move_id
             ).mapped('invoice_id')
         for invoice in invoices:
-            company = invoice.company_id
-            if not company.use_connector:
-                invoice.send_cash_basis_payment(self)
-            else:
-                eta = self.env.context.get(
-                    'override_eta', company._get_sii_eta()
-                )
-                new_delay = invoice.sudo().with_context(
-                    company_id=company.id
-                ).with_delay(
-                    eta=eta if not invoice.sii_send_failed else False,
-                ).send_cash_basis_payment(self)
-                job = self.env['queue.job'].search(
-                    [('uuid', '=', new_delay.uuid)], limit=1,
-                )
-                invoice.sudo().invoice_jobs_ids |= job
+            # Podríamos optar por buscar en la factura o el asiento si hay
+            # impuesto en criterio de caja (tax_exigibility == 'on_payment')
+            if invoice.sii_registration_key.code == '07':
+                company = invoice.company_id
+                if not company.use_connector:
+                    invoice.send_cash_basis_payment(self)
+                else:
+                    eta = self.env.context.get(
+                        'override_eta', company._get_sii_eta()
+                    )
+                    new_delay = invoice.sudo().with_context(
+                        company_id=company.id
+                    ).with_delay(
+                        eta=eta if not invoice.sii_send_failed else False,
+                    ).send_cash_basis_payment(self)
+                    job = self.env['queue.job'].search(
+                        [('uuid', '=', new_delay.uuid)], limit=1,
+                    )
+                    invoice.sudo().invoice_jobs_ids |= job
         return super(
             AccountPartialReconcile, self,
         ).create_tax_cash_basis_entry(value_before_reconciliation)

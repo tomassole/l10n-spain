@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2018 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -14,6 +13,6 @@ class AeatSiiPaymentModeKey(models.Model):
     def name_get(self):
         vals = []
         for record in self:
-            name = u'[%s]-%s' % (record.code, record.name)
+            name = '[%s]-%s' % (record.code, record.name)
             vals.append(tuple([record.id, name]))
         return vals

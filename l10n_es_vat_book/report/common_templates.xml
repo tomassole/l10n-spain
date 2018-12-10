@@ -70,6 +70,7 @@
         <thead>
             <tr>
                 <td id="detail_invoice_number">Number</td>
+                <td id="detail_external_reference">Reference</td>
                 <td id="detail_invoice_date">Issue Date</td>
                 <td id="detail_company">Company Name</td>
                 <td id="detail_vat">VAT</td>
@@ -93,6 +94,9 @@
                 </a>
             </span>
         </td>
+        <td id="data_external_reference">
+         <span t-esc="l.external_ref"/>
+        </td>
         <td id="data_invoice_date">
          <span t-esc="o._format_date(l.invoice_date)"/>
         </td>
@@ -115,6 +119,7 @@
           <t t-if="number_taxes != 0">
               <tr>
                   <td id="data_tax_invoice_number"/>
+                  <td id="sdata_tax_external_reference"/>
                   <td id="data_tax_invoice_date"/>
                   <td id="data_tax_company"/>
                   <td id="data_tax_vat"/>
@@ -160,6 +165,7 @@
         <thead>
             <tr>
                 <td id="summary_invoice_number"/>
+                <td id="summary_external_reference"/>
                 <td id="summary_invoice_date"/>
                 <td id="summary_company"/>
                 <td id="summary_vat"/>
@@ -173,6 +179,7 @@
 
     <template id="l10n_es_vat_book.vat_book_tax_summary">
         <td id="data_summary_invoice_number"/>
+        <td id="data_summary_external_reference"/>
         <td id="data_summary_invoice_date"/>
         <td id="data_summary_invoice_company"/>
         <td id="data_summary_invoice_vat"/>

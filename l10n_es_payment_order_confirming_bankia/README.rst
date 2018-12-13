@@ -12,7 +12,7 @@ Módulo para la exportación de ficheros bancarios según el formato Confirming 
 Instalación
 ===========
 
-Este módulo depende de *l10n_es_payment_order*, que se encuentra también en el
+Este módulo depende de *l10n_es_base_confirming*, que se encuentra también en el
 mismo repositorio.
 
 Configuración
@@ -20,18 +20,18 @@ Configuración
 
 Antes de generar un fichero bancario de Confirming, hay que definir un modo de
 pago que use el tipo de exportación de pago "Confirming Bankia". Para ello, vaya a Contabilidad >
-Configuración > Varios > Modos de pago, y escoja el tipo de pago a realizar
+Configuración > Administración > Modos de pago, y escoja el tipo de pago a realizar
 (Transferencia, Pago domiciliado o Cheque bancario).
 
 
 Uso
 ===
 
-Cree una orden de cobro en Contabilidad > Pago > Órdenes de pago, y escoja
+Cree una orden de pago en Contabilidad > Pagos > Órdenes de pago, y escoja
 el modo de pago creado antes.
 
-Confirme la orden de pago, y pulse en el botón "Realizar pagos". Pulse en
-"Generar" en la pantalla resultante, y obtendra el archivo exportado.
+Confirme la orden de pago, y pulse en el botón "Confirmar pagos". Luego
+Pulse en "generar archivo de pago" para obtener el archivo de confirming
 
 
 Errores conocidos / Hoja de ruta
@@ -55,6 +55,7 @@ Contribuidores
 
 * Soluntec Proyectos y Soluciones TIC S.L. (info@soluntec.es)
 * Basado en módulo l10n_es_payment_order_confirminet de Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>
+* Jesús Ventosinos Mayor (Comunitea) <jesus@comunitea.com>
 
 Maintainer
 ----------
@@ -70,3 +71,4 @@ mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
 To contribute to this module, please visit http://odoo-community.org.
+

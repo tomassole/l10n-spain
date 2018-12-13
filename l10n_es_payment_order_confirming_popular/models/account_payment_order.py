@@ -1,8 +1,7 @@
 # © 2018 Comunitea
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-import re
 from datetime import date
-from odoo import api, models, _, fields
+from odoo import api, models, _
 from odoo.exceptions import UserError
 
 
@@ -91,7 +90,8 @@ class AccountPaymentOrder(models.Model):
                 if not ordenante:
                     raise UserError(
                         _("Error: Propietario de la cuenta no establecido para\
-                        la cuenta %s.") % self.company_partner_bank_id.acc_number)
+                        la cuenta %s.") %
+                        self.company_partner_bank_id.acc_number)
                 if len(ordenante) <= 36:
                     relleno = 36 - len(ordenante)
                     ordenante += relleno * ' '
@@ -115,7 +115,8 @@ class AccountPaymentOrder(models.Model):
                 if not ciudad_pro:
                     raise UserError(
                         _("Error: El Ordenante %s no tiene establecida la \
-                        Ciudad.") % self.company_partner_bank_id.partner_id.name)
+                        Ciudad.") %
+                        self.company_partner_bank_id.partner_id.name)
                 else:
                     if len(ciudad_pro) < 36:
                         relleno = 36 - len(ciudad_pro)

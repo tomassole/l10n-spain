@@ -9,8 +9,6 @@
               'Odoo Community Association (OCA)',
     'contributors': [
         'Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>',
-        'Jesús Ventosinos Mayor <jesus@comunitea.com>'
-
     ],
     'category': 'Localisation/Accounting',
     'website': 'https://github.com/OCA/l10n-spain',
@@ -24,3 +22,4 @@
     ],
     'installable': True,
 }
+

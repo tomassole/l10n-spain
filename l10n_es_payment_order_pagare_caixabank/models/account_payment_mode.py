@@ -14,7 +14,7 @@ class AccountPaymentMode(models.Model):
 
     @api.multi
     @api.depends('payment_method_id.code')
-    def _compute_is_conf_caixabank(self):
+    def _compute_is_pagare_caixabank(self):
         for record in self:
             record.is_pagare_caixabank = record.payment_method_id.code == \
                 'pagare_caixabank'

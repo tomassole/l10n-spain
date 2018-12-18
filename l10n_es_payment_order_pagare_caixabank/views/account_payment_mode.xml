@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--  TODO: Quizás no haga falta -->
+    <record id="view_payment_mode_form_pagare_caixabank" model="ir.ui.view">
+        <field name="name">Payment mode form (Confirming Caixabank)</field>
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form"/>
+        <field name="arch" type="xml">
+            <group position="after">
+                <group string="Opciones Pagaré" attrs="{'invisible': [('is_pagare_caixabank', '=', False)]}">
+                    <field name="is_pagare_caixabank" invisible="0"/>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

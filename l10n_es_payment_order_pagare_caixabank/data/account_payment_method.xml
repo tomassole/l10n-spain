@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pagare_caixabank" model="account.payment.method">
+        <field name="name">Pagare Caixabank</field>
+        <field name="code">pagare_caixabank</field>
+        <field name="payment_type">outbound</field>
+        <field name="bank_account_required" eval="True"/>
+    </record>
+</odoo>

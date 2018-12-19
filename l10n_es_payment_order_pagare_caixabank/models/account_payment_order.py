@@ -396,7 +396,7 @@ class AccountPaymentOrder(models.Model):
 
             text = text.ljust(100)+'\n'
             all_text += text
-        self.num_lines += 1
+            self.num_lines += 1
         return all_text
 
     def _pop_totales(self, line, num_lineas):

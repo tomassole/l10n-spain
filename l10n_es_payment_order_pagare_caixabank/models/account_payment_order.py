@@ -27,11 +27,11 @@ class AccountPaymentOrder(models.Model):
         self.ensure_one()
         if self.payment_method_id.code != 'pagare_caixabank':
             return super(AccountPaymentOrder, self).generate_payment_file()
-        self.num_lines = 0
+        self.num_lineas = 0
         txt_file = self._pop_cabecera()
         for line in self.bank_line_ids:
             txt_file += self._pop_beneficiarios(line)
-        txt_file += self._pop_totales(line, self.num_lines)
+        txt_file += self._pop_totales(line, self.num_lineas)
         return str.encode(txt_file), self.name + '.csb34'
 
     def _get_fix_txt(self):
@@ -180,7 +180,7 @@ class AccountPaymentOrder(models.Model):
 
             text = text.ljust(100)+'\n'
             all_text += text
-            self.num_lines += 1
+            self.num_lineas += 1
         return all_text
 
     def _get_signed_amount(self, amount_text):
@@ -396,7 +396,7 @@ class AccountPaymentOrder(models.Model):
 
             text = text.ljust(100)+'\n'
             all_text += text
-            self.num_lines += 1
+            self.num_lineas += 1
         return all_text
 
     def _pop_totales(self, line, num_lineas):

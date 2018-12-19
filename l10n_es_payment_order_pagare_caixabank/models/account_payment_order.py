@@ -373,7 +373,7 @@ class AccountPaymentOrder(models.Model):
 
                 # 58 - 68 Importe
                 inv_text += \
-                    str(invoice.amount_total.replace('.', ',')).rjust(11)
+                    str(invoice.amount_total).replace('.', ',').rjust(11)
 
                 sep_final = 4 * ' '
                 # Líneas pares desplazadas

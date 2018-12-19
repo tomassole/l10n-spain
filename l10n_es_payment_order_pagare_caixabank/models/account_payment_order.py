@@ -28,10 +28,10 @@ class AccountPaymentOrder(models.Model):
         if self.payment_method_id.code != 'pagare_caixabank':
             return super(AccountPaymentOrder, self).generate_payment_file()
         self.num_lineas = 0
-        txt_file = self._pop_cabecera()
+        txt_file = self._pop_cabecera_pagare_caix()
         for line in self.bank_line_ids:
-            txt_file += self._pop_beneficiarios(line)
-        txt_file += self._pop_totales(line, self.num_lineas)
+            txt_file += self._pop_beneficiarios_pagare_caix(line)
+        txt_file += self._pop_totales_pagare_caix(line, self.num_lineas)
         return str.encode(txt_file), self.name + '.csb34'
 
     def _get_fix_txt(self):
@@ -87,7 +87,7 @@ class AccountPaymentOrder(models.Model):
             fecha_vencimiento = dia + mes + ano
         return fecha_vencimiento
 
-    def _pop_cabecera(self):
+    def _pop_cabecera_pagare_caix(self):
         """
         Devuelve las 4 líneas de la cabecera
         """
@@ -183,20 +183,6 @@ class AccountPaymentOrder(models.Model):
             self.num_lineas += 1
         return all_text
 
-    def _get_signed_amount(self, amount_text):
-        """
-        Añade el signo al importe negativo
-        """
-        sign_text = ''
-        for i in range(0, len(amount_text)):
-            if i < (len(amount_text) - 1) and \
-                    amount_text[i] == '0' and \
-                    amount_text[i + 1] != '0':
-                sign_text += '-'
-                continue
-            sign_text += amount_text[i]
-        return sign_text
-
     def _get_linea_10X(self, mode='101'):
         col1 = 'N. FACTURA'
         col1_2 = ' ' + col1
@@ -214,7 +200,7 @@ class AccountPaymentOrder(models.Model):
             res = col1_2 + sep1 + col2 + sep2 + col3 + sep3_2
         return res
 
-    def _pop_beneficiarios(self, line):
+    def _pop_beneficiarios_pagare_caix(self, line):
         all_text = ''
 
         idx = 102
@@ -253,9 +239,7 @@ class AccountPaymentOrder(models.Model):
             if tipo_dato == '010':
                 # 30 - 41 Importe
                 amount_text = self.convert(abs(line.amount_currency), 12)
-                # Poner el signo negativo si procede
-    #             if line.amount_currency < 0:
-    #                 amount_text = self._get_signed_amount(amount_text)
+
                 text += amount_text
 
                 # 42 - 49: Libre
@@ -399,7 +383,7 @@ class AccountPaymentOrder(models.Model):
             self.num_lineas += 1
         return all_text
 
-    def _pop_totales(self, line, num_lineas):
+    def _pop_totales_pagare_caix(self, line, num_lineas):
             text = ''
             # 1 - 2: Código registro
             text += '08'

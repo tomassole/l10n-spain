@@ -27,11 +27,11 @@ class AccountPaymentOrder(models.Model):
         self.ensure_one()
         if self.payment_method_id.code != 'conf_caixabank':
             return super(AccountPaymentOrder, self).generate_payment_file()
-        self.num_records = 0
+        self.num_lineas = 0
         txt_file = self._pop_cabecera_conf_caix()
         for line in self.bank_line_ids:
             txt_file += self._pop_beneficiarios_conf_caix(line)
-        txt_file += self._pop_totales(line, self.num_records)
+        txt_file += self._pop_totales_conf_caix(line, self.num_lineas)
         return str.encode(txt_file), self.name + '.CAX'
 
     def _pop_cabecera_conf_caix(self):
@@ -96,12 +96,15 @@ class AccountPaymentOrder(models.Model):
                     cuenta = cuenta[4:]
                 entidad = '2100' or cuenta[0:4]
                 oficina = '6202' or cuenta[5:9]
-                num_contrato = self.payment_mode_id.num_contract
                 # 42 - 45: Entidad de destino del soporte
                 text += entidad
                 # 46 - 49: Oficina de destino del soporte
                 text += oficina
                 # 50 - 59: Número de contrato de confirming
+                num_contrato = self.payment_mode_id.num_contract
+                if not num_contrato:
+                    raise UserError(
+                        _("Error: Falta el número de contrato en confirming"))
                 text += num_contrato
 
                 # 60: Detalle del cargo
@@ -156,6 +159,7 @@ class AccountPaymentOrder(models.Model):
 
             text = text.ljust(100)+'\n'
             all_text += text
+            self.num_lineas += 1
         return all_text
 
     def _get_signed_amount(self, amount_text):
@@ -192,9 +196,9 @@ class AccountPaymentOrder(models.Model):
             raise UserError(
                 _("Error: El Proveedor %s no tiene establecido\
                  el NIF.") % line.partner_id.name)
-        nif = self.convert_vat(self.company_partner_bank_id.partner_id)
+        nif = self.convert_vat(line.partner_id)
 
-        fixed_text += self.convert(vat, 12)
+        fixed_text += self.convert(nif, 12)
 
         for tipo_dato in bloque_registros:
             text = ''
@@ -451,10 +455,10 @@ class AccountPaymentOrder(models.Model):
             ###################################################################
             text = text.ljust(100)+'\n'
             all_text += text
-        self.num_records += 1
+            self.num_lineas += 1
         return all_text
 
-    def _pop_totales(self, line, num_records):
+    def _pop_totales_conf_caix(self, line, num_lineas):
             text = ''
             # 1 - 2: Código registro
             text += '01'
@@ -471,12 +475,12 @@ class AccountPaymentOrder(models.Model):
             text += 3 * ' '
 
             # 30 - 41: Suma importes ajustado derecha completado con 0s
-            text += self.convert(abs(self.total_amount), 12)
+            text += self.convert(abs(self.total_company_currency), 12)
             # 42 - 49 Num de registros de dato 010
-            num = str(num_records)
+            num = str(self.bank_line_count)
             text += num.zfill(8)
             # 50 - 59: Número total de registros del cuaderno (cab y totales)
-            total_reg = num_records + 2
+            total_reg = num_lineas + 1
             total_reg = str(total_reg)
             text += total_reg.zfill(10)
             # 60 - 65 Libre

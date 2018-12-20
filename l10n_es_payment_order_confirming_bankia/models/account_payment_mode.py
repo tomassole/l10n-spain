@@ -13,6 +13,7 @@ class AccountPaymentMode(models.Model):
         selection=[('T', 'Tranferencia'),
                    ('P', 'Pago domiciliado'),
                    ('C', 'Cheque bancario')])
+    bankia_customer_reference = fields.Char(size=10)
 
     is_conf_bankia = fields.Boolean(compute="_compute_is_conf_bankia")
 

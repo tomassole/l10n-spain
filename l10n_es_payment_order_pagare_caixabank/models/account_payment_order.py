@@ -335,7 +335,11 @@ class AccountPaymentOrder(models.Model):
 
                 # 30/31 - 39/40: Número factura
                 num_factura = 15 * ' '
-                num_factura = invoice.number.replace('-', '')
+                if not invoice.reference:
+                    raise UserError(_(
+                        'La factura %s no tiene referencia del \
+                        proveesdor') % invoice.number)
+                num_factura = invoice.reference.replace('-', '')
                 inv_text = ''
                 inv_text += self.strim_txt(num_factura, 10)
 

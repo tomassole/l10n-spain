@@ -1,7 +1,6 @@
 # © 2018 Comunitea
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from datetime import date
-from odoo import api, models, _
+from odoo import api, models, _, fields
 from odoo.exceptions import UserError
 
 
@@ -13,6 +12,8 @@ class AccountPaymentOrder(models.Model):
         self.ensure_one()
         if self.payment_method_id.code != 'conf_popular':
             return super(AccountPaymentOrder, self).generate_payment_file()
+        if self.date_prefered != 'fixed':
+            raise UserError(_('Solo fecha fija'))
         self.num_records = 0
         txt_file = self._pop_cabecera()
         for line in self.bank_line_ids:
@@ -22,29 +23,12 @@ class AccountPaymentOrder(models.Model):
         return str.encode(txt_file), self.name + '.BP'
 
     def _pop_cabecera(self):
-        if self.date_prefered == 'due':
-            fecha_planificada = self.payment_line_ids \
-                and self.payment_line_ids[0].ml_maturity_date \
-                or date.today().strftime('%Y-%d-%m')
-            fecha_planificada = fecha_planificada.replace('-', '')
-            dia = fecha_planificada[6:]
-            mes = fecha_planificada[4:6]
-            ano = fecha_planificada[:4]
-            fecha_planificada = dia + mes + ano
-        elif self.date_prefered == 'now':
-            fecha_planificada = date.today().strftime('%d%m%Y')
-        else:
-            fecha_planificada = self.date_scheduled
-            if not fecha_planificada:
-                raise UserError(
-                    _("Error: Fecha planificada no \
-                        establecida en la Orden de pago."))
-            else:
-                fecha_planificada = fecha_planificada.replace('-', '')
-                dia = fecha_planificada[6:]
-                mes = fecha_planificada[4:6]
-                ano = fecha_planificada[:4]
-                fecha_planificada = dia + mes + ano
+        fecha_planificada = self.date_scheduled
+        fecha_planificada = fecha_planificada.replace('-', '')
+        dia = fecha_planificada[6:]
+        mes = fecha_planificada[4:6]
+        ano = fecha_planificada[:4]
+        fecha_planificada = dia + mes + ano
 
         all_text = ''
         for i in range(4):
@@ -68,7 +52,7 @@ class AccountPaymentOrder(models.Model):
             dato = '00'+str(i+1)
             text += dato
             if (i+1) == 1:
-                text += date.today().strftime('%d%m%Y')
+                text += fecha_planificada
                 text += fecha_planificada
                 cuenta = self.company_partner_bank_id.acc_number
                 cuenta = cuenta.replace(' ', '')
@@ -299,26 +283,9 @@ class AccountPaymentOrder(models.Model):
             fecha_factura = dia + mes + ano
         text += fecha_factura
         # 38 - 45 Fecha vencimiento / Referencia factura
-        if self.payment_mode_id.conf_popular_type == '70':
-            fecha_vencimiento = 8 * ' '
-            if line.payment_line_ids.ml_maturity_date:
-                fecha_vencimiento = line.payment_line_ids.ml_maturity_date\
-                    .replace('-', '')
-                dia = fecha_vencimiento[6:]
-                mes = fecha_vencimiento[4:6]
-                ano = fecha_vencimiento[:4]
-                fecha_vencimiento = dia + mes + ano
-            text += fecha_vencimiento
-        elif self.payment_mode_id.conf_popular_type in ['60', '61']:
-            referencia_factura = 8 * ' '
-            if invoice:
-                referencia_factura = invoice.reference.replace('-', '')
-                if len(referencia_factura) < 8:
-                    relleno = 8 - len(referencia_factura)
-                    referencia_factura += relleno * ' '
-                elif len(referencia_factura) > 8:
-                    referencia_factura = referencia_factura[:8]
-            text += referencia_factura
+        if not self.post_financing_date:
+            raise UserError(_('post-financing date mandatory'))
+        text += fields.Date.from_string(self.post_financing_date).strftime('%d%m%Y').ljust(8)
         # 46 - 59 Numero de factura
         num_factura = 14 * ' '
         if invoice:

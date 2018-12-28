@@ -27,7 +27,7 @@ class AccountInvoice(models.Model):
                     inv_dict['IDFactura']['NumSerieFacturaEmisor'] =\
                         self.sii_invoice_summary_start
                     inv_dict['IDFactura'][
-                        'NumSerieFacturaEmisorsummarynFin'] =\
+                        'NumSerieFacturaEmisorResumenFin'] =\
                         self.sii_invoice_summary_end
             if 'FacturaExpedida' in inv_dict:
                 if 'TipoFactura' in inv_dict['FacturaExpedida']:

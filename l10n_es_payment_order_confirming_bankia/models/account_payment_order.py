@@ -99,7 +99,7 @@ class AccountPaymentOrder(models.Model):
         # 224-233 Código postal
         text += self.convert(partner.zip, 10)
         # 234-253 Numérico
-        text += partner.phone.zfill(20)
+        text += partner.phone and partner.phone.zfill(20) or ''.zfill(20)
         # 254-283 Sin uso
         text += ''.ljust(30)
         # 284-299 FAX, opcional

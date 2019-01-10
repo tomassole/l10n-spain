@@ -32,12 +32,13 @@ class AccountPaymentOrder(models.Model):
         for line in self.bank_line_ids:
             txt_file += self._pop_beneficiarios_pagare_caix(line)
         txt_file += self._pop_totales_pagare_caix(line, self.num_lineas)
-        return str.encode(txt_file), self.name + '.csb34'
+        # return str.encode(txt_file), self.name + '.csb34'
+        return txt_file.encode('ascii', 'ignore'), self.name + '.csb34'
 
-    def _get_fix_txt(self):
+    def _get_fix_txt(self, mode='cabecera'):
         text = ''
         # 1 - 4: Código registro
-        text += '0356'
+        text += '0356' if mode == 'cabecera' else '0659'
 
         # 5 : Libre
         text += ' '
@@ -216,7 +217,7 @@ class AccountPaymentOrder(models.Model):
         # El ultimo registro es el '910'
         bloque_registros.append('910')
 
-        fixed_text = self._get_fix_txt()
+        fixed_text = self._get_fix_txt(mode='beneficiario')
 
         # 18 - 26: Nid del proveedor
         nif = line.partner_id.vat
@@ -418,5 +419,5 @@ class AccountPaymentOrder(models.Model):
             # 60 - 72: Libre
             text += 13 * ' '
 
-            text = text.ljust(100)+'\n'
+            text = text.ljust(72)+'\n'
             return text

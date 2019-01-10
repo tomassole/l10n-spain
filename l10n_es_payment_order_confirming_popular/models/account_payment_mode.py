@@ -24,6 +24,9 @@ class PaymentMode(models.Model):
         string='Forma de pago', default='C',
         selection=[('C', 'Cheque'),
                    ('T', 'Transferencia')])
+    bank = fields.Selection(
+        [('popular', 'Banco popular'), ('pastor', 'Banco pastor')],
+        default='popular', required=True)
 
     @api.multi
     @api.depends('payment_method_id.code')

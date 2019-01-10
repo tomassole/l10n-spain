@@ -45,7 +45,10 @@ class AccountPaymentOrder(models.Model):
             vat = self.convert_vat(self.company_partner_bank_id.partner_id)
             text += self.convert(vat, 9)
             # 15 - 17 Sufijo
-            text += '001'
+            if self.payment_mode_id.bank == 'popular':
+                text += '001'
+            else:
+                text += '000'
             # 18 -26 Libre
             text += 9 * ' '
             # 27 Numero del dato

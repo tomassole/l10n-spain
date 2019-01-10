@@ -61,6 +61,7 @@
         "views/product_view.xml",
         "views/queue_job_views.xml",
         "views/account_fiscal_position_view.xml",
+        "views/account_journal_view.xml",
         "views/res_partner_views.xml",
         "views/aeat_sii_tax_agency_view.xml",
     ],

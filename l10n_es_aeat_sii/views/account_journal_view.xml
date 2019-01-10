@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 FactorLibre - Ismael Calvo <ismael.calvo@factorlibre.com>
+     Copyright 2017 Comunitea - Omar Castiñeira
+     Copyright 2017 Tecnativa - Pedro M. Baeza
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
+<odoo>
+
+        <record id="view_account_journal_form" model="ir.ui.view">
+            <field name="name">account.journal.sii.form</field>
+            <field name="model">account.fiscal.position</field>
+            <field name="inherit_id" ref="account.view_account_position_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//page[@name='advanced_settings']//group" position="inside">
+                    <group string="SII" name="group_sii">
+                        <field name="sii_sale_description"/>
+                        <field name="sii_purchase_description"/>
+                    </group>
+                 </xpath>
+            </field>
+        </record>
+
+</odoo>

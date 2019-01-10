@@ -17,7 +17,7 @@ class ResCompany(models.Model):
     sii_description_method = fields.Selection(
         string='SII Description Method',
         selection=[('auto', 'Automatic'), ('fixed', 'Fixed'),
-                   ('manual', 'Manual')],
+                   ('manual', 'Manual'), ('journal', 'By Journal')],
         default='manual',
         help="Method for the SII invoices description, can be one of these:\n"
              "- Automatic: the description will be the join of the invoice "

@@ -1318,6 +1318,13 @@ class AccountInvoice(models.Model):
                 description = (
                     invoice.sii_manual_description or description or '/'
                 )
+            elif method == 'journal':
+                if invoice.type in ['out_invoice', 'out_refund']:
+                    description += invoice.journal_id.sii_sale_description \
+                                   or '/'
+                else:
+                    description += \
+                        invoice.journal_id.sii_purchase_description or '/'
             else:  # auto method
                 if invoice.invoice_line_ids:
                     if description:

@@ -63,7 +63,7 @@ class AccountPaymentOrder(models.Model):
         # 30 Identificador de cabecera
         text += 'A'
         # 31-36 Fecha de generación del soporte
-        text += fields.Date.from_string(self.date_scheduled).strftime('%d%m%Y')
+        text += fields.Date.from_string(self.date_scheduled).strftime('%y%m%d')
         # 37-42 Sin uso
         text += ''.ljust(6)
         # 43 Modo respuesta F=fichero
@@ -86,7 +86,7 @@ class AccountPaymentOrder(models.Model):
         # 48-67 NIF/CIF/VIN
         text += self.convert(self.convert_vat(partner), 20)
         # 68-107 Nombre de proveedor
-        text += partner.name.ljust(40)
+        text += self.convert(partner.name, 40)
         # 108-167 Domicilio
         text += self.convert(partner.street + (partner.street2 or ''), 60)
         text += ''.ljust(6)
@@ -99,11 +99,11 @@ class AccountPaymentOrder(models.Model):
         # 224-233 Código postal
         text += self.convert(partner.zip, 10)
         # 234-253 Numérico
-        text += partner.phone.zfill(20)
+        text += partner.phone and partner.phone.zfill(20) or ''.zfill(20)
         # 254-283 Sin uso
         text += ''.ljust(30)
         # 284-299 FAX, opcional
-        text += ''.zfill(16)
+        text += partner.fax and partner.fax.zfill(16) or ''.zfill(16)
         return text + '\r\n'
 
     def _ban_email(self, partner):
@@ -128,7 +128,7 @@ class AccountPaymentOrder(models.Model):
         # 61-68 Fecha de post-financiación
         if not self.post_financing_date:
             raise UserError(_('post-financing date mandatory'))
-        text += fields.Date.from_string(self.post_financing_date).strftime('%d%m%Y').ljust(8)
+        text += fields.Date.from_string(self.post_financing_date).strftime('%Y%m%d').ljust(8)
         # 69-73 Sin uso
         text += ''.ljust(5)
         # 74 Tipo de movimiento P->Pago A->Abono
@@ -140,15 +140,15 @@ class AccountPaymentOrder(models.Model):
             # 76-90 Referencia del documento
             text += self.convert(invoice.reference, 15)
             # 91-96 Fecha del documento
-            text += fields.Date.from_string(invoice.date_invoice).strftime('%d%m%Y')
+            text += fields.Date.from_string(invoice.date_invoice).strftime('%y%m%d')
         else:
             raise UserError(_(''))
         # 97-111 Sin uso
         text += ''.ljust(15)
         # 112-117 Fecha del pago
-        text += fields.Date.from_string(line.date).strftime('%d%m%Y')
+        text += fields.Date.from_string(line.date).strftime('%y%m%d')
         # 118-132 Importe
-        text += self.convert(line.amount_currency, 13)
+        text += self.convert(line.amount_currency, 15)
         # 133-135 Divisa, siempre EUR
         text += 'EUR'
         # 136 Medio de pago, siempre T->transferencia

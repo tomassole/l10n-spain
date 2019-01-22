@@ -1,21 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * l10n_es_aeat_mod216
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: l10n-spain (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-19 10:40+0000\n"
-"PO-Revision-Date: 2017-01-19 20:17+0000\n"
+"POT-Creation-Date: 2017-10-27 00:55+0000\n"
+"PO-Revision-Date: 2017-10-23 10:55+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Slovenian (http://www.transifex.com/oca/OCA-l10n-spain-8-0/language/sl/)\n"
+"Language-Team: Slovenian (http://www.transifex.com/oca/OCA-l10n-spain-8-0/"
+"language/sl/)\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 
 #. module: l10n_es_aeat_mod216
 #: model:ir.model,name:l10n_es_aeat_mod216.model_l10n_es_aeat_mod111_report
@@ -66,7 +68,7 @@ msgstr "Datum izračuna"
 #. module: l10n_es_aeat_mod216
 #: selection:l10n.es.aeat.mod216.report,state:0
 msgid "Cancelled"
-msgstr ""
+msgstr "Preklicano"
 
 #. module: l10n_es_aeat_mod216
 #: field:l10n.es.aeat.mod216.report,company_id:0
@@ -169,7 +171,7 @@ msgstr ""
 #. module: l10n_es_aeat_mod216
 #: field:l10n.es.aeat.mod216.export_to_boe,data:0
 msgid "File"
-msgstr ""
+msgstr "Datoteka"
 
 #. module: l10n_es_aeat_mod216
 #: field:l10n.es.aeat.mod216.export_to_boe,name:0
@@ -351,7 +353,7 @@ msgstr "Telefon"
 #. module: l10n_es_aeat_mod216
 #: selection:l10n.es.aeat.mod216.report,state:0
 msgid "Posted"
-msgstr ""
+msgstr "Knjiženo"
 
 #. module: l10n_es_aeat_mod216
 #: field:l10n.es.aeat.mod216.report,previous_number:0

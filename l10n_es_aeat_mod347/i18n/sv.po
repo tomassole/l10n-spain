@@ -1,20 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * l10n_es_aeat_mod347
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: l10n-spain (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-19 10:40+0000\n"
-"PO-Revision-Date: 2017-01-19 20:16+0000\n"
+"POT-Creation-Date: 2017-08-19 00:56+0000\n"
+"PO-Revision-Date: 2017-08-11 11:57+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Swedish (http://www.transifex.com/oca/OCA-l10n-spain-8-0/language/sv/)\n"
+"Language-Team: Swedish (http://www.transifex.com/oca/OCA-l10n-spain-8-0/"
+"language/sv/)\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_es_aeat_mod347
@@ -55,7 +56,8 @@ msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
 "                Click to create a AEAT Model 347 Reports.\n"
 "              </p><p>\n"
-"                Basado en la Orden EHA/3012/2008, de 20 de Octubre, por el que se aprueban\n"
+"                Basado en la Orden EHA/3012/2008, de 20 de Octubre, por el "
+"que se aprueban\n"
 "                los diseños físicos y lógicos del 347.\n"
 "              </p>\n"
 "              "
@@ -362,7 +364,7 @@ msgstr ""
 #. module: l10n_es_aeat_mod347
 #: selection:l10n.es.aeat.mod347.report,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Preliminär"
 
 #. module: l10n_es_aeat_mod347
 #: selection:l10n.es.aeat.mod347.real_estate_record,number_calification:0
@@ -565,7 +567,7 @@ msgstr ""
 #. module: l10n_es_aeat_mod347
 #: field:l10n.es.aeat.mod347.report,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Journal"
 
 #. module: l10n_es_aeat_mod347
 #: help:l10n.es.aeat.mod347.report,journal_id:0
@@ -825,7 +827,8 @@ msgstr "Telefon"
 #: code:addons/l10n_es_aeat_mod347/models/mod347.py:373
 #, python-format
 msgid ""
-"Please review partner and real estate records, some of them are in red color:\n"
+"Please review partner and real estate records, some of them are in red "
+"color:\n"
 "\n"
 msgstr ""
 
@@ -842,7 +845,7 @@ msgstr ""
 #. module: l10n_es_aeat_mod347
 #: selection:l10n.es.aeat.mod347.report,state:0
 msgid "Posted"
-msgstr ""
+msgstr "Sparad"
 
 #. module: l10n_es_aeat_mod347
 #: field:l10n.es.aeat.mod347.report,previous_number:0
@@ -984,9 +987,9 @@ msgstr ""
 #. module: l10n_es_aeat_mod347
 #: help:l10n.es.aeat.mod347.partner_record,bussiness_real_estate_rent:0
 msgid ""
-"Set to identify real estate rent operations aside from the rest. You'll need"
-" to fill in the real estate info only when you are the one that receives the"
-" money."
+"Set to identify real estate rent operations aside from the rest. You'll need "
+"to fill in the real estate info only when you are the one that receives the "
+"money."
 msgstr ""
 
 #. module: l10n_es_aeat_mod347
@@ -998,7 +1001,7 @@ msgstr ""
 #: field:l10n.es.aeat.mod347.export_to_boe,state:0
 #: field:l10n.es.aeat.mod347.report,state:0
 msgid "State"
-msgstr ""
+msgstr "Status"
 
 #. module: l10n_es_aeat_mod347
 #: field:l10n.es.aeat.mod347.partner_record,partner_state_code:0
@@ -1051,8 +1054,8 @@ msgstr ""
 #. module: l10n_es_aeat_mod347
 #: help:l10n.es.aeat.mod347.report,operations_limit:0
 msgid ""
-"The declaration will include partners with the total of operations over this"
-" limit"
+"The declaration will include partners with the total of operations over this "
+"limit"
 msgstr ""
 
 #. module: l10n_es_aeat_mod347

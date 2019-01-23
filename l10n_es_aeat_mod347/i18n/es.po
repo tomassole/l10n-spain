@@ -155,6 +155,24 @@ msgid "Anual operations amount"
 msgstr "Importe anual operaciones"
 
 #. module: l10n_es_aeat_mod347
+#: field:l10n.es.aeat.mod347.partner_record,amount:0
+#: view:website:l10n_es_aeat_mod347.report_partner347_document
+msgid "Declaration identifier"
+msgstr "Identificador de declaración"
+
+#. module: l10n_es_aeat_mod347
+#: field:l10n.es.aeat.mod347.partner_record,amount:0
+#: view:website:l10n_es_aeat_mod347.report_partner347_document
+msgid "Operation Key"
+msgstr "Clave operación"
+
+#. module: l10n_es_aeat_mod347
+#: field:l10n.es.aeat.mod347.partner_record,amount:0
+#: view:website:l10n_es_aeat_mod347.report_partner347_document
+msgid "Fiscal year"
+msgstr "Año fiscal"
+
+#. module: l10n_es_aeat_mod347
 #: selection:l10n.es.aeat.mod347.partner_record,operation_key:0
 msgid "B - Entregas de bienes y servicios superiores al límite (1)"
 msgstr "B - Entregas de bienes y servicios superiores al límite (1)"
@@ -1447,6 +1465,16 @@ msgid "Document:"
 msgstr "Documento:"
 
 #. module: l10n_es_aeat_mod347
+#: view:website:l10n_es_aeat_mod347.report_partner347_document
+msgid "Date:"
+msgstr "Fecha:"
+
+#. module: l10n_es_aeat_mod347
+#: view:website:l10n_es_aeat_mod347.report_partner347_document
+msgid "Customer ref:"
+msgstr "Referencia cliente:"
+
+#. module: l10n_es_aeat_mod347
 #: selection:l10n.es.aeat.mod347.partner_record,estate:0
 msgid "Email sent"
 msgstr "Email enviado"
@@ -1528,4 +1556,5 @@ msgstr "Error envío email!"
 #, python-format
 msgid "Partner %s without email."
 msgstr "Empresa %s sin email."
+
 

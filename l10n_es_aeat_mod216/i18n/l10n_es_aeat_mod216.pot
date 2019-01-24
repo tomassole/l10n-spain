@@ -6,8 +6,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-04 13:08+0000\n"
-"PO-Revision-Date: 2015-11-04 13:08+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,7 +24,7 @@ msgid "AEAT 216 report"
 msgstr ""
 
 #. module: l10n_es_aeat_mod216
-#: code:addons/l10n_es_aeat_mod216/models/mod216.py:129
+#: code:addons/l10n_es_aeat_mod216/models/mod216.py:131
 #, python-format
 msgid "Account Move Lines"
 msgstr ""
@@ -34,6 +32,26 @@ msgstr ""
 #. module: l10n_es_aeat_mod216
 #: field:l10n.es.aeat.mod216.report,move_id:0
 msgid "Account entry"
+msgstr ""
+
+#. module: l10n_es_aeat_mod216
+#: field:l10n.es.aeat.mod216.report,move_lines_cuota:0
+msgid "Account move lines for amounts"
+msgstr ""
+
+#. module: l10n_es_aeat_mod216
+#: field:l10n.es.aeat.mod216.report,move_lines_base:0
+msgid "Account move lines for bases"
+msgstr ""
+
+#. module: l10n_es_aeat_mod216
+#: field:l10n.es.aeat.mod216.report,allow_posting:0
+msgid "Allow posting"
+msgstr ""
+
+#. module: l10n_es_aeat_mod216
+#: field:l10n.es.aeat.mod216.report,partner_bank_id:0
+msgid "Bank account"
 msgstr ""
 
 #. module: l10n_es_aeat_mod216
@@ -49,6 +67,11 @@ msgstr ""
 #. module: l10n_es_aeat_mod216
 #: field:l10n.es.aeat.mod216.report,company_id:0
 msgid "Company"
+msgstr ""
+
+#. module: l10n_es_aeat_mod216
+#: help:l10n.es.aeat.mod216.report,partner_bank_id:0
+msgid "Company bank account used for the presentation"
 msgstr ""
 
 #. module: l10n_es_aeat_mod216
@@ -101,6 +124,12 @@ msgstr ""
 #. module: l10n_es_aeat_mod216
 #: field:l10n.es.aeat.mod216.report,number:0
 msgid "Declaration number"
+msgstr ""
+
+#. module: l10n_es_aeat_mod216
+#: field:l10n.es.aeat.mod216.export_to_boe,display_name:0
+#: field:l10n.es.aeat.mod216.report,display_name:0
+msgid "Display Name"
 msgstr ""
 
 #. module: l10n_es_aeat_mod216
@@ -190,6 +219,12 @@ msgid "L.R. VAT number"
 msgstr ""
 
 #. module: l10n_es_aeat_mod216
+#: field:l10n.es.aeat.mod216.export_to_boe,__last_update:0
+#: field:l10n.es.aeat.mod216.report,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_es_aeat_mod216
 #: field:l10n.es.aeat.mod216.export_to_boe,write_uid:0
 #: field:l10n.es.aeat.mod216.report,write_uid:0
 msgid "Last Updated by"
@@ -214,6 +249,11 @@ msgstr ""
 #. module: l10n_es_aeat_mod216
 #: help:l10n.es.aeat.mod216.report,casilla_06:0
 msgid "Liquidación - Casilla [06] A deducir (exclusivamente en caso de complementaria): Resultados a ingresar de anteriores declaraciones por el mismo concepto, ejercicio y período"
+msgstr ""
+
+#. module: l10n_es_aeat_mod216
+#: help:l10n.es.aeat.mod216.report,casilla_07:0
+msgid "Liquidación - Casilla [07] Resultado a ingresar ([03] - [06])"
 msgstr ""
 
 #. module: l10n_es_aeat_mod216
@@ -242,6 +282,11 @@ msgid "Liquidación - Rentas sometidas a retención/ingreso a cuenta - Casilla [
 msgstr ""
 
 #. module: l10n_es_aeat_mod216
+#: field:l10n.es.aeat.mod216.report,model:0
+msgid "Model"
+msgstr ""
+
+#. module: l10n_es_aeat_mod216
 #: model:ir.ui.menu,name:l10n_es_aeat_mod216.menu_aeat_mod216_report
 msgid "Modelo 216"
 msgstr ""
@@ -249,16 +294,6 @@ msgstr ""
 #. module: l10n_es_aeat_mod216
 #: field:l10n.es.aeat.mod216.report,currency_id:0
 msgid "Moneda"
-msgstr ""
-
-#. module: l10n_es_aeat_mod216
-#: field:l10n.es.aeat.mod216.report,move_lines_base:0
-msgid "Account move lines for bases"
-msgstr ""
-
-#. module: l10n_es_aeat_mod216
-#: field:l10n.es.aeat.mod216.report,move_lines_cuota:0
-msgid "Account move lines for amounts"
 msgstr ""
 
 #. module: l10n_es_aeat_mod216
@@ -322,13 +357,23 @@ msgid "Rentas sometidas a retención"
 msgstr ""
 
 #. module: l10n_es_aeat_mod216
+#: field:l10n.es.aeat.mod216.report,name:0
+msgid "Report identifier"
+msgstr ""
+
+#. module: l10n_es_aeat_mod216
 #: view:l10n.es.aeat.mod216.report:l10n_es_aeat_mod216.view_l10n_es_aeat_mod216_report_form
 msgid "Resultado"
 msgstr ""
 
 #. module: l10n_es_aeat_mod216
-#: field:l10n.es.aeat.mod216.report,sequence:0
-msgid "Sequence"
+#: view:l10n.es.aeat.mod216.report:l10n_es_aeat_mod216.view_l10n_es_aeat_mod216_report_form
+msgid "Show account move lines for amount"
+msgstr ""
+
+#. module: l10n_es_aeat_mod216
+#: view:l10n.es.aeat.mod216.report:l10n_es_aeat_mod216.view_l10n_es_aeat_mod216_report_form
+msgid "Show account move lines for base"
 msgstr ""
 
 #. module: l10n_es_aeat_mod216
@@ -378,16 +423,6 @@ msgid "VAT number"
 msgstr ""
 
 #. module: l10n_es_aeat_mod216
-#: view:l10n.es.aeat.mod216.report:l10n_es_aeat_mod216.view_l10n_es_aeat_mod216_report_form
-msgid "Show account move lines for base"
-msgstr ""
-
-#. module: l10n_es_aeat_mod216
-#: view:l10n.es.aeat.mod216.report:l10n_es_aeat_mod216.view_l10n_es_aeat_mod216_report_form
-msgid "Show account move lines for amount"
-msgstr ""
-
-#. module: l10n_es_aeat_mod216
 #: field:l10n.es.aeat.mod216.report,casilla_01:0
 msgid "[01] Número de rentas"
 msgstr ""
@@ -415,6 +450,11 @@ msgstr ""
 #. module: l10n_es_aeat_mod216
 #: field:l10n.es.aeat.mod216.report,casilla_06:0
 msgid "[06] Resultados a ingresar anteriores"
+msgstr ""
+
+#. module: l10n_es_aeat_mod216
+#: field:l10n.es.aeat.mod216.report,casilla_07:0
+msgid "[07] Resultado a ingresar"
 msgstr ""
 
 #. module: l10n_es_aeat_mod216

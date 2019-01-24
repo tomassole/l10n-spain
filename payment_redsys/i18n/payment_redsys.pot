@@ -6,19 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-17 17:05+0000\n"
-"PO-Revision-Date: 2015-12-17 17:05+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: payment_redsys
-#: model:payment.acquirer,pre_msg:payment_redsys.payment_acquirer_redsys
-msgid "<p>Vous allez être dirigé vers le site web sécurisé redsys</p>"
-msgstr ""
 
 #. module: payment_redsys
 #: selection:payment.acquirer,redsys_merchant_lang:0
@@ -31,14 +24,9 @@ msgid "Back to shop"
 msgstr ""
 
 #. module: payment_redsys
-#: code:addons/payment_redsys/models/redsys.py:285
+#: code:addons/payment_redsys/models/redsys.py:306
 #, python-format
-msgid "Bank Error: %s"
-msgstr ""
-
-#. module: payment_redsys
-#: model:payment.acquirer,name:payment_redsys.payment_acquirer_redsys
-msgid "Carte de crédit"
+msgid "Bank Error: %s (%s)"
 msgstr ""
 
 #. module: payment_redsys
@@ -62,6 +50,11 @@ msgid "Date:"
 msgstr ""
 
 #. module: payment_redsys
+#: view:website:payment_redsys.order
+msgid "Discount (%)"
+msgstr ""
+
+#. module: payment_redsys
 #: selection:payment.acquirer,redsys_pay_method:0
 msgid "Domiciliacion"
 msgstr ""
@@ -72,9 +65,9 @@ msgid "En error ocurred."
 msgstr ""
 
 #. module: payment_redsys
-#: code:addons/payment_redsys/models/redsys.py:276
+#: code:addons/payment_redsys/models/redsys.py:295
 #, python-format
-msgid "Error: %s"
+msgid "Error: %s (%s)"
 msgstr ""
 
 #. module: payment_redsys
@@ -105,11 +98,6 @@ msgstr ""
 #. module: payment_redsys
 #: selection:payment.acquirer,redsys_merchant_lang:0
 msgid "Inglés"
-msgstr ""
-
-#. module: payment_redsys
-#: view:website:payment_redsys.order
-msgid "Invoices"
 msgstr ""
 
 #. module: payment_redsys
@@ -153,7 +141,7 @@ msgid "Merchant code"
 msgstr ""
 
 #. module: payment_redsys
-#: code:addons/payment_redsys/models/redsys.py:262
+#: code:addons/payment_redsys/models/redsys.py:284
 #, python-format
 msgid "Ok: %s"
 msgstr ""
@@ -174,8 +162,9 @@ msgid "Pago por Transferencia"
 msgstr ""
 
 #. module: payment_redsys
-#: view:website:payment_redsys.order
-msgid "Paid"
+#: code:addons/payment_redsys/models/redsys.py:100
+#, python-format
+msgid "Partial payment percent must be between 0 and 100"
 msgstr ""
 
 #. module: payment_redsys
@@ -231,6 +220,17 @@ msgstr ""
 #. module: payment_redsys
 #: field:payment.acquirer,redsys_signature_version:0
 msgid "Redsys signature version"
+msgstr ""
+
+#. module: payment_redsys
+#: code:addons/payment_redsys/models/redsys.py:313
+#, python-format
+msgid "Redsys: feedback error %s (%s)"
+msgstr ""
+
+#. module: payment_redsys
+#: field:payment.acquirer,redsys_percent_partial:0
+msgid "Reduction percent"
 msgstr ""
 
 #. module: payment_redsys
@@ -294,16 +294,6 @@ msgid "Transtaction Type"
 msgstr ""
 
 #. module: payment_redsys
-#: field:payment.acquirer,redsys_url_ko:0
-msgid "URL KO"
-msgstr ""
-
-#. module: payment_redsys
-#: field:payment.acquirer,redsys_url_ok:0
-msgid "URL OK"
-msgstr ""
-
-#. module: payment_redsys
 #: view:website:payment_redsys.order
 msgid "Unit Price"
 msgstr ""
@@ -319,13 +309,13 @@ msgid "Valenciano"
 msgstr ""
 
 #. module: payment_redsys
-#: view:website:payment_redsys.order
-msgid "Waiting"
+#: view:website:payment_redsys.redsys_result_ok
+msgid "We will inform you of your order status"
 msgstr ""
 
 #. module: payment_redsys
-#: view:website:payment_redsys.redsys_result_ok
-msgid "We will inform you of your order status"
+#: help:payment.acquirer,redsys_percent_partial:0
+msgid "Write percent reduction payment, for this method payment.With this option you can allow partial payments in your shop online, the residual amount in pending for do a manual payment later."
 msgstr ""
 
 #. module: payment_redsys

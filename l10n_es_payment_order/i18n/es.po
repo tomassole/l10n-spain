@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * l10n_es_payment_order
-# 
+#
 # Translators:
 # Antonio Trueba, 2016
 # Antonio Trueba, 2016
@@ -13,11 +13,12 @@ msgstr ""
 "POT-Creation-Date: 2016-06-08 00:56+0000\n"
 "PO-Revision-Date: 2016-06-07 18:16+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
-"Language-Team: Spanish (http://www.transifex.com/oca/OCA-l10n-spain-8-0/language/es/)\n"
+"Language-Team: Spanish (http://www.transifex.com/oca/OCA-l10n-spain-8-0/"
+"language/es/)\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_es_payment_order
@@ -110,21 +111,27 @@ msgstr "Pago Certificado"
 msgid ""
 "Check it if you want to add the 018 data type in the file (the vat of the "
 "recipient is added in the 018 data type)."
-msgstr "Selecciónelo si quiere añadir el tipo de dato 018 al fichero (en él se añade el CIF del destinatario)."
+msgstr ""
+"Selecciónelo si quiere añadir el tipo de dato 018 al fichero (en él se añade "
+"el CIF del destinatario)."
 
 #. module: l10n_es_payment_order
 #: help:payment.mode,csb34_add_date:0
 msgid ""
 "Check it if you want to add the 910 data type in the file to include the "
 "payment date."
-msgstr "Selecciónelo si quiere añadir el tipo de dato 910 al fichero para incluir la fecha de pago."
+msgstr ""
+"Selecciónelo si quiere añadir el tipo de dato 910 al fichero para incluir la "
+"fecha de pago."
 
 #. module: l10n_es_payment_order
 #: help:payment.mode,csb19_extra_concepts:0
 msgid ""
-"Check it if you want to add the invoice lines to the extra concepts (Max. 15"
-" lines)"
-msgstr "Selecciónelo si quiere añadir las líneas de factura a los conceptos adicionales (máximo 15 líneas)"
+"Check it if you want to add the invoice lines to the extra concepts (Max. 15 "
+"lines)"
+msgstr ""
+"Selecciónelo si quiere añadir las líneas de factura a los conceptos "
+"adicionales (máximo 15 líneas)"
 
 #. module: l10n_es_payment_order
 #: selection:payment.mode,csb34_type:0
@@ -150,7 +157,11 @@ msgid ""
 "\n"
 "A line in \"%s\" is not 72 characters long:\n"
 "%s"
-msgstr "Error de configuración:\n\nUna línea en «%s» no tiene 72 caracteres de longitud:\n%s"
+msgstr ""
+"Error de configuración:\n"
+"\n"
+"Una línea en «%s» no tiene 72 caracteres de longitud:\n"
+"%s"
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/csb32.py:68
@@ -166,7 +177,11 @@ msgid ""
 "\n"
 "The line \"%s\" is not 150 characters long:\n"
 "%s"
-msgstr "Error de configuración:\n\nLa línea «%s» no tiene 150 caracteres de longitud:\n%s"
+msgstr ""
+"Error de configuración:\n"
+"\n"
+"La línea «%s» no tiene 150 caracteres de longitud:\n"
+"%s"
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/csb19.py:75
@@ -190,7 +205,11 @@ msgid ""
 "\n"
 "The line \"%s\" is not 162 characters long:\n"
 "%s"
-msgstr "Error de configuración:\n\nLa línea «%s» no tiene 162 caracteres de longitud:\n%s"
+msgstr ""
+"Error de configuración:\n"
+"\n"
+"La línea «%s» no tiene 162 caracteres de longitud:\n"
+"%s"
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/csb34.py:167
@@ -202,7 +221,11 @@ msgid ""
 "\n"
 "The line \"%s\" is not 72 characters long:\n"
 "%s"
-msgstr "Error de configuración:\n\nLa línea «%s» no tiene 72 caracteres de longitud:\n%s"
+msgstr ""
+"Error de configuración:\n"
+"\n"
+"La línea «%s» no tiene 72 caracteres de longitud:\n"
+"%s"
 
 #. module: l10n_es_payment_order
 #: selection:banking.export.csb.wizard,state:0
@@ -237,7 +260,11 @@ msgid ""
 "in the letter. The possible values ​​are: ${amount}, ${communication}, "
 "{communication2}, {date}, {ml_maturity_date}, {create_date}, "
 "{ml_date_created}"
-msgstr "Introduzca un texto y(o seleccione un campo de la factura para incluirlo como descripción en la carta. Los valores posibles son: ${amount}, ${communication}, {communication2}, {date}, {ml_maturity_date}, {create_date}, {ml_date_created}"
+msgstr ""
+"Introduzca un texto y(o seleccione un campo de la factura para incluirlo "
+"como descripción en la carta. Los valores posibles son: ${amount}, "
+"${communication}, {communication2}, {date}, {ml_maturity_date}, "
+"{create_date}, {ml_date_created}"
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/converter.py:76
@@ -246,7 +273,11 @@ msgid ""
 "Error:\n"
 "\n"
 "Can not convert float number %(number).2f to fit in %(size)d characters."
-msgstr "Error:\n\nNo se puede adaptar el número en coma flotante %(number).2f para que quepa en %(size)d caracteres."
+msgstr ""
+"Error:\n"
+"\n"
+"No se puede adaptar el número en coma flotante %(number).2f para que quepa "
+"en %(size)d caracteres."
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/converter.py:86
@@ -255,7 +286,11 @@ msgid ""
 "Error:\n"
 "\n"
 "Can not convert integer number %(number)d to fit in %(size)d characters."
-msgstr "Error:\n\nNo se puede adaptar el número entero %(number)d para que quepa en %(size)d caracteres."
+msgstr ""
+"Error:\n"
+"\n"
+"No se puede adaptar el número entero %(number)d para que quepa en %(size)d "
+"caracteres."
 
 #. module: l10n_es_payment_order
 #: selection:payment.mode,csb34_cost_key:0
@@ -312,7 +347,9 @@ msgstr ""
 msgid ""
 "If your bank allows you to send orders without the bank account info, you "
 "may disable this option"
-msgstr "Si su banco le permite enviar órdenes sin la información de cuenta bancaria, puede deshabilitar esta opción."
+msgstr ""
+"Si su banco le permite enviar órdenes sin la información de cuenta bancaria, "
+"puede deshabilitar esta opción."
 
 #. module: l10n_es_payment_order
 #: field:payment.mode,csb58_include_address:0
@@ -393,7 +430,9 @@ msgstr "No a la orden"
 #: view:payment.mode:l10n_es_payment_order.view_payment_mode_form_inherit
 msgid ""
 "Optional Text for the Letter (adds 101, 102, 103, data types in the file)"
-msgstr "Texto opcional para la carta (añade los tipos de dato 101, 102 y 103 al fichero)"
+msgstr ""
+"Texto opcional para la carta (añade los tipos de dato 101, 102 y 103 al "
+"fichero)"
 
 #. module: l10n_es_payment_order
 #: selection:payment.mode,csb34_send_type:0
@@ -478,7 +517,10 @@ msgid ""
 "User error:\n"
 "\n"
 "Company %s has no invoicing address."
-msgstr "Error de usuario:\n\nLa compañía %s no tiene dirección de facturación."
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"La compañía %s no tiene dirección de facturación."
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/csb34.py:138
@@ -487,7 +529,10 @@ msgid ""
 "User error:\n"
 "\n"
 "Company %s has no invoicing or default address."
-msgstr "Error de usuario:\n\nLa compañía %s no tiene dirección por defecto o de facturación."
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"La compañía %s no tiene dirección por defecto o de facturación."
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/csb3401.py:143
@@ -497,7 +542,10 @@ msgid ""
 "User error:\n"
 "\n"
 "Company %s has no vat."
-msgstr "Error de usuario:\n\nLa compañía %s no tiene CIF."
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"La compañía %s no tiene CIF."
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/csb19.py:100
@@ -506,7 +554,10 @@ msgid ""
 "User error:\n"
 "\n"
 "Fixed date of charge has not been defined."
-msgstr "Error de usuario:\n\nNo se ha definido una fecha fija de cargo."
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"No se ha definido una fecha fija de cargo."
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/csb34.py:188
@@ -515,7 +566,10 @@ msgid ""
 "User error:\n"
 "\n"
 "Partner %s has no invoicing or default address."
-msgstr "Error de usuario:\n\nEl tercero %s no tiene dirección por defecto o de facturación."
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"El tercero %s no tiene dirección por defecto o de facturación."
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/converter.py:109
@@ -525,7 +579,10 @@ msgid ""
 "User error:\n"
 "\n"
 "The bank account number of %s does not have 20 digits."
-msgstr "Error de usuario:\n\nEl número de cuenta bancaria de %s no tiene 20 dígitos."
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"El número de cuenta bancaria de %s no tiene 20 dígitos."
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/converter.py:105
@@ -535,7 +592,10 @@ msgid ""
 "User error:\n"
 "\n"
 "The bank account number of %s is not defined."
-msgstr "Error de usuario:\n\nNo se ha definido un número de cuenta bancaria para %s."
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"No se ha definido un número de cuenta bancaria para %s."
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/export_csb.py:112
@@ -544,7 +604,10 @@ msgid ""
 "User error:\n"
 "\n"
 "The bank account number of the company %s has not 20 digits."
-msgstr "Error de usuario:\n\nEl número de cuenta bancaria de la compañía %s no tiene 20 dígitos."
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"El número de cuenta bancaria de la compañía %s no tiene 20 dígitos."
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/export_csb.py:131
@@ -553,7 +616,10 @@ msgid ""
 "User error:\n"
 "\n"
 "The bank account number of the customer %s has not 20 digits."
-msgstr "Error de usuario:\n\nEl número de cuenta bancaria del cliente %s no tiene 20 dígitos."
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"El número de cuenta bancaria del cliente %s no tiene 20 dígitos."
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/export_csb.py:124
@@ -561,8 +627,13 @@ msgstr "Error de usuario:\n\nEl número de cuenta bancaria del cliente %s no tie
 msgid ""
 "User error:\n"
 "\n"
-"The bank account number of the customer %s is not defined and current payment mode enforces all lines to have a bank account."
-msgstr "Error de usuario:\n\nEl número de cuenta bancaria del cliente %s no está definido, y el modo de pago actual requiere que todas las líneas tengan cuenta bancaria."
+"The bank account number of the customer %s is not defined and current "
+"payment mode enforces all lines to have a bank account."
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"El número de cuenta bancaria del cliente %s no está definido, y el modo de "
+"pago actual requiere que todas las líneas tengan cuenta bancaria."
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/export_csb.py:107
@@ -571,7 +642,10 @@ msgid ""
 "User error:\n"
 "\n"
 "The bank account of the company %s is not defined."
-msgstr "Error de usuario:\n\nEl número de cuenta bancaria de la empresa %s no ha sido definido."
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"El número de cuenta bancaria de la empresa %s no ha sido definido."
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/export_csb.py:149
@@ -579,8 +653,12 @@ msgstr "Error de usuario:\n\nEl número de cuenta bancaria de la empresa %s no h
 msgid ""
 "User error:\n"
 "\n"
-"The company VAT number related to the bank account of the payment mode is not defined."
-msgstr "Error de usuario:\n\nNo se ha definido un CIF asociado a la cuenta bancaria para el modo de pago."
+"The company VAT number related to the bank account of the payment mode is "
+"not defined."
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"No se ha definido un CIF asociado a la cuenta bancaria para el modo de pago."
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/export_csb.py:98
@@ -589,7 +667,10 @@ msgid ""
 "User error:\n"
 "\n"
 "The payment mode is not CSB 19, CSB 32, CSB 34 or CSB 58"
-msgstr "Error de usuario:\n\nEl modo de pago no es CSB 19, CSB 32, CSB 34 o CSB 58"
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"El modo de pago no es CSB 19, CSB 32, CSB 34 o CSB 58"
 
 #. module: l10n_es_payment_order
 #: code:addons/l10n_es_payment_order/wizard/export_csb.py:143
@@ -598,7 +679,11 @@ msgid ""
 "User error:\n"
 "\n"
 "Wizard can not generate export file, there are not payment lines."
-msgstr "Error de usuario:\n\nEl asistente no puede generar archivos de exportación: no hay líneas de pagos."
+msgstr ""
+"Error de usuario:\n"
+"\n"
+"El asistente no puede generar archivos de exportación: no hay líneas de "
+"pagos."
 
 #. module: l10n_es_payment_order
 #: view:banking.export.csb.wizard:l10n_es_payment_order.view_banking_export_csb_wizard_form

@@ -625,7 +625,7 @@ class CreateFacturae(models.TransientModel):
             cert_file.close()
 
             # Componemos la llamada al firmador.
-            call = ['java', '-jar', path + 'FacturaeJ.jar', '0']
+            call = ['java', '-jar', path + 'FacturaeJ.jar', '0', '-Xms4M', '-Xmx4M']
             call += [file_name_unsigned, file_name_signed]
             call += ['facturae31']
             call += [cert_path, cert_passwd]

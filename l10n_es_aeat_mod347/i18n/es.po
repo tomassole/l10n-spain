@@ -20,6 +20,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_es_aeat_mod347
+#: view:website:l10n_es_aeat_mod347.report_partner347_document
+msgid "Of which belong to amounts received in cash"
+msgstr "De los cuales pertenecen a importes percibidos en metálico"
+
+#. module: l10n_es_aeat_mod347
 #: code:addons/l10n_es_aeat_mod347/models/mod347.py:363
 #: code:addons/l10n_es_aeat_mod347/models/mod347.py:370
 #, python-format

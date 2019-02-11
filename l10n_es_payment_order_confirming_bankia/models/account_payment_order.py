@@ -61,7 +61,7 @@ class AccountPaymentOrder(models.Model):
         # 30 Identificador de cabecera
         text += 'A'
         # 31-36 Fecha de generación del soporte
-        text += fields.Date.from_string(self.date_scheduled).strftime('%y%m%d')
+        text += fields.Date.from_string(fields.Date.context_today(self)).strftime('%y%m%d')
         # 37-42 Sin uso
         text += ''.ljust(6)
         # 43 Modo respuesta F=fichero

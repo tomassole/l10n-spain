@@ -135,14 +135,15 @@ class AccountPaymentOrder(models.Model):
         text += 'P'
         # 76 Sin uso
         text += ' '
+        # 76-90 Referencia del documento
+        text += self.convert(line.communication, 15)
         invoice = line.payment_line_ids[0].move_line_id.invoice_id
         if invoice:
-            # 76-90 Referencia del documento
-            text += self.convert(invoice.reference, 15)
             # 91-96 Fecha del documento
             text += fields.Date.from_string(invoice.date_invoice).strftime('%y%m%d')
         else:
-            raise UserError(_(''))
+            # 91-96 Fecha del documento
+            text += fields.Date.from_string(line.payment_line_ids[0].move_line_id.date).strftime('%y%m%d')
         # 97-111 Sin uso
         text += ''.ljust(15)
         # 112-117 Fecha del pago

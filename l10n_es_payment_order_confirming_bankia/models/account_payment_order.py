@@ -20,7 +20,6 @@ class AccountPaymentOrder(models.Model):
         for partner in self.mapped('bank_line_ids.partner_id'):
             txt_file += self._ban_proveedores(partner)
             line_counter += 1
-        for partner in self.mapped('bank_line_ids.partner_id'):
             txt_file += self._ban_email(partner)
             line_counter += 1
         for line in self.bank_line_ids:

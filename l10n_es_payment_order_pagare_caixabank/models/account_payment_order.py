@@ -2,7 +2,7 @@
 # (c) 2018 Comunitea Servicios Tecnológicos - Javier Colmenero
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, api, _
+from odoo import models, api, _, fields
 from odoo.exceptions import UserError
 from datetime import date
 
@@ -45,7 +45,7 @@ class AccountPaymentOrder(models.Model):
 
         # 6 - 14
         vat = self.convert_vat(self.company_partner_bank_id.partner_id)
-        text += self.convert(vat, 10)
+        text += self.convert(vat, 9)
 
         # 15 - 17: Libre
         text += 3 * ' '
@@ -57,11 +57,7 @@ class AccountPaymentOrder(models.Model):
             fecha_planificada = self.payment_line_ids \
                 and self.payment_line_ids[0].ml_maturity_date \
                 or date.today().strftime('%Y-%d-%m')
-            fecha_planificada = fecha_planificada.replace('-', '')
-            dia = fecha_planificada[6:]
-            mes = fecha_planificada[4:6]
-            ano = fecha_planificada[:4]
-            fecha_planificada = dia + mes + ano
+            fecha_planificada = fields.Date.from_string(fecha_planificada)
         elif self.date_prefered == 'now':
             fecha_planificada = date.today().strftime('%d%m%y')
         else:
@@ -71,12 +67,8 @@ class AccountPaymentOrder(models.Model):
                     _("Error: Fecha planificada no \
                         establecida en la Orden de pago."))
             else:
-                fecha_planificada = fecha_planificada.replace('-', '')
-                dia = fecha_planificada[6:]
-                mes = fecha_planificada[4:6]
-                ano = fecha_planificada[:4]
-                fecha_planificada = dia + mes + ano
-        return fecha_planificada
+                fecha_planificada = fields.Date.from_string(fecha_planificada)
+        return fecha_planificada.strftime('%d%m%y')
 
     def _get_fecha_vencimiento(self, line):
         fecha_vencimiento = 8 * ' '
@@ -112,7 +104,6 @@ class AccountPaymentOrder(models.Model):
                 text += today
                 # 36 - 41: Otra vez la fecha
                 text += fecha_planificada  # TODO la planificada?
-
                 cuenta = self.company_partner_bank_id.acc_number
                 cuenta = cuenta.replace(' ', '')
                 tipo_cuenta = self.company_partner_bank_id.acc_type
@@ -179,7 +170,7 @@ class AccountPaymentOrder(models.Model):
                 text += ciudad_pro.upper()
             ###################################################################
 
-            text += '\r\n'
+            text = text[:72] + '\r\n'
             all_text += text
             self.num_lineas += 1
         return all_text
@@ -209,10 +200,10 @@ class AccountPaymentOrder(models.Model):
         trans_by_key = {}
         # Añado registros del 103 al 1XX por cada linea de transación
         # asociada a la línea de banco
-        for line in line.payment_line_ids:
+        for payment_line in line.payment_line_ids:
             idx += 1
             key = str(idx)
-            trans_by_key[key] = line
+            trans_by_key[key] = payment_line
             bloque_registros.append(key)
         # El ultimo registro es el '910'
         bloque_registros.append('910')
@@ -240,7 +231,6 @@ class AccountPaymentOrder(models.Model):
             if tipo_dato == '010':
                 # 30 - 41 Importe
                 amount_text = self.convert(abs(line.amount_currency), 12)
-
                 text += amount_text
 
                 # 42 - 49: Libre
@@ -328,33 +318,25 @@ class AccountPaymentOrder(models.Model):
             # LINEAS 1XX
             ###################################################################
             if tipo_dato not in ['101', '102'] and tipo_dato[0] == '1':
-                line = trans_by_key[tipo_dato]
-                invoice = line.move_line_id.invoice_id
-                if not invoice:
-                    raise UserError(_(
-                        'No existe factura relacionada con la línea de pago'))
+                payment_line = trans_by_key[tipo_dato]
 
                 # 30/31 - 39/40: Número factura
-                num_factura = 15 * ' '
-                if not invoice.reference:
-                    raise UserError(_(
-                        'La factura %s no tiene referencia del \
-                        proveesdor') % invoice.number)
-                num_factura = invoice.reference.replace('-', '')
                 inv_text = ''
-                inv_text += self.strim_txt(num_factura, 10)
+                inv_text += self.strim_txt(payment_line.communication, 10)
 
                 # 40 - 45 Separación
                 inv_text += 6 * ' '
 
+                invoice = payment_line.move_line_id.invoice_id
                 # 46 - 53 Fecha factura
                 fecha_factura = 8 * ' '
                 if invoice.date_invoice:
-                    fecha_factura = invoice.date_invoice.replace('-', '')
-                    dia = fecha_factura[6:]
-                    mes = fecha_factura[4:6]
-                    ano = fecha_factura[2:4]
-                    fecha_factura = dia + '-' + mes + '-' + ano
+                    fecha_factura = fields.Date.from_string(
+                        invoice.date_invoice).strftime('%d-%m-%y')
+                else:
+                    fecha_factura = fields.Date.from_string(
+                        payment_line.move_line_id.date).strftime(
+                            '%d-%m-%y')
                 inv_text += fecha_factura
 
                 # 54 - 57 Separacion
@@ -362,8 +344,7 @@ class AccountPaymentOrder(models.Model):
 
                 # 58 - 68 Importe
                 inv_text += \
-                    str(invoice.amount_total).replace('.', ',').rjust(11)
-
+                    ('%.2f' % payment_line.amount_company_currency).replace('.', ',').rjust(11)
                 sep_final = 4 * ' '
                 # Líneas pares desplazadas
                 if int(tipo_dato) % 2 == 0:
@@ -378,12 +359,12 @@ class AccountPaymentOrder(models.Model):
             ###################################################################
             if tipo_dato == '910':
                 # 30 - 37 Fecha vencimiento pagaré
-                text += self._get_fecha_vencimiento(line)
+                text += self._get_fecha_vencimiento(payment_line)
                 # 38 - 72: Libre
                 text += 35 * ' '
             ###################################################################
 
-            text += '\r\n'
+            text = text[:72] + '\r\n'
             all_text += text
             self.num_lineas += 1
         return all_text
@@ -393,17 +374,13 @@ class AccountPaymentOrder(models.Model):
             # 1 - 2: Código registro
             text += '08'
             # 3 - 4: Codigo operación
-            text += '56'
+            text += '56 '
 
             # 5 - 14: NIF ordenante
             vat = self.convert_vat(self.company_partner_bank_id.partner_id)
-            text += self.convert(vat, 10)
-
+            text += self.convert(vat, 9)
             # 18 - 26: Libre
-            text += 9 * ' '
-
-            # 27 - 29: Libre
-            text += 3 * ' '
+            text += 15 * ' '
 
             # 30 - 41 Importe total
             text += self.convert(abs(self.total_company_currency), 12)
@@ -416,8 +393,6 @@ class AccountPaymentOrder(models.Model):
             total_reg = num_lineas + 1
             total_reg = str(total_reg)
             text += total_reg.zfill(10)
-            # 60 - 72: Libre
-            text += 13 * ' '
 
-            text += '\r\n'
+            text = text[:72] + '\r\n'
             return text

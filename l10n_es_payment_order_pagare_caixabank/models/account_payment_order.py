@@ -103,14 +103,14 @@ class AccountPaymentOrder(models.Model):
                 today = date.today().strftime('%d%m%y')
                 text += today
                 # 36 - 41: Otra vez la fecha
-                text += fecha_planificada  # TODO la planificada?
+                text += today
                 cuenta = self.company_partner_bank_id.acc_number
                 cuenta = cuenta.replace(' ', '')
                 tipo_cuenta = self.company_partner_bank_id.acc_type
                 if tipo_cuenta == 'iban':
                     cuenta = cuenta[4:]
-                entidad = '2100' or cuenta[0:4]
-                oficina = '6202' or cuenta[4:8]
+                entidad = cuenta[0:4]
+                oficina = cuenta[4:8]
                 control = cuenta[8:10]
                 num_cuenta = cuenta[10:]
                 # 42 - 45: Entidad de destino del soporte

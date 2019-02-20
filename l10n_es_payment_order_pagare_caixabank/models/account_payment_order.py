@@ -32,8 +32,8 @@ class AccountPaymentOrder(models.Model):
         for line in self.bank_line_ids:
             txt_file += self._pop_beneficiarios_pagare_caix(line)
         txt_file += self._pop_totales_pagare_caix(line, self.num_lineas)
-        # return str.encode(txt_file), self.name + '.csb34'
-        return txt_file.encode('ascii', 'ignore'), self.name + '.csb34'
+        return self.to_ascii(txt_file).\
+            encode('ascii', 'ignore'), self.name + '.csb34'
 
     def _get_fix_txt(self, mode='cabecera'):
         text = ''

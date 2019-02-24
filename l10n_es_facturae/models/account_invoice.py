@@ -75,6 +75,7 @@ class AccountInvoice(models.Model):
     )
 
     @api.depends('integration_ids')
+    @api.one
     def _compute_integrations_count(self):
         self.integration_count = len(self.integration_ids)
 
@@ -83,6 +84,7 @@ class AccountInvoice(models.Model):
         string='# of Integrations', copy=False, default=0)
 
     @api.depends('integration_ids', 'partner_id')
+    @api.one
     def _compute_can_integrate(self):
         for method in self.partner_id.invoice_integration_method_ids:
             if not self.env['account.invoice.integration'].search(
@@ -210,6 +212,7 @@ class AccountInvoice(models.Model):
                                     'politica_de_firma_formato_facturae/' \
                                     'politica_de_firma_formato_facturae_v3_1' \
                                     '.pdf'
+            sig_policy_hash_value = 'Ohixl6upD6av8N7pEvDABhEL6hM='
             root = etree.fromstring(request)
             sign = xmlsig.template.create(
                 c14n_method=xmlsig.constants.TransformInclC14N,
@@ -239,7 +242,8 @@ class AccountInvoice(models.Model):
             ref = xmlsig.template.add_reference(
                 sign,
                 xmlsig.constants.TransformSha1,
-                name=reference_id
+                name=reference_id,
+                uri=""
             )
             xmlsig.template.add_transform(
                 ref,
@@ -309,16 +313,11 @@ class AccountInvoice(models.Model):
                 signing_certificate_cert,
                 etree.QName(etsi, 'IssuerSerial')
             )
-            issuer = ''
-            comps = certificate.get_certificate().get_issuer().get_components()
-            for entry in comps:
-                issuer = entry[0] + '=' + entry[1] + (
-                    (',' + issuer) if len(issuer) > 0 else ''
-                )
             etree.SubElement(
                 issuer_serial,
                 etree.QName(xmlsig.constants.DSigNs, 'X509IssuerName')
-            ).text = issuer
+            ).text = xmlsig.utils.get_rdns_name(
+                certificate.get_certificate().to_cryptography().issuer.rdns)
             etree.SubElement(
                 issuer_serial,
                 etree.QName(xmlsig.constants.DSigNs, 'X509SerialNumber')
@@ -354,11 +353,16 @@ class AccountInvoice(models.Model):
                     'Algorithm': 'http://www.w3.org/2000/09/xmldsig#sha1'
                 }
             )
-            remote = urllib2.urlopen(sig_policy_identifier)
+            try:
+                remote = urllib2.urlopen(sig_policy_identifier)
+                hash_value = base64.b64encode(
+                    hashlib.sha1(remote.read()).digest())
+            except urllib2.HTTPError:
+                hash_value = sig_policy_hash_value
             etree.SubElement(
                 sig_policy_hash,
                 etree.QName(xmlsig.constants.DSigNs, 'DigestValue')
-            ).text = base64.b64encode(hashlib.sha1(remote.read()).digest())
+            ).text = hash_value
             signer_role = etree.SubElement(
                 signed_signature_properties,
                 etree.QName(etsi, 'SignerRole')
